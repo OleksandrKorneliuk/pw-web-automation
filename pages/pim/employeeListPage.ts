@@ -13,9 +13,20 @@ export class EmployeeListPage {
         await this.page.getByRole('button', { name: 'Search' }).click();
     }
 
-    async deleteEmployeeBy(name: string) {
+    async searchEmployeeById(id: string) {
+        await this.page.getByRole('textbox').nth(2).fill(id)
+        await this.page.getByRole('button', { name: 'Search' }).click();
+    }
+
+    async deleteEmployeeByName(name: string) {
         await this.searchEmployeeByName(name);
         await this.page.locator('.bi-trash').click();
+        await this.page.getByRole('button', { name: ' Yes, Delete' }).click();
+    }
+
+    async deleteEmployeeById(id: string) {
+        await this.searchEmployeeById(id);
+        await this.page.locator('.bi-trash').first().click();
         await this.page.getByRole('button', { name: ' Yes, Delete' }).click();
     }
 }

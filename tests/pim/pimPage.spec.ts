@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/loginPage';
-import { PimPage } from '../pages/pimPage';
+import { LoginPage } from '../../pages/loginPage';
+import { PimPage } from '../../pages/pim/pimPage';
 
 test.describe('PIM Page Tests', () => {
 
@@ -20,7 +20,7 @@ test.describe('PIM Page Tests', () => {
         const pimPage = new PimPage(page);
         const addEmployeePage = await pimPage.navigateToAddEmployeeTab();
 
-        await addEmployeePage.createEmployee('John', 'Doe', '12345');
+        await addEmployeePage.createEmployee('John', 'Doe', '3436738');
 
         await expect(page.getByText('Successfully Saved')).toBeVisible();
         await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
@@ -39,7 +39,7 @@ test.describe('PIM Page Tests', () => {
         const pimPage = new PimPage(page);
         const employeeListPage = await pimPage.navigateToEmployeeListTab();
 
-        await employeeListPage.deleteEmployeeBy('John Doe');
+        await employeeListPage.deleteEmployeeByName('John Doe');
         await expect(page.getByText('Successfully Deleted')).toBeVisible();
     });
 });

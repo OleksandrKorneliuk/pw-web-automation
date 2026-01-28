@@ -11,13 +11,13 @@ export class PimPage {
     }
 
     async navigateToAddEmployeeTab(): Promise<AddEmployeePage> {
-        await this.page.getByRole('link', { name: 'PIM' }).click();
-        await this.page.getByRole('button', { name: ' Add' }).click();
-        return new AddEmployeePage(this.page);
+        await this.page.getByRole('link', { name: 'PIM' }).click()
+        await this.page.getByRole('button', { name: ' Add' }).click()
+        return new AddEmployeePage(this.page)
     }
 
     async navigateToEmployeeListTab(): Promise<EmployeeListPage> {
-        await this.page.getByRole('link', { name: 'PIM' }).click();
-        return new EmployeeListPage(this.page);
+        await this.page.getByRole('link', { name: 'PIM' }).click()
+        return new EmployeeListPage(this.page)
     }
 }
