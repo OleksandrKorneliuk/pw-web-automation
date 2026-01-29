@@ -1,5 +1,6 @@
-import {Page} from '@playwright/test';
+import { Page } from '@playwright/test';
 import { AddSystenUserPage } from './addSystemUserPage';
+import { EditUserPage } from './editUserPage';
 
 export class UserManagementPage {
 
@@ -13,5 +14,24 @@ export class UserManagementPage {
         await this.page.getByRole('button').filter({ hasText: ' Add ' }).click()
         return new AddSystenUserPage(this.page)
     }
-    
+
+    async searchUserByFullName(fullName: string) {
+        await this.page.getByRole('textbox').nth(2).fill(fullName)
+        await this.page.getByRole('option', { name: fullName }).first().click()
+        await this.page.getByRole('button', { name: 'Search' }).click()
+    }
+
+    async gotToEditUserPageForUser(fullName: string) {
+        await this.searchUserByFullName(fullName)
+        await this.page.locator('.oxd-table-card').first().locator('i.bi-pencil-fill').click();
+
+        return new EditUserPage(this.page)
+    }
+
+    async deleteSystemUserByFulName(fullName: string) {
+        await this.searchUserByFullName(fullName)
+        await this.page.locator('.oxd-table-card').first().locator('button').first().click()
+        await this.page.getByRole('button', { name: ' Yes, Delete' }).click()
+    }
+
 }

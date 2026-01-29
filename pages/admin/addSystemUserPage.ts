@@ -12,7 +12,7 @@ export class AddSystenUserPage {
         await this.page.locator('form i').first().click()
         await this.page.getByRole('option', { name: 'Admin' }).locator('span').click()
         await this.page.getByRole('textbox', { name: 'Type for hints...' }).fill(fullName)
-        await this.page.waitForTimeout(7000)
+        await this.page.waitForTimeout(5000)
         await this.page.getByRole('option').first().click()
         await this.page.locator('form i').nth(1).click()
         await this.page.getByText('Enabled').click();
