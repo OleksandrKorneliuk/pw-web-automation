@@ -1,6 +1,7 @@
 import {Page, Locator} from '@playwright/test'
+import { NavigationBarItem } from '../../enums/pages/navigationBarItem'
 
-export class NavigationComponent {
+export class NavigationBar {
 
     readonly page: Page
 
@@ -15,11 +16,11 @@ export class NavigationComponent {
         return this.allSections
     }
 
-    public async searchBySearchBar(sectionName: string) {
+    public async searchBySearchBar(sectionName: NavigationBarItem) {
         await this.page.locator('[placeholder="Search"]').fill(sectionName)
     }
 
-    public async clickOnSection(sectionName: string) {
+    public async clickOnSection(sectionName: NavigationBarItem) {
         const targetSection = this.allSections.filter({hasText: sectionName})
         await targetSection.click()
     }

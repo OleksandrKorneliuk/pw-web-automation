@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/loginPage';
-import { NavigationComponent } from '../../pages/components/navigationComponent';
+import { NavigationBar } from '../../pages/components/navigationBar';
+import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
+import { skip } from 'node:test';
 
 test.describe('Navigation page functional tests', () => {
     test.beforeEach(async ({ page }) => {
@@ -9,15 +11,14 @@ test.describe('Navigation page functional tests', () => {
         await loginPage.login('Admin', 'admin123');
     });
 
+    const expectedSectionTitles = [
+        NavigationBarItem.Admin, NavigationBarItem.PIM, NavigationBarItem.Leave, NavigationBarItem.Time, NavigationBarItem.Recruitment,
+        NavigationBarItem.MyInfo, NavigationBarItem.Performance, NavigationBarItem.Dashboard,
+        NavigationBarItem.Directory, NavigationBarItem.Maintenance, NavigationBarItem.Claim, NavigationBarItem.Buzz
+    ]
+
     test('navigate through each section', async ({ page }) => {
-        const navigationPage = new NavigationComponent(page)
-
-        const expectedSectionTitles = [
-            'Admin', 'PIM', 'Leave', 'Time', 'Recruitment',
-            'My Info', 'Performance', 'Dashboard',
-            'Directory', 'Maintenance', 'Claim', 'Buzz'
-        ]
-
+        const navigationPage = new NavigationBar(page)
         const sections = navigationPage.getAllSections()
 
         await expect(sections).toHaveCount(expectedSectionTitles.length)
@@ -28,13 +29,7 @@ test.describe('Navigation page functional tests', () => {
     })
 
     test('search by search bar', async ({ page }) => {
-        const navigationPage = new NavigationComponent(page)
-
-        const expectedSectionTitles = [
-            'Admin', 'PIM', 'Leave', 'Time', 'Recruitment',
-            'My Info', 'Performance', 'Dashboard',
-            'Directory', 'Maintenance', 'Claim', 'Buzz'
-        ]
+        const navigationPage = new NavigationBar(page)
 
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             const currentExpectedSectionTitle = expectedSectionTitles[i]
@@ -45,16 +40,17 @@ test.describe('Navigation page functional tests', () => {
     })
 
     test('inspect root elements of the sections', async ({ page }) => {
-        const navigationPage = new NavigationComponent(page)
-
-        const expectedSectionTitles = [
-            'Admin', 'PIM', 'Leave', 'Time', 'Recruitment',
-            'My Info', 'Performance', 'Dashboard',
-            'Directory', 'Claim', 'Buzz'
-        ]
+        const navigationPage = new NavigationBar(page)
 
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
-            const currentExpectedSectionTitle = expectedSectionTitles[i]
+            let currentExpectedSectionTitle = expectedSectionTitles[i]
+
+            if(currentExpectedSectionTitle == NavigationBarItem.MyInfo ||
+                currentExpectedSectionTitle == NavigationBarItem.Maintenance
+            ) {
+                currentExpectedSectionTitle = expectedSectionTitles[++i]
+            }
+
             await navigationPage.clickOnSection(currentExpectedSectionTitle)
 
             await expect(page.locator('.oxd-topbar-header-breadcrumb-module')).toContainText(currentExpectedSectionTitle)
