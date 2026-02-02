@@ -1,15 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../../test-options';
 import { LoginPage } from '../../pages/loginPage';
 import { NavigationBar } from '../../pages/components/navigationBar';
 import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
-import { skip } from 'node:test';
 
 test.describe('Navigation page functional tests', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        let loginPage = new LoginPage(page)
-        await loginPage.login('Admin', 'admin123');
-    });
 
     const expectedSectionTitles = [
         NavigationBarItem.Admin, NavigationBarItem.PIM, NavigationBarItem.Leave, NavigationBarItem.Time, NavigationBarItem.Recruitment,

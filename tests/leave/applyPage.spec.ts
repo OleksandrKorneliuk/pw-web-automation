@@ -7,7 +7,7 @@ import { LeavePageItem } from '../../enums/pages/leavePageItem';
 import { ApplyPage } from '../../pages/leave/applyPage';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+    await page.goto('/');
     let loginPage = new LoginPage(page)
     await loginPage.login('Admin', 'admin123');
 })

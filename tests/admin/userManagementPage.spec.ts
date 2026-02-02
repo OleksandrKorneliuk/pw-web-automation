@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test } from '../../test-options';
 import { PimPage } from '../../pages/pim/pimPage';
 import { faker } from '@faker-js/faker'
 import { LoginPage } from '../../pages/loginPage';
@@ -14,10 +15,12 @@ let employeeId: string
 test.describe('user management page', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        let loginPage = new LoginPage(page)
-        await loginPage.login('Admin', 'admin123');
+        // await page.goto('/');
+        // let loginPage = new LoginPage(page)
+        // await loginPage.login('Admin', 'admin123');
 
+        const navigationBar = new NavigationBar(page)
+        await navigationBar.clickOnSection(NavigationBarItem.PIM)
         const pimPage = new PimPage(page)
         const addEmployeePage = await pimPage.navigateToAddEmployeeTab();
 

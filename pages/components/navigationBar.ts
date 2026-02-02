@@ -6,10 +6,12 @@ export class NavigationBar {
     readonly page: Page
 
     private allSections: Locator
+    private searchBar: Locator
 
     constructor(page: Page) {
         this.page = page
         this.allSections = this.page.locator('.oxd-navbar-nav ul li')
+        this.searchBar = this.page.locator('[placeholder="Search"]')
     }
 
     public getAllSections() {
@@ -17,7 +19,7 @@ export class NavigationBar {
     }
 
     public async searchBySearchBar(sectionName: NavigationBarItem) {
-        await this.page.locator('[placeholder="Search"]').fill(sectionName)
+        await this.searchBar.fill(sectionName)
     }
 
     public async clickOnSection(sectionName: NavigationBarItem) {

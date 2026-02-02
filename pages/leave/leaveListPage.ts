@@ -8,7 +8,6 @@ export class LeaveListPage {
 
     constructor(page: Page) {
         this.page = page
-
         this.title = this.page.getByRole('heading', { name: 'Leave List' })
     }
 

@@ -5,11 +5,10 @@ export class LeavePage {
 
     readonly page: Page
 
-    private navigationListItem: Locator
+    readonly navigationListItem: Locator
 
     constructor(page: Page) {
         this.page = page
-
         this.navigationListItem = this.page.locator('header ul li')
     }
 

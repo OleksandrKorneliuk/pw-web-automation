@@ -1,16 +1,26 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class AddEmployeePage {
+  
     readonly page: Page;
+
+    readonly firstNameTextbox: Locator
+    readonly lastNameTextbox: Locator
+    readonly userIdTextbox: Locator
+    readonly saveButton: Locator
 
     constructor(page: Page) {
         this.page = page;
+        this.firstNameTextbox = this.page.getByRole('textbox', { name: 'First Name' })
+        this.lastNameTextbox = this.page.getByRole('textbox', { name: 'Last Name' })
+        this.userIdTextbox = this.page.getByRole('textbox').nth(4)
+        this.saveButton = this.page.getByRole('button', { name: 'Save' })
     }
 
     async createEmployee(firstname: string, lastname: string, id: string) {
-        await this.page.getByRole('textbox', { name: 'First Name' }).fill(firstname)
-        await this.page.getByRole('textbox', { name: 'Last Name' }).fill(lastname)
-        await this.page.getByRole('textbox').nth(4).fill(id)
-        await this.page.getByRole('button', { name: 'Save' }).click()
+        await this.firstNameTextbox.fill(firstname)
+        await this.lastNameTextbox.fill(lastname)
+        await this.userIdTextbox.fill(id)
+        await this.saveButton.click()
     }
 }

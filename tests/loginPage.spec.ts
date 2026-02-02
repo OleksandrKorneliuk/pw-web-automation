@@ -6,7 +6,7 @@ test.describe('Login Page Tests', () => {
 
     test.beforeEach(async ({page}) => {
         loginPage = new LoginPage(page);
-        await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        await page.goto('/');
     });
 
     test('should login with valid credentials', async ({page}) => {
@@ -16,8 +16,8 @@ test.describe('Login Page Tests', () => {
 
     test('should show error with invalid credentials', async ({page}) => {
         await loginPage.login('invalidUser', 'invalidPassword');
-        const errorMessage = page.getByRole('alert');
-        await expect(errorMessage).toBeVisible();
-        await expect(errorMessage).toHaveText('Invalid credentials');
+
+        expect(await loginPage.errorMessageIsVisible()).toBeTruthy()
+        expect(await loginPage.getErrorMessageTextContent()).toContain('Invalid credentials');
     });
 });
