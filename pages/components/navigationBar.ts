@@ -1,5 +1,5 @@
 import {Page, Locator} from '@playwright/test'
-import { NavigationBarItem } from '../../enums/pages/navigationBarItem'
+import { NavigationBarItem } from '../../enums/pages/NavigationBarItem'
 
 export class NavigationBar {
 
@@ -23,7 +23,6 @@ export class NavigationBar {
     }
 
     public async clickOnSection(sectionName: NavigationBarItem) {
-        const targetSection = this.allSections.filter({hasText: sectionName})
-        await targetSection.click()
+        await this.allSections.filter({hasText: sectionName}).click()
     }
 }

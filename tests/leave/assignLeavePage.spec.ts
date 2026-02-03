@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { LoginPage } from '../../pages/loginPage';
-import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
-import { LeavePage } from '../../pages/leave/leavePage';
-import { LeavePageItem } from '../../enums/pages/leavePageItem';
-import { AssignLeavePage } from '../../pages/leave/assignLeavePage';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavigationBar } from '../../pages/components/NavigationBar';
+import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
+import { LeavePage } from '../../pages/leave/LeavePage';
+import { LeavePageItem } from '../../enums/pages/LeavePageItem';
+import { AssignLeavePage } from '../../pages/leave/AssignLeavePage';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/');

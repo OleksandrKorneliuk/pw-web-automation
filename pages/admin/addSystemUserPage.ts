@@ -1,11 +1,14 @@
-import {Page} from '@playwright/test';
+import {Locator, Page} from '@playwright/test';
 
 export class AddSystenUserPage {
 
     readonly page: Page
 
+    readonly successMessage: Locator
+
     constructor(page: Page) {
         this.page = page
+        this.successMessage = this.page.getByText('Successfully Saved')
     }
 
     async addUserAsAdmin(fullName: string) {
@@ -20,5 +23,10 @@ export class AddSystenUserPage {
         await this.page.getByRole('textbox').nth(3).fill('admin123')
         await this.page.getByRole('textbox').nth(4).fill('admin123')
         await this.page.getByRole('button', { name: 'Save' }).click()
+    }
+
+    async successMessageIsVisible() {
+        await this.successMessage.waitFor({state: 'visible'})
+        return await this.successMessage.isVisible()
     }
 }

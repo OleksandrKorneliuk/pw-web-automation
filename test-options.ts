@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test'
-import { LoginPage } from './pages/loginPage';
+import { LoginPage } from './pages/LoginPage';
 
 export type TestOptions = {
     formLoginPage: void

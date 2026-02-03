@@ -1,8 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../../test-options';
-import { LoginPage } from '../../pages/loginPage';
-import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
+import { NavigationBar } from '../../pages/components/NavigationBar';
+import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
 
 test.describe('Navigation page functional tests', () => {
 

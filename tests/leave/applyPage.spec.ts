@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { LoginPage } from '../../pages/loginPage';
-import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
-import { LeavePage } from '../../pages/leave/leavePage';
-import { LeavePageItem } from '../../enums/pages/leavePageItem';
-import { ApplyPage } from '../../pages/leave/applyPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavigationBar } from '../../pages/components/NavigationBar';
+import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
+import { LeavePage } from '../../pages/leave/LeavePage';
+import { LeavePageItem } from '../../enums/pages/LeavePageItem';
+import { ApplyPage } from '../../pages/leave/ApplyPage';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
     await loginPage.login('Admin', 'admin123');
 })
 
-test('navigate to assign leave page', async ({page}) => {
+test('navigate to apply page', async ({page}) => {
     const navbar = new NavigationBar(page)
     await navbar.clickOnSection(NavigationBarItem.Leave)
     const leavePage = new LeavePage(page)

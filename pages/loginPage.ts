@@ -1,13 +1,14 @@
-import {Locator, Page, expect} from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
-    
+
     readonly page: Page;
 
     readonly usernameInput: Locator
     readonly passwordInput: Locator
     readonly submitButton: Locator
     readonly errorMessage: Locator
+    readonly title: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +16,7 @@ export class LoginPage {
         this.passwordInput = this.page.locator('input[name="password"]')
         this.submitButton = this.page.locator('button[type="submit"]')
         this.errorMessage = this.page.getByRole('alert');
+        this.title = this.page.locator('h5', {hasText: 'Login'})
     }
 
     async login(username: string, password: string) {
@@ -24,11 +26,16 @@ export class LoginPage {
     }
 
     async errorMessageIsVisible() {
-        await this.errorMessage.waitFor({state: 'visible'})
+        await this.errorMessage.waitFor({ state: 'visible' })
         return await this.errorMessage.isVisible()
     }
 
     async getErrorMessageTextContent() {
         return await this.errorMessage.textContent()
+    }
+
+    async titleIsVisible() {
+        await this.title.waitFor({state: 'visible'})
+        return await this.title.isVisible()
     }
 }

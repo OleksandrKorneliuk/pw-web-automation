@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test'
-import { LeavePageItem } from '../../enums/pages/leavePageItem'
+import { LeavePageItem } from '../../enums/pages/LeavePageItem'
 
 export class LeavePage {
 

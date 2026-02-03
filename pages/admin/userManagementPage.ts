@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { AddSystenUserPage } from './addSystemUserPage';
-import { EditUserPage } from './editUserPage';
+import { AddSystenUserPage } from './AddSystemUserPage';
+import { EditUserPage } from './EditUserPage';
 
 export class UserManagementPage {
 

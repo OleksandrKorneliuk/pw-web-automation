@@ -1,9 +1,9 @@
 import { expect } from '@playwright/test';
 import { test } from '../../test-options'
 import { faker } from '@faker-js/faker'
-import { PimPage } from '../../pages/pim/pimPage';
-import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/navigationBarItem';
+import { PimPage } from '../../pages/pim/PimPage';
+import { NavigationBar } from '../../pages/components/NavigationBar';
+import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
 
 test.describe('PIM Page Tests', () => {
 

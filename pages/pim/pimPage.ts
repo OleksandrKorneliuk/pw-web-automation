@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
-import { AddEmployeePage } from "./addEmployeePage";
-import { EmployeeListPage } from "./employeeListPage";
-import { PimPageItem } from "../../enums/pages/pimPageItem";
+import { AddEmployeePage } from "./AddEmployeePage";
+import { EmployeeListPage } from "./EmployeeListPage";
+import { PimPageItem } from "../../enums/pages/PimPageItem";
 
 export class PimPage {
 
