@@ -1,14 +1,14 @@
 import { Locator, Page } from "@playwright/test";
 import { UserDropdownMenuItem } from "../../enums/pages/userDropdownMenuItem";
+import { BasePage } from "../BasePage";
 
-export class UserDropdownTab {
+export class UserDropdownTab extends BasePage {
 
-    readonly page: Page
     readonly userDropdownMenu: Locator
     readonly allSections: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.userDropdownMenu = this.page.locator('header ul li')
         this.allSections = this.userDropdownMenu.locator('ul li')
     }

@@ -1,5 +1,4 @@
 import { UserDropdownMenuItem } from "../../enums/pages/userDropdownMenuItem";
-import { AboutInfoDialogBox } from "../../pages/components/AboutInfoDialogBox";
 import { UserDropdownTab } from "../../pages/components/userDropdownTab";
 import { LoginPage } from "../../pages/LoginPage";
 import { test } from "../../test-options";

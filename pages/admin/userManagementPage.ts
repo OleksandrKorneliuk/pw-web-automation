@@ -1,37 +1,49 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { AddSystenUserPage } from './AddSystemUserPage';
 import { EditUserPage } from './EditUserPage';
+import { BasePage } from '../BasePage';
 
-export class UserManagementPage {
+export class UserManagementPage extends BasePage {
 
-    readonly page: Page
+    readonly usernameTextbox: Locator
+    readonly addButton: Locator
+    readonly searchButton: Locator
+    readonly editEmployeeButton: Locator
+    readonly deleteEmployeeButton: Locator
+    readonly confirmDeletionButton: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
+        this.addButton = this.page.getByRole('button').filter({ hasText: ' Add ' })
+        this.usernameTextbox = this.page.getByRole('textbox').nth(2)
+        this.searchButton = this.page.getByRole('button', { name: 'Search' })
+        this.editEmployeeButton = this.page.locator('.oxd-table-card').first().locator('i.bi-pencil-fill')
+        this.deleteEmployeeButton = this.page.locator('.oxd-table-card').first().locator('button').first()
+        this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
     }
 
     async clickAddButton() {
-        await this.page.getByRole('button').filter({ hasText: ' Add ' }).click()
+        await this.addButton.click()
         return new AddSystenUserPage(this.page)
     }
 
     async searchUserByFullName(fullName: string) {
-        await this.page.getByRole('textbox').nth(2).fill(fullName)
+        await this.usernameTextbox.fill(fullName)
         await this.page.getByRole('option', { name: fullName }).first().click()
-        await this.page.getByRole('button', { name: 'Search' }).click()
+        await this.searchButton.click()
     }
 
     async gotToEditUserPageForUser(fullName: string) {
         await this.searchUserByFullName(fullName)
-        await this.page.locator('.oxd-table-card').first().locator('i.bi-pencil-fill').click();
+        await this.editEmployeeButton.click();
 
         return new EditUserPage(this.page)
     }
 
     async deleteSystemUserByFulName(fullName: string) {
         await this.searchUserByFullName(fullName)
-        await this.page.locator('.oxd-table-card').first().locator('button').first().click()
-        await this.page.getByRole('button', { name: ' Yes, Delete' }).click()
+        await this.deleteEmployeeButton.click()
+        await this.confirmDeletionButton.click()
     }
 
 }

@@ -1,13 +1,12 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
-export class SupportPage {
-
-    readonly page: Page
+export class SupportPage extends BasePage {
 
     readonly title: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.title = this.page.locator('h6', {hasText: 'Getting Started with OrangeHRM'})
     }
 

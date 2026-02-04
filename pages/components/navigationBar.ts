@@ -1,15 +1,14 @@
 import {Page, Locator} from '@playwright/test'
 import { NavigationBarItem } from '../../enums/pages/NavigationBarItem'
+import { BasePage } from '../BasePage'
 
-export class NavigationBar {
-
-    readonly page: Page
+export class NavigationBar extends BasePage {
 
     private allSections: Locator
     private searchBar: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.allSections = this.page.locator('.oxd-navbar-nav ul li')
         this.searchBar = this.page.locator('[placeholder="Search"]')
     }

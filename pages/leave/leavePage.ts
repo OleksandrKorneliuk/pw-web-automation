@@ -1,14 +1,13 @@
 import { Page, Locator } from '@playwright/test'
 import { LeavePageItem } from '../../enums/pages/LeavePageItem'
+import { BasePage } from '../BasePage'
 
-export class LeavePage {
-
-    readonly page: Page
+export class LeavePage extends BasePage {
 
     readonly navigationListItem: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.navigationListItem = this.page.locator('header ul li')
     }
 

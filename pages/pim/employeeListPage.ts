@@ -1,8 +1,7 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "../BasePage";
 
-export class EmployeeListPage {
-    
-    readonly page: Page;
+export class EmployeeListPage extends BasePage {
 
     readonly employeeNameTextbox: Locator
     readonly employeeNameSuggestion: Locator
@@ -12,7 +11,7 @@ export class EmployeeListPage {
     readonly confirmDeletionButton: Locator
 
     constructor(page: Page) {
-        this.page = page;
+        super(page)
         this.employeeNameTextbox = this.page.getByRole('textbox', { name: 'Type for hints...' }).first()
         this.employeeNameSuggestion = this.page.getByRole('option')
         this.searchButton = this.page.getByRole('button', { name: 'Search' })

@@ -2,15 +2,14 @@ import { Locator, Page } from "@playwright/test";
 import { AddEmployeePage } from "./AddEmployeePage";
 import { EmployeeListPage } from "./EmployeeListPage";
 import { PimPageItem } from "../../enums/pages/PimPageItem";
+import { BasePage } from "../BasePage";
 
-export class PimPage {
-
-    readonly page: Page;
+export class PimPage extends BasePage {
 
     readonly navigationListItem: Locator
 
     constructor(page: Page) {
-        this.page = page;
+        super(page)
         this.navigationListItem = this.page.locator('header ul li')
     }
 

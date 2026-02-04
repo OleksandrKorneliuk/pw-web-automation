@@ -1,13 +1,12 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "../BasePage";
 
-export class AboutInfoDialogBox {
-
-    readonly page: Page
+export class AboutInfoDialogBox extends BasePage {
 
     readonly title: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
         this.title = this.page.locator('h6', {hasText: 'About'})
     }
 

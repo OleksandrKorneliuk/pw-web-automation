@@ -2,8 +2,8 @@ import { expect } from '@playwright/test'
 import { test } from '../../test-options';
 import { PimPage } from '../../pages/pim/pimPage';
 import { faker } from '@faker-js/faker'
-import { NavigationBar } from '../../pages/components/NavigationBar';
-import { UserManagementPage } from '../../pages/admin/UserManagementPage';
+import { NavigationBar } from '../../pages/components/navigationBar';
+import { UserManagementPage } from '../../pages/admin/userManagementPage';
 import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
 import { Employee } from '../../models/employee';
 
