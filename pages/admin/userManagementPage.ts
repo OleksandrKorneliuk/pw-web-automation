@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
-import { AddSystenUserPage } from './AddSystemUserPage';
-import { EditUserPage } from './EditUserPage';
+import { AddSystenUserPage } from './addSystemUserPage';
+import { EditUserPage } from './editUserPage';
 import { BasePage } from '../BasePage';
 
 export class UserManagementPage extends BasePage {
