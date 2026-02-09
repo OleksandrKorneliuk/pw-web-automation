@@ -17,7 +17,6 @@ export async function addNewEmployeeViaUI(page: Page) {
     return employee
 }
 
-
 export async function deleteEmployeeViaUI(page: Page, id: string) {
     const navbar = new NavigationBar(page)
     await navbar.clickOnSection(NavigationBarItem.PIM)

@@ -22,6 +22,7 @@ export class NavigationBar extends BasePage {
     }
 
     public async clickOnSection(sectionName: NavigationBarItem) {
+        await this.allSections.filter({hasText: sectionName}).waitFor({state: 'visible'})
         await this.allSections.filter({hasText: sectionName}).click()
     }
 }

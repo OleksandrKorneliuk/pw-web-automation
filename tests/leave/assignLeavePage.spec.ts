@@ -6,6 +6,7 @@ import { LeavePage } from '../../pages/leave/leavePage';
 import { LeavePageItem } from '../../enums/pages/LeavePageItem';
 import { AssignLeavePage } from '../../pages/leave/assignLeavePage';
 import { addNewEmployeeViaUI, deleteEmployeeViaUI } from '../helpers/employee.helpers';
+import { LeaveTypeOptions } from '../../enums/pages/LeaveTypeOptions';
 
 test('navigate to assign leave page', async ({ page }) => {
     const navbar = new NavigationBar(page)
@@ -28,6 +29,9 @@ test('assign new leave', async ({ page }) => {
 
     const employeeFullName = `${employee.firstName} ${employee.lastName}`
     await assignLeavePage.enterEmployeeName(employeeFullName)
+    await assignLeavePage.choseLeaveOption(LeaveTypeOptions.CAN_BEREAVEMENT)
+    await assignLeavePage.selectFirstDayOfLeave(3)
+    await assignLeavePage.selectLastDayOfLeave(6)
 
     await deleteEmployeeViaUI(page, employee.id)
 })
