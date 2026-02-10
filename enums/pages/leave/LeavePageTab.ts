@@ -1,4 +1,4 @@
-export enum LeavePageItem {
+export enum LeavePageTab {
     Apply = 'Apply',
     MyLeave = 'My Leave',
     Entitlements = 'Entitlements',

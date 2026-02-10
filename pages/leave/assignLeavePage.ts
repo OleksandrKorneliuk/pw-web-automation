@@ -1,6 +1,6 @@
-import {Locator, Page} from '@playwright/test'
+import {expect, Locator, Page} from '@playwright/test'
 import { BasePage } from '../BasePage'
-import { LeaveTypeOptions } from '../../enums/pages/LeaveTypeOptions'
+import { LeaveTypeOptions } from '../../enums/pages/leave/LeaveTypeOptions'
 import { Calendar } from '../components/Calendar'
 
 export class AssignLeavePage extends BasePage {
@@ -13,6 +13,9 @@ export class AssignLeavePage extends BasePage {
     readonly fromDateInput: Locator
     readonly toDateInput: Locator
     readonly calendar: Locator
+    readonly assignButton: Locator
+    readonly confirmLeaveAssignmentDialogBoxHeader: Locator
+    readonly confirmLeaveAssignmentDialogBoxOkButton: Locator
 
     constructor(page: Page) {
         super(page)
@@ -24,6 +27,9 @@ export class AssignLeavePage extends BasePage {
         this.fromDateInput = this.page.getByPlaceholder('yyyy-dd-mm').first()
         this.toDateInput = this.page.getByPlaceholder('yyyy-dd-mm').nth(1)
         this.calendar = this.page.locator('.oxd-date-input-calendar')
+        this.assignButton = this.page.locator('button', {hasText: 'Assign'})
+        this.confirmLeaveAssignmentDialogBoxHeader = this.page.locator('.orangehrm-modal-header')
+        this.confirmLeaveAssignmentDialogBoxOkButton = this.page.locator('button', {hasText: 'Ok'})
     }
 
     async titleIsVisible() {
@@ -58,4 +64,19 @@ export class AssignLeavePage extends BasePage {
         const calendar = new Calendar(toDateCalendarRoot)
         await calendar.selectDate(daysFromToday)
     }
+
+    async clickAssignButton() {
+        await this.assignButton.click()
+    }
+
+    async isDialogBoxHeaderContains(text: string) {
+        await this.confirmLeaveAssignmentDialogBoxHeader.waitFor({state: 'visible'})
+        expect(await this.confirmLeaveAssignmentDialogBoxHeader.textContent()).toContain(text)
+    }
+
+    async confirmLeaveAssignment() {
+        await this.confirmLeaveAssignmentDialogBoxOkButton.waitFor({state: 'visible'})
+        await this.confirmLeaveAssignmentDialogBoxOkButton.click()
+    }
+
 }

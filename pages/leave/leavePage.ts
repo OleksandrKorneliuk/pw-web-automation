@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test'
-import { LeavePageItem } from '../../enums/pages/LeavePageItem'
+import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab'
 import { BasePage } from '../BasePage'
 
 export class LeavePage extends BasePage {
@@ -11,27 +11,27 @@ export class LeavePage extends BasePage {
         this.navigationListItem = this.page.locator('header ul li')
     }
 
-    async clickItem(listItem: LeavePageItem) {
+    async clickItem(listItem: LeavePageTab) {
         switch (listItem) {
-            case LeavePageItem.Apply:
+            case LeavePageTab.Apply:
                 await this.navigationListItem.nth(1).click()
                 break
-            case LeavePageItem.MyLeave:
+            case LeavePageTab.MyLeave:
                 await this.navigationListItem.nth(2).click()
                 break
-            case LeavePageItem.Entitlements:
+            case LeavePageTab.Entitlements:
                 await this.navigationListItem.nth(3).click()
                 break
-            case LeavePageItem.Reports:
+            case LeavePageTab.Reports:
                 await this.navigationListItem.nth(4).click()
                 break
-            case LeavePageItem.Configure:
+            case LeavePageTab.Configure:
                 await this.navigationListItem.nth(5).click()
                 break
-            case LeavePageItem.LeaveList:
+            case LeavePageTab.LeaveList:
                 await this.navigationListItem.nth(6).click()
                 break
-            case LeavePageItem.AssignLeave:
+            case LeavePageTab.AssignLeave:
                 await this.navigationListItem.nth(7).click()
                 break
         }

@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { NavigationBar } from "../../pages/components/navigationBar";
-import { NavigationBarItem } from "../../enums/pages/NavigationBarItem";
+import { NavigationBarItem } from "../../enums/NavigationBarItem";
 import { PimPage } from "../../pages/pim/pimPage";
 import { createRandomEmployee } from "../factorys/EmployeeFactory";
 

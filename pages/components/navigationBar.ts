@@ -1,5 +1,5 @@
 import {Page, Locator} from '@playwright/test'
-import { NavigationBarItem } from '../../enums/pages/NavigationBarItem'
+import { NavigationBarItem } from '../../enums/NavigationBarItem'
 import { BasePage } from '../BasePage'
 
 export class NavigationBar extends BasePage {
@@ -23,6 +23,6 @@ export class NavigationBar extends BasePage {
 
     public async clickOnSection(sectionName: NavigationBarItem) {
         await this.allSections.filter({hasText: sectionName}).waitFor({state: 'visible'})
-        await this.allSections.filter({hasText: sectionName}).click()
+        await this.allSections.filter({hasText: sectionName}).click({timeout: 10000})
     }
 }
