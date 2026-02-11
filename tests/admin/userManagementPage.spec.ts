@@ -4,8 +4,8 @@ import { PimPage } from '../../pages/pim/pimPage';
 import { faker } from '@faker-js/faker'
 import { NavigationBar } from '../../pages/components/navigationBar';
 import { UserManagementPage } from '../../pages/admin/userManagementPage';
-import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
 import { Employee } from '../../models/employee';
+import { NavigationBarItem } from '../../enums/NavigationBarItem';
 
 test.describe.configure({mode: 'parallel'})
 
