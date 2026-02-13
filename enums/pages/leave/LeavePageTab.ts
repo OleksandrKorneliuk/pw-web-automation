@@ -1,9 +1,9 @@
 export enum LeavePageTab {
-    Apply = 'Apply',
-    MyLeave = 'My Leave',
-    Entitlements = 'Entitlements',
-    Reports = 'Reports',
-    Configure = 'Configure',
-    LeaveList = 'Leave List',
-    AssignLeave = 'Assign Leave'
+    APPLY = 'Apply',
+    MY_LEAVE = 'My Leave',
+    ENTITLEMENTS = 'Entitlements',
+    REPORTS = 'Reports',
+    CONFIGURE = 'Configure',
+    LEAVE_LIST = 'Leave List',
+    ASSIGN_LEAVE = 'Assign Leave'
 }

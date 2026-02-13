@@ -1,14 +1,14 @@
 export enum NavigationBarItem {
-    Admin = 'Admin',
+    ADMIN = 'Admin',
     PIM = 'PIM',
-    Leave = 'Leave',
-    Time = 'Time',
-    Recruitment = 'Recruitment',
-    MyInfo = 'My Info',
-    Performance = 'Performance',
-    Dashboard = 'Dashboard',
-    Directory = 'Directory',
-    Maintenance = 'Maintenance',
-    Claim = 'Claim',
-    Buzz = 'Buzz'
+    LEAVE = 'Leave',
+    TIME = 'Time',
+    RECRUITMENT = 'Recruitment',
+    MY_INFO = 'My Info',
+    PERFOMANCE = 'Performance',
+    DASHBOARD = 'Dashboard',
+    DIRECTORY = 'Directory',
+    MAINTENANCE = 'Maintenance',
+    CLAIM = 'Claim',
+    BUZZ = 'Buzz'
 }

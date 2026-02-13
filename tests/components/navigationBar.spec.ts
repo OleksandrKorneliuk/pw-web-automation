@@ -1,14 +1,14 @@
 import { expect } from '@playwright/test';
-import { test } from '../../test-options';
+import { test } from '../../fixtures/login';
 import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
+import { NavigationBarItem } from '../../enums/NavigationBarItem';
 
 test.describe('Navigation page functional tests', () => {
 
     const expectedSectionTitles = [
-        NavigationBarItem.Admin, NavigationBarItem.PIM, NavigationBarItem.Leave, NavigationBarItem.Time, NavigationBarItem.Recruitment,
-        NavigationBarItem.MyInfo, NavigationBarItem.Performance, NavigationBarItem.Dashboard,
-        NavigationBarItem.Directory, NavigationBarItem.Maintenance, NavigationBarItem.Claim, NavigationBarItem.Buzz
+        NavigationBarItem.ADMIN, NavigationBarItem.PIM, NavigationBarItem.LEAVE, NavigationBarItem.TIME, NavigationBarItem.RECRUITMENT,
+        NavigationBarItem.MY_INFO, NavigationBarItem.PERFOMANCE, NavigationBarItem.DASHBOARD,
+        NavigationBarItem.DIRECTORY, NavigationBarItem.MAINTENANCE, NavigationBarItem.CLAIM, NavigationBarItem.BUZZ
     ]
 
     test('navigate through each section', async ({ page }) => {
@@ -39,8 +39,8 @@ test.describe('Navigation page functional tests', () => {
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             let currentExpectedSectionTitle = expectedSectionTitles[i]
 
-            if(currentExpectedSectionTitle == NavigationBarItem.MyInfo ||
-                currentExpectedSectionTitle == NavigationBarItem.Maintenance
+            if(currentExpectedSectionTitle == NavigationBarItem.MY_INFO ||
+                currentExpectedSectionTitle == NavigationBarItem.MAINTENANCE
             ) {
                 currentExpectedSectionTitle = expectedSectionTitles[++i]
             }

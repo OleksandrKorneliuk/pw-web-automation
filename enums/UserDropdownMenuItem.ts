@@ -1,6 +1,6 @@
 export enum UserDropdownMenuItem {
-    About = 'About',
-    Support = 'Support',
-    ChangePassword = 'Change Password',
-    Logout = 'Logout'
+    ABOUT = 'About',
+    SUPPORT = 'Support',
+    CHANGE_PASSWORD = 'Change Password',
+    LOGOUT = 'Logout'
 }

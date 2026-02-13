@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import { test } from '../../test-options'
+import { test } from '../../fixtures/login'
 import { NavigationBar } from '../../pages/components/navigationBar';
 import { NavigationBarItem } from '../../enums/NavigationBarItem';
 import { LeavePage } from '../../pages/leave/leavePage';
@@ -10,9 +10,9 @@ import { LeaveTypeOptions } from '../../enums/pages/leave/LeaveTypeOptions';
 
 test('navigate to assign leave page', async ({ page }) => {
     const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.Leave)
+    await navbar.clickOnSection(NavigationBarItem.LEAVE)
     const leavePage = new LeavePage(page)
-    await leavePage.clickItem(LeavePageTab.AssignLeave)
+    await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
 
     const assignLeavePage = new AssignLeavePage(page)
     expect(await assignLeavePage.titleIsVisible()).toBeTruthy()
@@ -24,9 +24,9 @@ test('assign new leave', async ({ page }) => {
     const employee = await addNewEmployeeViaUI(page)
 
     const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.Leave)
+    await navbar.clickOnSection(NavigationBarItem.LEAVE)
     const leavePage = new LeavePage(page)
-    await leavePage.clickItem(LeavePageTab.AssignLeave)
+    await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
     const assignLeavePage = new AssignLeavePage(page)
 
     const employeeFullName = `${employee.firstName} ${employee.lastName}`

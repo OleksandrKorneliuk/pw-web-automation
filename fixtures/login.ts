@@ -1,8 +1,10 @@
 import { test as base } from '@playwright/test'
-import { LoginPage } from './pages/LoginPage';
+import { LoginPage } from '../pages/LoginPage';
+import { NavigationBar } from '../pages/components/navigationBar';
 
 export type TestOptions = {
     formLoginPage: void
+    navigationBar: NavigationBar
 }
 
 export const test = base.extend<TestOptions>({

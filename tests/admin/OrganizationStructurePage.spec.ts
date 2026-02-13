@@ -1,20 +1,14 @@
 import { expect } from '@playwright/test'
-import { test } from '../../test-options';
-import { NavigationBar } from '../../pages/components/navigationBar';
+import { test } from '../../fixtures/PageManager';
 import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { AdminPage } from '../../pages/admin/AdminPage';
 import { OrganizationPageOption } from '../../enums/pages/admin/OrganizationTabOption';
-import { OrganizationStructurePage } from '../../pages/admin/OrganizationStructurePage';
 import { AdminPageTab } from '../../enums/pages/admin/AdminPageTab';
 
-test('create new organization sub-units', async ({ page }) => {
+test('create new organization sub-units', async ({ navigationBar, adminPage, organizationStructurePage }) => {
     test.setTimeout(45000)
-    const navigationBar = new NavigationBar(page)
-    navigationBar.clickOnSection(NavigationBarItem.Admin)
-    const adminPage = new AdminPage(page)
+    await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
     await adminPage.clickOnTab(AdminPageTab.ORGANIZATION)
     await adminPage.clickOnOrganizationTabOption(OrganizationPageOption.STRUCTURE)
-    const organizationStructurePage = new OrganizationStructurePage(page)
     expect(await organizationStructurePage.titleIsVisible('AdminOrganization')).toBeTruthy()
 
     await organizationStructurePage.enableEditStructureMode()

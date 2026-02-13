@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
-import { UserDropdownMenuItem } from "../../enums/pages/userDropdownMenuItem";
 import { BasePage } from "../BasePage";
+import { UserDropdownMenuItem } from "../../enums/UserDropdownMenuItem";
 
 export class UserDropdownTab extends BasePage {
 

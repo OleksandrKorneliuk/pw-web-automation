@@ -1,22 +1,16 @@
-import { test, expect } from '@playwright/test'
-import { LoginPage } from '../../pages/LoginPage';
+import { expect } from '@playwright/test'
+import { test } from '../../fixtures/login'
 import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/pages/NavigationBarItem';
+import { NavigationBarItem } from '../../enums/NavigationBarItem';
 import { LeavePage } from '../../pages/leave/leavePage';
-import { LeavePageItem } from '../../enums/pages/LeavePageItem';
+import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab';
 import { LeaveListPage } from '../../pages/leave/leaveListPage';
-
-test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    let loginPage = new LoginPage(page)
-    await loginPage.login('Admin', 'admin123');
-})
 
 test('navigate to leave list page', async ({page}) => {
     const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.Leave)
+    await navbar.clickOnSection(NavigationBarItem.LEAVE)
     const leavePage = new LeavePage(page)
-    await leavePage.clickItem(LeavePageItem.LeaveList)
+    await leavePage.clickItem(LeavePageTab.LEAVE_LIST)
     const assignLeavePage = new LeaveListPage(page)
 
     expect(await assignLeavePage.titleIsVisible()).toBeTruthy()
