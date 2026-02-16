@@ -1,33 +1,27 @@
 import { expect } from '@playwright/test'
-import { test } from '../../fixtures/login'
+import { test } from '../../fixtures/PageManager'
 import { NavigationBar } from '../../pages/components/navigationBar';
 import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { LeavePage } from '../../pages/leave/leavePage';
+import { LeavePage } from '../../pages/leave/LeavePage';
 import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab';
-import { AssignLeavePage } from '../../pages/leave/assignLeavePage';
+import { AssignLeavePage } from '../../pages/leave/AssignLeavePage';
 import { addNewEmployeeViaUI, deleteEmployeeViaUI } from '../helpers/employee.helpers';
 import { LeaveTypeOptions } from '../../enums/pages/leave/LeaveTypeOptions';
 
-test('navigate to assign leave page', async ({ page }) => {
-    const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.LEAVE)
-    const leavePage = new LeavePage(page)
+test('navigate to assign leave page', async ({ navigationBar, leavePage, assignLeavePage }) => {
+    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
     await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
 
-    const assignLeavePage = new AssignLeavePage(page)
     expect(await assignLeavePage.titleIsVisible()).toBeTruthy()
 })
 
-test('assign new leave', async ({ page }) => {
+test('assign new leave', async ({ page, navigationBar, leavePage, assignLeavePage }) => {
     test.setTimeout(45000)
 
     const employee = await addNewEmployeeViaUI(page)
 
-    const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.LEAVE)
-    const leavePage = new LeavePage(page)
+    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
     await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
-    const assignLeavePage = new AssignLeavePage(page)
 
     const employeeFullName = `${employee.firstName} ${employee.lastName}`
     await assignLeavePage.enterEmployeeName(employeeFullName)

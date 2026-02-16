@@ -13,25 +13,25 @@ export class LeavePage extends BasePage {
 
     async clickItem(listItem: LeavePageTab) {
         switch (listItem) {
-            case LeavePageTab.Apply:
+            case LeavePageTab.APPLY:
                 await this.navigationListItem.nth(1).click()
                 break
-            case LeavePageTab.MyLeave:
+            case LeavePageTab.MY_LEAVE:
                 await this.navigationListItem.nth(2).click()
                 break
-            case LeavePageTab.Entitlements:
+            case LeavePageTab.ENTITLEMENTS:
                 await this.navigationListItem.nth(3).click()
                 break
-            case LeavePageTab.Reports:
+            case LeavePageTab.REPORTS:
                 await this.navigationListItem.nth(4).click()
                 break
-            case LeavePageTab.Configure:
+            case LeavePageTab.CONFIGURE:
                 await this.navigationListItem.nth(5).click()
                 break
-            case LeavePageTab.LeaveList:
+            case LeavePageTab.LEAVE_LIST:
                 await this.navigationListItem.nth(6).click()
                 break
-            case LeavePageTab.AssignLeave:
+            case LeavePageTab.ASSIGN_LEAVE:
                 await this.navigationListItem.nth(7).click()
                 break
         }

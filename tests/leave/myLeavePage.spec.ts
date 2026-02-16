@@ -1,17 +1,11 @@
 import { expect } from '@playwright/test'
-import { test } from '../../fixtures/login'
-import { NavigationBar } from '../../pages/components/navigationBar';
+import { test } from '../../fixtures/PageManager'
 import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { LeavePage } from '../../pages/leave/leavePage';
 import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab';
-import { MyLeavePage } from '../../pages/leave/myLeavePage';
 
-test('navigate to my leave page', async ({page}) => {
-    const navbar = new NavigationBar(page)
-    await navbar.clickOnSection(NavigationBarItem.LEAVE)
-    const leavePage = new LeavePage(page)
+test('navigate to my leave page', async ({ navigationBar, leavePage, myLeavePage }) => {
+    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
     await leavePage.clickItem(LeavePageTab.MY_LEAVE)
-    const assignLeavePage = new MyLeavePage(page)
 
-    expect(await assignLeavePage.titleIsVisible()).toBeTruthy()
+    expect(await myLeavePage.titleIsVisible()).toBeTruthy()
 })
