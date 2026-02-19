@@ -1,4 +1,4 @@
-import { test as base } from './Login';
+import { test as base } from './login';
 import { AdminPage } from '../pages/admin/AdminPage';
 import { OrganizationStructurePage } from '../pages/admin/OrganizationStructurePage';
 import { NavigationBar } from '../pages/components/navigationBar';
@@ -18,6 +18,7 @@ import { MyLeavePage } from '../pages/leave/MyLeavePage';
 import { LeaveListPage } from '../pages/leave/LeaveListPage';
 import { UpdatePasswordPage } from '../pages/pim/UpdatePasswordPage';
 import { SupportPage } from '../pages/SupportPage';
+import { MyInfoPage } from '../pages/myInfo/MyInfoPage';
 
 export type TestOptions = {
     navigationBar: NavigationBar
@@ -39,6 +40,7 @@ export type TestOptions = {
     myLeavePage: MyLeavePage
     updatePasswordPage: UpdatePasswordPage
     supportPage: SupportPage
+    myInfoPage: MyInfoPage
 }
 
 export const test = base.extend<TestOptions>({
@@ -109,5 +111,9 @@ export const test = base.extend<TestOptions>({
 
     supportPage: async ({ page }, use) => {
         await use(new SupportPage(page))
+    },
+
+    myInfoPage: async ({page}, use) => {
+        await use(new MyInfoPage(page))
     }
 })
