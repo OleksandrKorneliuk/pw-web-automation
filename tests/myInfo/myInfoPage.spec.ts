@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 import { NavigationBarItem } from '../../enums/NavigationBarItem'
 import { test } from '../../fixtures/PageManager'
-import { Gender } from '../../enums/pages/myInfo/Genders'
+import { validEmployee } from '../../data/vailidEmployee'
 
 test.describe('My Info Page Tests', () => {
 
@@ -15,18 +15,17 @@ test.describe('My Info Page Tests', () => {
 
     test('editing personal details', async ({ page, navigationBar, myInfoPage }) => {
         await navigationBar.clickOnSection(NavigationBarItem.MY_INFO)
-        await myInfoPage.setEmployeeFirstName('John')
-        await myInfoPage.setEmployeeLastName('Smith')
-        await myInfoPage.setEmployeeDriversLicenseNumber('B1234567')
-        await myInfoPage.selectNationality('North Korean')
-        await myInfoPage.switchGender(Gender.MALE)
+        await myInfoPage.setEmployeeFirstName(validEmployee.firstName)
+        await myInfoPage.setEmployeeLastName(validEmployee.lastName)
+        await myInfoPage.setEmployeeDriversLicenseNumber(validEmployee.driversLicenseNumber)
+        await myInfoPage.selectNationality(validEmployee.nationality)
+        await myInfoPage.switchGender(validEmployee.gender)
         await myInfoPage.clickSaveButton()
 
-        await expect(page.getByText('SuccessSuccessfully Updated×')).toBeVisible()
-        expect(myInfoPage.firstNameInputEquals('John')).toBeTruthy()
-        expect(myInfoPage.lastNameInputEquals('Smith')).toBeTruthy()
+        await expect(myInfoPage.successfullySavedWarning).toBeVisible()
+        expect(await myInfoPage.firstNameTextbox.inputValue()).toBe('John')
+        expect(await myInfoPage.lastNameTextbox.inputValue()).toBe('Smith')
         await expect(page.locator('div:nth-child(2) > div > .oxd-input-group > div:nth-child(2) > .oxd-input')).toHaveValue('B1234567')
-        await expect(page.locator('#app')).toContainText('North Korean')
-
+        expect(await myInfoPage.pageContains('North Korean'))
     })
 })

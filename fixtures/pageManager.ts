@@ -3,7 +3,7 @@ import { AdminPage } from '../pages/admin/AdminPage';
 import { OrganizationStructurePage } from '../pages/admin/OrganizationStructurePage';
 import { NavigationBar } from '../pages/components/navigationBar';
 import { PimPage } from '../pages/pim/PimPage';
-import { AddEmployeePage } from '../pages/pim/AddEmployeePage';
+import { AddEmployeePage } from '../pages/pim/addEmployeePage';
 import { UserManagementPage } from '../pages/admin/UserManagementPage';
 import { AddSystenUserPage } from '../pages/admin/addSystemUserPage';
 import { EditUserPage } from '../pages/admin/EditUserPage';

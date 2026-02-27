@@ -1,0 +1,5 @@
+{
+    "app": "#app",
+    "driversLicenseNumberTextbox": ".oxd-input.oxd-input--focus",
+    "selectedNationalityDropdownMenuIcon": ".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow"
+}
