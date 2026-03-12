@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
-import { test } from '../../fixtures/login';
-import { NavigationBar } from '../../pages/components/navigationBar';
+import { test } from '../../fixtures/PageManager';
 import { NavigationBarItem } from '../../enums/NavigationBarItem';
 
 test.describe('Navigation page functional tests', () => {
@@ -11,9 +10,8 @@ test.describe('Navigation page functional tests', () => {
         NavigationBarItem.DIRECTORY, NavigationBarItem.MAINTENANCE, NavigationBarItem.CLAIM, NavigationBarItem.BUZZ
     ]
 
-    test('navigate through each section', async ({ page }) => {
-        const navigationPage = new NavigationBar(page)
-        const sections = navigationPage.getAllSections()
+    test('navigate through each section', async ({ navigationBar }) => {
+        const sections = navigationBar.getAllSections()
 
         await expect(sections).toHaveCount(expectedSectionTitles.length)
 
@@ -22,20 +20,16 @@ test.describe('Navigation page functional tests', () => {
         }
     })
 
-    test('search by search bar', async ({ page }) => {
-        const navigationPage = new NavigationBar(page)
-
+    test('search by search bar', async ({ navigationBar }) => {
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             const currentExpectedSectionTitle = expectedSectionTitles[i]
-            navigationPage.searchBySearchBar(currentExpectedSectionTitle)
-            const foundedSections = navigationPage.getAllSections()
+            navigationBar.searchBySearchBar(currentExpectedSectionTitle)
+            const foundedSections = navigationBar.getAllSections()
             await expect(foundedSections.first()).toContainText(currentExpectedSectionTitle)
         }
     })
 
-    test('inspect root elements of the sections', async ({ page }) => {
-        const navigationPage = new NavigationBar(page)
-
+    test('inspect root elements of the sections', async ({ page, navigationBar }) => {
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             let currentExpectedSectionTitle = expectedSectionTitles[i]
 
@@ -45,7 +39,7 @@ test.describe('Navigation page functional tests', () => {
                 currentExpectedSectionTitle = expectedSectionTitles[++i]
             }
 
-            await navigationPage.clickOnSection(currentExpectedSectionTitle)
+            await navigationBar.clickOnSection(currentExpectedSectionTitle)
 
             await expect(page.locator('.oxd-topbar-header-breadcrumb-module')).toContainText(currentExpectedSectionTitle)
             await expect(page).toHaveURL(

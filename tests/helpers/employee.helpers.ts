@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { NavigationBar } from "../../pages/components/navigationBar";
 import { NavigationBarItem } from "../../enums/NavigationBarItem";
-import { PimPage } from "../../pages/pim/pimPage";
+import { PimPage } from "../../pages/pim/PimPage";
 import { createRandomEmployee } from "../factorys/EmployeeFactory";
 
 export async function addNewEmployeeViaUI(page: Page) {

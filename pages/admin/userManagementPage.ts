@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { AddSystenUserPage } from './addSystemUserPage';
-import { EditUserPage } from './editUserPage';
+import { EditUserPage } from './EditUserPage';
 import { BasePage } from '../BasePage';
 
 export class UserManagementPage extends BasePage {
@@ -24,7 +24,6 @@ export class UserManagementPage extends BasePage {
 
     async clickAddButton() {
         await this.addButton.click()
-        return new AddSystenUserPage(this.page)
     }
 
     async searchUserByFullName(fullName: string) {
@@ -36,8 +35,6 @@ export class UserManagementPage extends BasePage {
     async gotToEditUserPageForUser(fullName: string) {
         await this.searchUserByFullName(fullName)
         await this.editEmployeeButton.click();
-
-        return new EditUserPage(this.page)
     }
 
     async deleteSystemUserByFulName(fullName: string) {
