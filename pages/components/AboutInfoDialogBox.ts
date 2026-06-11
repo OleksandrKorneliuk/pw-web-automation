@@ -1,13 +1,17 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage";
+import { BaseComponent } from "./baseComponent";
 
-export class AboutInfoDialogBox extends BasePage {
+export class AboutInfoDialogBox extends BaseComponent {
 
     readonly title: Locator
 
     constructor(page: Page) {
         super(page)
-        this.title = this.page.locator('h6', {hasText: 'About'})
+        this.title = this.root.getByRole('heading', {name: 'About'})
+    }
+
+    get root(): Locator {
+        return this.page.getByRole('document')
     }
 
     async titleIsVisible() {

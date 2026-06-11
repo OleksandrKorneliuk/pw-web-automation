@@ -1,5 +1,4 @@
-
-import { UserDropdownMenuItem } from "../../enums/UserDropdownMenuItem";
+import { UserDropdownMenuItem } from "../../enums/userDropdownMenuItem";
 import { test } from "../../fixtures/PageManager";
 import { expect } from "@playwright/test";
 

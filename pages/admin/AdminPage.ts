@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test'
-import { BasePage } from '../BasePage'
-import { AdminPageTab } from '../../enums/pages/admin/AdminPageTab'
-import { OrganizationPageOption } from '../../enums/pages/admin/OrganizationTabOption'
+import { BasePage } from '../basePage'
+import { AdminPageTab } from '../../enums/pages/admin/adminPageTab'
+import { OrganizationPageOption } from '../../enums/pages/admin/organizationTabOption'
 
 export class AdminPage extends BasePage {
 
@@ -12,6 +12,10 @@ export class AdminPage extends BasePage {
         super(page)
         this.topbarMenu = this.page.locator('header ul li')
         this.tabsNavigationListOption = this.topbarMenu.locator('ul li')
+    }
+
+    get url(): string {
+        return 'admin/viewSystemUsers'
     }
 
     async clickOnTab(listItem: AdminPageTab) {
@@ -41,6 +45,6 @@ export class AdminPage extends BasePage {
     }
 
     async clickOnOrganizationTabOption(option: OrganizationPageOption) {
-        await this.tabsNavigationListOption.getByRole('menuitem', {name: option}).click()
+        await this.tabsNavigationListOption.getByRole('menuitem', { name: option }).click()
     }
 }

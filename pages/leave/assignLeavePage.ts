@@ -1,7 +1,7 @@
 import {expect, Locator, Page} from '@playwright/test'
-import { BasePage } from '../BasePage'
-import { LeaveTypeOptions } from '../../enums/pages/leave/LeaveTypeOptions'
-import { Calendar } from '../components/Calendar'
+import { BasePage } from '../basePage'
+import { LeaveTypeOptions } from '../../enums/pages/leave/leaveTypeOptions'
+import { Calendar } from '../components/calendar'
 
 export class AssignLeavePage extends BasePage {
 
@@ -32,6 +32,10 @@ export class AssignLeavePage extends BasePage {
         this.confirmLeaveAssignmentDialogBoxOkButton = this.page.locator('button', {hasText: 'Ok'})
     }
 
+    get url(): string {
+        return 'leave/assignLeave'
+    }
+
     async titleIsVisible() {
         await this.title.waitFor({state: 'visible'})
         return await this.title.isVisible()
@@ -51,17 +55,15 @@ export class AssignLeavePage extends BasePage {
 
     async selectFirstDayOfLeave(daysFromToday: number) {
         await this.fromDateInput.click()
-        const fromDateCalendarRoot = this.calendar.filter({visible: true}).first()
 
-        const calendar = new Calendar(fromDateCalendarRoot)
+        const calendar = new Calendar(this.page)
         await calendar.selectDate(daysFromToday)
     }
 
     async selectLastDayOfLeave(daysFromToday: number) {
         await this.toDateInput.click()
-        const toDateCalendarRoot = this.calendar.filter({visible: true}).first()
 
-        const calendar = new Calendar(toDateCalendarRoot)
+        const calendar = new Calendar(this.page)
         await calendar.selectDate(daysFromToday)
     }
 

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/PageManager';
-import { NavigationBarItem } from '../../enums/NavigationBarItem';
+import { NavigationBarItem } from '../../enums/navigationBarItem';
 
 test.describe('Navigation page functional tests', () => {
 

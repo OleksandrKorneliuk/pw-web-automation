@@ -1,23 +1,22 @@
-import { test as base } from './login';
-import { AdminPage } from '../pages/admin/AdminPage';
-import { OrganizationStructurePage } from '../pages/admin/OrganizationStructurePage';
+import { test as base } from '@playwright/test';
+import { AdminPage } from '../pages/admin/adminPage';
+import { OrganizationStructurePage } from '../pages/admin/organizationStructurePage';
 import { NavigationBar } from '../pages/components/navigationBar';
 import { PimPage } from '../pages/pim/PimPage';
 import { AddEmployeePage } from '../pages/pim/addEmployeePage';
 import { UserManagementPage } from '../pages/admin/UserManagementPage';
 import { AddSystenUserPage } from '../pages/admin/addSystemUserPage';
-import { EditUserPage } from '../pages/admin/EditUserPage';
-import { EmployeeListPage } from '../pages/pim/EmployeeListPage';
+import { EmployeeListPage } from '../pages/pim/employeeListPage';
 import { UserDropdownTab } from '../pages/components/userDropdownTab';
-import { AboutInfoDialogBox } from '../pages/components/AboutInfoDialogBox';
-import { LoginPage } from '../pages/LoginPage';
+import { AboutInfoDialogBox } from '../pages/components/aboutInfoDialogBox';
+import { LoginPage } from '../pages/loginPage';
 import { LeavePage } from '../pages/leave/LeavePage';
-import { ApplyPage } from '../pages/leave/ApplyPage';
-import { AssignLeavePage } from '../pages/leave/AssignLeavePage';
-import { MyLeavePage } from '../pages/leave/MyLeavePage';
-import { LeaveListPage } from '../pages/leave/LeaveListPage';
-import { UpdatePasswordPage } from '../pages/pim/UpdatePasswordPage';
-import { SupportPage } from '../pages/SupportPage';
+import { ApplyLeavePage } from '../pages/leave/applyLeavePage';
+import { AssignLeavePage } from '../pages/leave/assignLeavePage';
+import { MyLeavePage } from '../pages/leave/myLeavePage';
+import { LeaveListPage } from '../pages/leave/leaveListPage';
+import { UpdatePasswordPage } from '../pages/pim/updatePasswordPage';
+import { SupportPage } from '../pages/supportPage';
 import { MyInfoPage } from '../pages/myInfo/MyInfoPage';
 
 export type TestOptions = {
@@ -28,13 +27,12 @@ export type TestOptions = {
     addEmployeePage: AddEmployeePage
     userManagementPage: UserManagementPage
     addSystemUserPage: AddSystenUserPage
-    editUserPage: EditUserPage
     employeeListPage: EmployeeListPage
     userDropdownTab: UserDropdownTab
     aboutInfoDialogBox: AboutInfoDialogBox
     loginPage: LoginPage
     leavePage: LeavePage
-    applyPage: ApplyPage
+    applyPage: ApplyLeavePage
     assignLeavePage: AssignLeavePage
     leaveListPage: LeaveListPage
     myLeavePage: MyLeavePage
@@ -47,6 +45,22 @@ export const test = base.extend<TestOptions>({
 
     navigationBar: async ({ page }, use) => {
         await use(new NavigationBar(page))
+    },
+
+    userDropdownTab: async ({ page }, use) => {
+        await use(new UserDropdownTab(page))
+    },
+
+    aboutInfoDialogBox: async ({ page }, use) => {
+        await use(new AboutInfoDialogBox(page))
+    },
+
+    applyPage: async ({ page }, use) => {
+        await use(new ApplyLeavePage(page))
+    },
+
+    assignLeavePage: async ({ page }, use) => {
+        await use(new AssignLeavePage(page))
     },
 
     adminPage: async ({ page }, use) => {
@@ -73,20 +87,8 @@ export const test = base.extend<TestOptions>({
         await use(new AddSystenUserPage(page))
     },
 
-    editUserPage: async ({ page }, use) => {
-        await use(new EditUserPage(page))
-    },
-
     employeeListPage: async ({ page }, use) => {
         await use(new EmployeeListPage(page))
-    },
-
-    userDropdownTab: async ({ page }, use) => {
-        await use(new UserDropdownTab(page))
-    },
-
-    aboutInfoDialogBox: async ({ page }, use) => {
-        await use(new AboutInfoDialogBox(page))
     },
 
     loginPage: async ({ page }, use) => {

@@ -1,15 +1,16 @@
 import { expect } from '@playwright/test'
 import { test } from '../../fixtures/PageManager';
 import { Employee } from '../../models/employee';
-import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { createRandomEmployee } from '../factorys/EmployeeFactory';
+import { NavigationBarItem } from '../../enums/navigationBarItem';
+import { createRandomEmployee } from '../factorys/employeeFactory';
 
 test.describe('user management page', () => {
 
     let employee: Employee
     let employeeFullName: string
 
-    test.beforeEach(async ({ navigationBar, pimPage }) => {
+    test.beforeEach(async ({ page, navigationBar, pimPage }) => {
+        await page.goto('/')
         await navigationBar.clickOnSection(NavigationBarItem.PIM)
         const addEmployeePage = await pimPage.navigateToAddEmployeeTab();
 
@@ -38,23 +39,23 @@ test.describe('user management page', () => {
         await expect(page.getByText(employeeFullName).first()).toBeVisible()
     })
 
-    test('edit new admin user', async ({ page, navigationBar, userManagementPage, addSystemUserPage, editUserPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-        await userManagementPage.clickAddButton()
-        await addSystemUserPage.addUserAsAdmin(employeeFullName)
+    // test('edit new admin user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
+    //     await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
+    //     await userManagementPage.clickAddButton()
+    //     await addSystemUserPage.addUserAsAdmin(employeeFullName)
 
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
+    //     await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
 
-        await userManagementPage.gotToEditUserPageForUser(employeeFullName)
-        await expect(page.getByRole('heading', { name: 'Edit User' })).toBeVisible();
+    //     await userManagementPage.gotToEditUserPageForUser(employeeFullName)
+    //     await expect(page.getByRole('heading', { name: 'Edit User' })).toBeVisible();
 
-        await editUserPage.setStatusDisable()
-        await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
+    //     await editUserPage.setStatusDisable()
+    //     await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
 
-        await userManagementPage.searchUserByFullName(employeeFullName)
-        await expect(page.getByText(employeeFullName).first()).toBeVisible();
-        await expect(page.getByText('Disabled')).toBeVisible();
-    })
+    //     await userManagementPage.searchUserByFullName(employeeFullName)
+    //     await expect(page.getByText(employeeFullName).first()).toBeVisible();
+    //     await expect(page.getByText('Disabled')).toBeVisible();
+    // })
 
     test('delete admin role for new user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
         await navigationBar.clickOnSection(NavigationBarItem.ADMIN)

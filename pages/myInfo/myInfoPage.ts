@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test'
-import { BasePage } from '../BasePage';
+import { BasePage } from '../basePage';
 import { Gender } from '../../enums/pages/myInfo/genders';
 import * as selectors from '../selectors/myInfoPage.selectors.json'
 
@@ -20,6 +20,10 @@ export class MyInfoPage extends BasePage {
         this.genderRadioButton = page.locator('label', { has: page.getByRole('radio') })
         this.saveButton = page.locator('form').filter({ hasText: 'Employee Full NameEmployee' }).getByRole('button')
         this.successfullySavedWarning = page.getByText('Successfully Updated×')
+    }
+
+    get url(): string {
+        return 'pim/viewPersonalDetails/empNumber/7'
     }
 
     async pageContains(text: string): Promise<boolean> {

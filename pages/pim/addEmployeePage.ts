@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage";
+import { BasePage } from "../basePage";
 
 export class AddEmployeePage extends BasePage {
 
@@ -16,6 +16,10 @@ export class AddEmployeePage extends BasePage {
         this.userIdTextbox = this.page.getByRole('textbox').nth(4)
         this.saveButton = this.page.getByRole('button', { name: 'Save' })
         this.successfullySavedWarning = this.page.getByText('Successfully Saved')
+    }
+
+    get url(): string {
+        return 'pim/addEmployee'
     }
 
     async createEmployee(firstname: string, lastname: string, id: string) {

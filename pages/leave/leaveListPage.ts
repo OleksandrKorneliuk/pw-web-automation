@@ -1,5 +1,5 @@
 import {Locator, Page} from '@playwright/test'
-import { BasePage } from '../BasePage'
+import { BasePage } from '../basePage'
 
 export class LeaveListPage extends BasePage {
 
@@ -8,6 +8,10 @@ export class LeaveListPage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.title = this.page.getByRole('heading', { name: 'Leave List' })
+    }
+
+    get url(): string {
+        return 'leave/viewLeaveList'
     }
 
     async titleIsVisible() {

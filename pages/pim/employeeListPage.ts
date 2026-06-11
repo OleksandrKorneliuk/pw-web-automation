@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage";
+import { BasePage } from "../basePage";
 
 export class EmployeeListPage extends BasePage {
 
@@ -18,6 +18,10 @@ export class EmployeeListPage extends BasePage {
         this.employeeIdTextbox = this.page.getByRole('textbox').nth(2)
         this.trashIcon = this.page.locator('.bi-trash').first()
         this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
+    }
+
+    get url(): string {
+        return 'pim/viewEmployeeList'
     }
 
     async searchEmployeeByName(name: string) {

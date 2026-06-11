@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test'
 import { test } from '../../fixtures/PageManager';
-import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { OrganizationPageOption } from '../../enums/pages/admin/OrganizationTabOption';
-import { AdminPageTab } from '../../enums/pages/admin/AdminPageTab';
+import { NavigationBarItem } from '../../enums/navigationBarItem';
+import { OrganizationPageOption } from '../../enums/pages/admin/organizationTabOption';
+import { AdminPageTab } from '../../enums/pages/admin/adminPageTab';
 
 test('create new organization sub-units', async ({ navigationBar, adminPage, organizationStructurePage }) => {
     test.setTimeout(45000)

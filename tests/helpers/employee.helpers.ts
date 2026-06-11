@@ -1,8 +1,8 @@
 import { Page } from "@playwright/test";
 import { NavigationBar } from "../../pages/components/navigationBar";
-import { NavigationBarItem } from "../../enums/NavigationBarItem";
+import { NavigationBarItem } from "../../enums/navigationBarItem";
 import { PimPage } from "../../pages/pim/PimPage";
-import { createRandomEmployee } from "../factorys/EmployeeFactory";
+import { createRandomEmployee } from "../factorys/employeeFactory";
 
 export async function addNewEmployeeViaUI(page: Page) {
     const navbar = new NavigationBar(page)

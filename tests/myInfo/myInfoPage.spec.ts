@@ -1,11 +1,11 @@
 import { expect } from '@playwright/test'
-import { NavigationBarItem } from '../../enums/NavigationBarItem'
+import { NavigationBarItem } from '../../enums/navigationBarItem'
 import { test } from '../../fixtures/PageManager'
 import { validEmployee } from '../../data/vailidEmployee'
 
 test.describe('My Info Page Tests', () => {
 
-    test('personal details are visible', async ({ page, navigationBar, myInfoPage }) => {
+    test('personal details are visible', async ({ navigationBar, myInfoPage }) => {
         await navigationBar.clickOnSection(NavigationBarItem.MY_INFO)
         expect(await myInfoPage.pageContains('Personal Details'))
         expect(await myInfoPage.pageContains('Employee Full Name'))

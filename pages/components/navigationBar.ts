@@ -1,16 +1,20 @@
 import {Page, Locator} from '@playwright/test'
-import { NavigationBarItem } from '../../enums/NavigationBarItem'
-import { BasePage } from '../BasePage'
+import { NavigationBarItem } from '../../enums/navigationBarItem'
+import { BaseComponent } from "./baseComponent";
 
-export class NavigationBar extends BasePage {
+export class NavigationBar extends BaseComponent {
 
     private allSections: Locator
     private searchBar: Locator
 
     constructor(page: Page) {
         super(page)
-        this.allSections = this.page.locator('.oxd-navbar-nav ul li')
-        this.searchBar = this.page.locator('[placeholder="Search"]')
+        this.allSections = this.root.getByRole('link')
+        this.searchBar = this.root.getByRole('textbox')
+    }
+
+    get root(): Locator {
+        return this.page.getByLabel('Sidepanel', { exact: true })
     }
 
     public getAllSections() {
