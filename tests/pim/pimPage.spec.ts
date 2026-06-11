@@ -35,7 +35,7 @@ test.describe('PIM Page Tests', () => {
         await expect(page.getByText(`${employee.id}`)).toBeVisible();
     });
 
-    test('deleting an employee', async ({ page, pimPage, addEmployeePage, employeeListPage }) => {
+    test('deleting an employee', async ({ page, addEmployeePage, employeeListPage }) => {
         const employee = await createEmployee(addEmployeePage);
         await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
 
