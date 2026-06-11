@@ -1,7 +1,8 @@
-import { Locator } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
+import { BaseComponent } from "./baseComponent";
 
-export class Calendar {
-    readonly root: Locator
+export class Calendar extends BaseComponent{
+
     readonly monthSelector: Locator
     readonly yearSelector: Locator
     readonly monthText: Locator
@@ -12,10 +13,10 @@ export class Calendar {
     readonly yearMenuItems: Locator
     readonly datesGrid: Locator
 
-    constructor(calendarRoot: Locator) {
-        this.root = calendarRoot
-        this.monthSelector = this.root.locator('li.oxd-calendar-selector-month')
-        this.yearSelector = this.root.locator('li.oxd-calendar-selector-year')
+    constructor(page: Page) {
+        super(page)
+        this.monthSelector = this.root.locator('.oxd-calendar-selector-month')
+        this.yearSelector = this.root.locator('.oxd-calendar-selector-year')
 
         this.monthText = this.monthSelector.locator('p')
         this.yearText = this.yearSelector.locator('p')
@@ -27,6 +28,10 @@ export class Calendar {
         this.yearMenuItems = this.yearSelector.getByRole('menu').locator('li')
 
         this.datesGrid = this.root.locator('.oxd-calendar-dates-grid')
+    }
+
+    get root(): Locator {
+        return this.page.locator('.oxd-date-input-calendar')
     }
 
     async selectDate(daysFromToday: number) {

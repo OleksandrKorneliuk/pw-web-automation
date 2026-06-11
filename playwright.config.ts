@@ -27,7 +27,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login',
+    baseURL: 'https://opensource-demo.orangehrmlive.com/web/index.php/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -36,11 +36,33 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      fullyParallel: true
+      name: 'setup',
+      testMatch: 'auth.setup.ts'
     },
-
+    {
+      name: 'new employee setup',
+      testMatch: /.*newEmployee\.setup\.ts/,
+      dependencies: ['setup']
+    },
+    {
+      name: 'add new employee',
+      testMatch: 'pimPage.spec.ts',
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json' },
+      dependencies: ['new employee setup']
+    },
+    {
+      name: 'chromium',
+      use: { 
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+       },
+      dependencies: ['setup']
+    },
+    {
+      name: 'chromium-no-auth',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: 'loginPage.spec.ts'
+    },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },

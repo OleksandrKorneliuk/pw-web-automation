@@ -1,8 +1,8 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage";
-import { UserDropdownMenuItem } from "../../enums/UserDropdownMenuItem";
+import { UserDropdownMenuItem } from "../../enums/userDropdownMenuItem";
+import { BaseComponent } from "./baseComponent";
 
-export class UserDropdownTab extends BasePage {
+export class UserDropdownTab extends BaseComponent {
 
     readonly userDropdownMenu: Locator
     readonly allSections: Locator
@@ -10,7 +10,11 @@ export class UserDropdownTab extends BasePage {
     constructor(page: Page) {
         super(page)
         this.userDropdownMenu = this.page.locator('header ul li')
-        this.allSections = this.userDropdownMenu.locator('ul li')
+        this.allSections = this.root.getByRole('menuitem')
+    }
+
+    get root(): Locator {
+        return this.page.getByRole('menu')
     }
 
     async clickOnUserDropdownMenu() {

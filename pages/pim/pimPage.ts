@@ -1,8 +1,8 @@
 import { Locator, Page } from "@playwright/test";
-import { PimPageItem } from "../../enums/pages/pim/PimPageItem";
-import { BasePage } from "../BasePage";
-import { AddEmployeePage } from "./AddEmployeePage";
-import { EmployeeListPage } from "./EmployeeListPage";
+import { PimPageItem } from "../../enums/pages/pim/pimPageItem";
+import { BasePage } from "../basePage";
+import { AddEmployeePage } from "./addEmployeePage";
+import { EmployeeListPage } from "./employeeListPage";
 
 export class PimPage extends BasePage {
 
@@ -11,6 +11,10 @@ export class PimPage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.navigationListItem = this.page.locator('header ul li')
+    }
+
+    get url(): string {
+        return 'pim/viewEmployeeList'
     }
 
     async navigateToAddEmployeeTab() {

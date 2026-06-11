@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 import { test } from '../fixtures/PageManager'
-import { UserDropdownMenuItem } from '../enums/UserDropdownMenuItem'
+import { UserDropdownMenuItem } from '../enums/userDropdownMenuItem'
 
 test('navigate to support page', async ({ page, userDropdownTab, supportPage }) => {
     await userDropdownTab.clickOnUserDropdownMenu()

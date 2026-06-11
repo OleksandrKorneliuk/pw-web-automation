@@ -1,12 +1,9 @@
 import { expect } from '@playwright/test'
 import { test } from '../../fixtures/PageManager'
-import { NavigationBar } from '../../pages/components/navigationBar';
-import { NavigationBarItem } from '../../enums/NavigationBarItem';
-import { LeavePage } from '../../pages/leave/LeavePage';
-import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab';
-import { AssignLeavePage } from '../../pages/leave/AssignLeavePage';
+import { NavigationBarItem } from '../../enums/navigationBarItem';
+import { LeavePageTab } from '../../enums/pages/leave/leavePageTab';
 import { addNewEmployeeViaUI, deleteEmployeeViaUI } from '../helpers/employee.helpers';
-import { LeaveTypeOptions } from '../../enums/pages/leave/LeaveTypeOptions';
+import { LeaveTypeOptions } from '../../enums/pages/leave/leaveTypeOptions';
 
 test('navigate to assign leave page', async ({ navigationBar, leavePage, assignLeavePage }) => {
     await navigationBar.clickOnSection(NavigationBarItem.LEAVE)

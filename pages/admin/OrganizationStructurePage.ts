@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test'
-import { BasePage } from '../BasePage';
+import { BasePage } from '../basePage';
 
 export class OrganizationStructurePage extends BasePage {
 
@@ -26,6 +26,10 @@ export class OrganizationStructurePage extends BasePage {
         this.deleteUnitButton = this.page.locator('.--parent.--last > .oxd-tree-node-content > .oxd-sheet > .org-action > button').first()
         this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
         this.successfullyDeletedWarning = this.page.getByText('SuccessSuccessfully Deleted×')
+    }
+
+    get url(): string {
+        return 'admin/viewCompanyStructure'
     }
 
     async titleIsVisible(name: string) {

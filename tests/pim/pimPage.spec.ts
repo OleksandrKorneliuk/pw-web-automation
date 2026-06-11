@@ -1,7 +1,10 @@
 import { expect } from '@playwright/test';
-import { test } from '../../fixtures/PageManager'
-import { faker } from '@faker-js/faker'
-import { NavigationBarItem } from '../../enums/NavigationBarItem';
+import { test } from '../../fixtures/employee'
+import { NavigationBarItem } from '../../enums/navigationBarItem'
+import { createRandomEmployee } from '../factorys/employeeFactory';
+import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
+import { EmployeeListPage } from '../../pages/pim/employeeListPage';
+import { Employee } from '../../models/employee';
 
 test.describe('PIM Page Tests', () => {
 
@@ -11,54 +14,46 @@ test.describe('PIM Page Tests', () => {
         await expect(page).toHaveURL(/\/pim\/addEmployee$/);
     });
 
-    test('add a new employee', async ({ page, navigationBar, pimPage, addEmployeePage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
-        await pimPage.navigateToAddEmployeeTab();
-
-        let firstName = faker.person.firstName()
-        let lastName = faker.person.lastName()
-        let employeeId = '9' + faker.string.numeric(8)
-        await addEmployeePage.createEmployee(firstName, lastName, employeeId);
+    test('add a new employee', async ({ page, addEmployeePage, employeeListPage }) => {
+        await addEmployeePage.goto()
+        const employee = await createEmployee(addEmployeePage);
 
         await expect(page.getByText('Successfully Saved')).toBeVisible();
         await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
+
+        await deleteEmployee(employee, employeeListPage);
+        await expect(page.getByText('Successfully Deleted')).toBeVisible();
     });
 
-    test('searching for a new employee', async ({ page, navigationBar, pimPage, addEmployeePage, employeeListPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
-        await pimPage.navigateToAddEmployeeTab()
-
-        const firstName = faker.person.firstName()
-        const lastName = faker.person.lastName()
-        const employeeId = '9' + faker.string.numeric(8)
-        await addEmployeePage.createEmployee(firstName, lastName, employeeId);
-
-        // await expect(page.getByText('Successfully Saved')).toBeVisible();
-        // await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
-
-        await pimPage.navigateToEmployeeListTab();
+    test('searching for a new employee by name', async ({ page, employeeListPage, employee }) => {
+        await employeeListPage.goto();
         await expect(page.getByRole('heading', { name: 'Employee Information' })).toBeVisible();
 
-        const employeeFullName = `${firstName} ${lastName}`
+        const employeeFullName = `${employee.firstName} ${employee.lastName}`
         await employeeListPage.searchEmployeeByName(employeeFullName);
-        await expect(page.getByText(employeeId)).toBeVisible();
+
+        await expect(page.getByText(`${employee.id}`)).toBeVisible();
     });
 
-    test('deleting an employee', async ({ page, navigationBar, pimPage, addEmployeePage, employeeListPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
-        await pimPage.navigateToAddEmployeeTab();
+    test('deleting an employee', async ({ page, pimPage, addEmployeePage, employeeListPage }) => {
+        const employee = await createEmployee(addEmployeePage);
+        await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
 
-        const firstName = faker.person.firstName()
-        const lastName = faker.person.lastName()
-        const employeeId = '9' + faker.string.numeric(8)
-        await addEmployeePage.createEmployee(firstName, lastName, employeeId);
-
-        // await expect(page.getByText('Successfully Saved')).toBeVisible();
-        // await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
-
-        await pimPage.navigateToEmployeeListTab();
-        const employeeFullName = `${firstName} ${lastName}`
-        await employeeListPage.deleteEmployeeByName(employeeFullName);
+        await deleteEmployee(employee, employeeListPage);
         await expect(page.getByText('Successfully Deleted')).toBeVisible();
     });
 });
+
+async function createEmployee(addEmployeePage: AddEmployeePage) {
+    await addEmployeePage.goto();
+
+    const employee = await createRandomEmployee();
+    await addEmployeePage.createEmployee(employee.firstName, employee.lastName, employee.id);
+    return employee;
+}
+
+async function deleteEmployee(employee: Employee, employeeListPage: EmployeeListPage) {
+    await employeeListPage.goto();
+    const employeeFullName = `${employee.firstName} ${employee.lastName}`;
+    await employeeListPage.deleteEmployeeByName(employeeFullName);
+}

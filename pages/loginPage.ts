@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { BasePage } from './BasePage';
+import { BasePage } from './basePage';
 
 export class LoginPage extends BasePage {
 
@@ -11,11 +11,15 @@ export class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page)
-        this.usernameInput = this.page.locator('input[name="username"]')
-        this.passwordInput = this.page.locator('input[name="password"]')
-        this.submitButton = this.page.locator('button[type="submit"]')
-        this.errorMessage = this.page.getByRole('alert');
-        this.title = this.page.locator('h5', {hasText: 'Login'})
+        this.usernameInput = this.page.getByRole('textbox', { name: 'Username' })
+        this.passwordInput = this.page.getByRole('textbox', { name: 'Password' })
+        this.submitButton = this.page.getByRole('button', { name: 'Login' })
+        this.errorMessage = this.page.getByRole('alert')
+        this.title = this.page.getByRole('heading')
+    }
+
+    get url(): string {
+        return 'auth/login'
     }
 
     async login(username: string, password: string) {
@@ -34,7 +38,7 @@ export class LoginPage extends BasePage {
     }
 
     async titleIsVisible() {
-        await this.title.waitFor({state: 'visible'})
+        await this.title.waitFor({ state: 'visible' })
         return await this.title.isVisible()
     }
 }

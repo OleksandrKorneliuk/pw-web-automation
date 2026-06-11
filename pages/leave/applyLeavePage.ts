@@ -1,13 +1,17 @@
 import {Locator, Page} from '@playwright/test'
-import { BasePage } from '../BasePage'
+import { BasePage } from '../basePage'
 
-export class ApplyPage extends BasePage {
+export class ApplyLeavePage extends BasePage {
 
     readonly title: Locator
 
     constructor(page: Page) {
         super(page)
         this.title = this.page.getByRole('heading', { name: 'Apply Leave' })
+    }
+
+    get url(): string {
+        return 'leave/applyLeave'
     }
 
     async titleIsVisible() {

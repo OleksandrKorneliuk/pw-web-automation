@@ -1,6 +1,6 @@
 import { Page, Locator } from '@playwright/test'
-import { LeavePageTab } from '../../enums/pages/leave/LeavePageTab'
-import { BasePage } from '../BasePage'
+import { LeavePageTab } from '../../enums/pages/leave/leavePageTab'
+import { BasePage } from '../basePage'
 
 export class LeavePage extends BasePage {
 
@@ -9,6 +9,10 @@ export class LeavePage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.navigationListItem = this.page.locator('header ul li')
+    }
+
+    get url(): string {
+        return 'leave/viewLeaveList'
     }
 
     async clickItem(listItem: LeavePageTab) {

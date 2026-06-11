@@ -1,7 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { AddSystenUserPage } from './addSystemUserPage';
-import { EditUserPage } from './EditUserPage';
-import { BasePage } from '../BasePage';
+import { BasePage } from '../basePage';
 
 export class UserManagementPage extends BasePage {
 
@@ -20,6 +18,10 @@ export class UserManagementPage extends BasePage {
         this.editEmployeeButton = this.page.locator('.oxd-table-card').first().locator('i.bi-pencil-fill')
         this.deleteEmployeeButton = this.page.locator('.oxd-table-card').first().locator('button').first()
         this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
+    }
+
+    get url(): string {
+        return 'admin/viewSystemUsers'
     }
 
     async clickAddButton() {
@@ -42,5 +44,4 @@ export class UserManagementPage extends BasePage {
         await this.deleteEmployeeButton.click()
         await this.confirmDeletionButton.click()
     }
-
 }

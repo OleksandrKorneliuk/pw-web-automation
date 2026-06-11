@@ -1,5 +1,5 @@
 import {Locator, Page} from '@playwright/test';
-import { BasePage } from '../BasePage';
+import { BasePage } from '../basePage';
 
 export class AddSystenUserPage extends BasePage {
 
@@ -30,11 +30,14 @@ export class AddSystenUserPage extends BasePage {
         this.saveButton = this.page.getByRole('button', { name: 'Save' })
     }
 
+    get url(): string {
+        return 'admin/saveSystemUser'
+    }
+
     async addUserAsAdmin(fullName: string) {
         await this.selectUserRoleDropdownMenuIcon.click()
         await this.adminRoleOption.click()
         await this.employeeNameTextBox.fill(fullName)
-        await this.page.waitForTimeout(5000)
         await this.employeeNameSuggestion.click()
         await this.selectUserStatusDropdownMenuIcon.click()
         await this.enabledOption.click()

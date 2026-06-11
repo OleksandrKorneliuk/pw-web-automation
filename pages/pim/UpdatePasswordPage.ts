@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "../BasePage";
+import { BasePage } from "../basePage";
 
 export class UpdatePasswordPage extends BasePage {
 
@@ -8,6 +8,10 @@ export class UpdatePasswordPage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.title = this.page.locator('h6', {hasText: 'Update Password'})
+    }
+
+    get url(): string{
+        return 'pim/updatePassword'
     }
 
     async titleIsVisible() {

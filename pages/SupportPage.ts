@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { BasePage } from "./basePage";
 
 export class SupportPage extends BasePage {
 
@@ -8,6 +8,10 @@ export class SupportPage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.title = this.page.locator('h6', {hasText: 'Getting Started with OrangeHRM'})
+    }
+
+    get url(): string {
+        return 'help/support'
     }
 
     async titleIsVisible() {
