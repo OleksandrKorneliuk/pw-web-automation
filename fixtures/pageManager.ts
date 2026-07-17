@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 import { AdminPage } from '../pages/admin/adminPage';
-import { OrganizationStructurePage } from '../pages/admin/organizationStructurePage';
+import { OrganizationStructurePage } from '../pages/admin/OrganizationStructurePage';
 import { NavigationBar } from '../pages/components/navigationBar';
 import { PimPage } from '../pages/pim/PimPage';
 import { AddEmployeePage } from '../pages/pim/addEmployeePage';

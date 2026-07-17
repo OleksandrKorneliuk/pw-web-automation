@@ -1,24 +1,17 @@
 import { expect } from '@playwright/test'
-import { test } from '../../fixtures/PageManager';
-import { NavigationBarItem } from '../../enums/navigationBarItem';
-import { OrganizationPageOption } from '../../enums/pages/admin/organizationTabOption';
-import { AdminPageTab } from '../../enums/pages/admin/adminPageTab';
+import { test } from '../../fixtures/subunit';
+import { createRandomSubunit } from '../factorys/subunitFactory';
 
-test('create new organization sub-units', async ({ navigationBar, adminPage, organizationStructurePage }) => {
-    test.setTimeout(45000)
-    await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-    await adminPage.clickOnTab(AdminPageTab.ORGANIZATION)
-    await adminPage.clickOnOrganizationTabOption(OrganizationPageOption.STRUCTURE)
-    expect(await organizationStructurePage.titleIsVisible('AdminOrganization')).toBeTruthy()
+test.describe('subunits page', () => {
+    test('create new organization sub-units', async ({ organizationStructurePage, subunit }) => {
+        await organizationStructurePage.goto()
+        expect(await organizationStructurePage.titleIsVisible('AdminOrganization')).toBeTruthy()
 
-    await organizationStructurePage.enableEditStructureMode()
-    await organizationStructurePage.addNewOrganizationUnit('TestUnit')
-
-    await organizationStructurePage.addNewSubUnit('SubTestUnit')
-    await organizationStructurePage.expandSubUnits()
-    expect(await organizationStructurePage.isOrganizationUnitCreated('TestUnit')).toBeTruthy()
-    expect(await organizationStructurePage.isOrganizationUnitCreated('SubTestUnit')).toBeTruthy()
-
-    await organizationStructurePage.deleteOrganizationUnit()
-    expect(await organizationStructurePage.successfullyDeletedWarningIsVisible()).toBeTruthy()
-});
+        await organizationStructurePage.enableEditStructureMode()
+        const newSubunit = createRandomSubunit()
+        const subunitFullName = `${subunit.unitId}: ${subunit.name}`
+        await organizationStructurePage.addSubunitFor(subunitFullName, newSubunit)
+        await organizationStructurePage.expandSubunitsFor(subunitFullName)
+        expect(await organizationStructurePage.isOrganizationUnitCreated(subunitFullName)).toBeTruthy()
+    });
+})

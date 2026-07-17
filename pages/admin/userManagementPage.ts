@@ -13,7 +13,7 @@ export class UserManagementPage extends BasePage {
     constructor(page: Page) {
         super(page)
         this.addButton = this.page.getByRole('button').filter({ hasText: ' Add ' })
-        this.usernameTextbox = this.page.getByRole('textbox').nth(2)
+        this.usernameTextbox = this.page.getByRole('textbox').nth(1)
         this.searchButton = this.page.getByRole('button', { name: 'Search' })
         this.editEmployeeButton = this.page.locator('.oxd-table-card').first().locator('i.bi-pencil-fill')
         this.deleteEmployeeButton = this.page.locator('.oxd-table-card').first().locator('button').first()
@@ -28,15 +28,14 @@ export class UserManagementPage extends BasePage {
         await this.addButton.click()
     }
 
-    async searchUserByFullName(fullName: string) {
-        await this.usernameTextbox.fill(fullName)
-        await this.page.getByRole('option', { name: fullName }).first().click()
-        await this.searchButton.click()
-    }
-
-    async gotToEditUserPageForUser(fullName: string) {
+    async goToEditUserPageForUser(fullName: string) {
         await this.searchUserByFullName(fullName)
         await this.editEmployeeButton.click();
+    }
+
+    async searchUserByFullName(fullName: string) {
+        await this.usernameTextbox.fill(fullName)
+        await this.searchButton.click()
     }
 
     async deleteSystemUserByFulName(fullName: string) {

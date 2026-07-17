@@ -5,11 +5,11 @@ export abstract class BasePage {
     readonly page: Page
 
     constructor(page: Page) {
-        this.page = page
+        this.page = page;
     }
 
     async goto(): Promise<void> {
-        await this.page.goto(this.url)
+        await this.page.goto(this.url);
     }
 
     abstract get url(): string;

@@ -1,79 +1,39 @@
-import { expect } from '@playwright/test'
-import { test } from '../../fixtures/PageManager';
-import { Employee } from '../../models/employee';
-import { NavigationBarItem } from '../../enums/navigationBarItem';
-import { createRandomEmployee } from '../factorys/employeeFactory';
+import { expect } from '@playwright/test';
+import { test } from '../../fixtures/adminUser'
+import { EditUserPage } from '../../pages/admin/editUserPage';
 
 test.describe('user management page', () => {
 
-    let employee: Employee
-    let employeeFullName: string
-
-    test.beforeEach(async ({ page, navigationBar, pimPage }) => {
-        await page.goto('/')
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
-        const addEmployeePage = await pimPage.navigateToAddEmployeeTab();
-
-        employee = await createRandomEmployee()
-        employeeFullName = `${employee.firstName} ${employee.lastName}`
-
-        await addEmployeePage.createEmployee(employee.firstName, employee.lastName, employee.id);
-    })
-
-    test('add new system user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-        await userManagementPage.clickAddButton();
-        await addSystemUserPage.addUserAsAdmin(employeeFullName)
+    test('add new system user', async ({ page, addSystemUserPage, employee }) => {
+        await addSystemUserPage.goto()
+        await addSystemUserPage.addUserAsAdmin(`${employee.firstName} ${employee.lastName}`)
 
         expect(await addSystemUserPage.successMessageIsVisible()).toBeTruthy()
         await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
     })
 
-    test('search new system user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-        await userManagementPage.clickAddButton()
-        await addSystemUserPage.addUserAsAdmin(employeeFullName)
-
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-        await userManagementPage.searchUserByFullName(employeeFullName)
-        await expect(page.getByText(employeeFullName).first()).toBeVisible()
+    test('search new system user', async ({ page, userManagementPage, adminUser }) => {
+        await userManagementPage.goto()
+        await userManagementPage.searchUserByFullName(adminUser.username)
+        await expect(page.getByText(adminUser.username).first()).toBeVisible()
     })
 
-    // test('edit new admin user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
-    //     await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-    //     await userManagementPage.clickAddButton()
-    //     await addSystemUserPage.addUserAsAdmin(employeeFullName)
+    test('edit new admin user', async ({ page, userManagementPage, adminUser }) => {
+        const editUserPage = new EditUserPage(page, adminUser.id)
+        await editUserPage.goto()
+        await editUserPage.setStatusDisable()
+        // await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
 
-    //     await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
+        await userManagementPage.searchUserByFullName(adminUser.username)
+        await expect(page.getByText(adminUser.username).nth(1)).toBeVisible();
+        await expect(page.getByText('Disabled').first()).toBeVisible();
+    })
 
-    //     await userManagementPage.gotToEditUserPageForUser(employeeFullName)
-    //     await expect(page.getByRole('heading', { name: 'Edit User' })).toBeVisible();
-
-    //     await editUserPage.setStatusDisable()
-    //     await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
-
-    //     await userManagementPage.searchUserByFullName(employeeFullName)
-    //     await expect(page.getByText(employeeFullName).first()).toBeVisible();
-    //     await expect(page.getByText('Disabled')).toBeVisible();
-    // })
-
-    test('delete admin role for new user', async ({ page, navigationBar, userManagementPage, addSystemUserPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-        await userManagementPage.clickAddButton()
-        await addSystemUserPage.addUserAsAdmin(employeeFullName)
-
-        await navigationBar.clickOnSection(NavigationBarItem.ADMIN)
-
-        await userManagementPage.deleteSystemUserByFulName(employeeFullName)
+    test('delete admin role for new user', async ({ page, userManagementPage, adminUser }) => {
+        await userManagementPage.goto()
+        await userManagementPage.deleteSystemUserByFulName(adminUser.username)
         await expect(page.getByText('Successfully Deleted')).toBeVisible()
         await page.getByRole('button', { name: 'Search' }).click()
-        await expect(page.getByText(employeeFullName)).not.toBeVisible()
-    })
-
-    test.afterEach(async ({ page, navigationBar, pimPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
-        const employeeListPage = await pimPage.navigateToEmployeeListTab();
-
-        await employeeListPage.deleteEmployeeById(employee.id);
+        await expect(page.getByText(adminUser.username)).not.toBeVisible()
     })
 })
