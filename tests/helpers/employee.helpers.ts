@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 import { NavigationBar } from "../../pages/components/navigationBar";
 import { NavigationBarItem } from "../../enums/navigationBarItem";
 import { PimPage } from "../../pages/pim/PimPage";
-import { createRandomEmployee } from "../factorys/employeeFactory";
+import { createRandomEmployeeData } from "../factorys/employeeDataFactory";
 
 export async function addNewEmployeeViaUI(page: Page) {
     const navbar = new NavigationBar(page)
@@ -10,7 +10,7 @@ export async function addNewEmployeeViaUI(page: Page) {
     const pimPage = new PimPage(page)
     const addEmployeePage = await pimPage.navigateToAddEmployeeTab()
 
-    const employee = await createRandomEmployee()
+    const employee = createRandomEmployeeData()
 
     await addEmployeePage.createEmployee(employee.firstName, employee.lastName, employee.id)
 

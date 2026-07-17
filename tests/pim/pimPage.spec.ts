@@ -1,10 +1,9 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/employee'
 import { NavigationBarItem } from '../../enums/navigationBarItem'
-import { createRandomEmployee } from '../factorys/employeeFactory';
+import { createRandomEmployeeData } from '../factorys/employeeDataFactory';
 import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
 import { EmployeeListPage } from '../../pages/pim/employeeListPage';
-import { Employee } from '../../models/employee';
 
 test.describe('PIM Page Tests', () => {
 
@@ -36,10 +35,10 @@ test.describe('PIM Page Tests', () => {
     });
 
     test('deleting an employee', async ({ page, addEmployeePage, employeeListPage }) => {
-        const employee = await createEmployee(addEmployeePage);
+        const employeeData = await createEmployee(addEmployeePage);
         await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
 
-        await deleteEmployee(employee, employeeListPage);
+        await deleteEmployee(employeeData, employeeListPage);
         await expect(page.getByText('Successfully Deleted')).toBeVisible();
     });
 });
@@ -47,13 +46,13 @@ test.describe('PIM Page Tests', () => {
 async function createEmployee(addEmployeePage: AddEmployeePage) {
     await addEmployeePage.goto();
 
-    const employee = await createRandomEmployee();
-    await addEmployeePage.createEmployee(employee.firstName, employee.lastName, employee.id);
-    return employee;
+    const employeeData = createRandomEmployeeData();
+    await addEmployeePage.createEmployee(employeeData.firstName, employeeData.lastName, employeeData.id);
+    return employeeData;
 }
 
-async function deleteEmployee(employee: Employee, employeeListPage: EmployeeListPage) {
+async function deleteEmployee(employeeData: {firstName: string, lastName: string, id: string}, employeeListPage: EmployeeListPage) {
     await employeeListPage.goto();
-    const employeeFullName = `${employee.firstName} ${employee.lastName}`;
+    const employeeFullName = `${employeeData.firstName} ${employeeData.lastName}`;
     await employeeListPage.deleteEmployeeByName(employeeFullName);
 }

@@ -40,17 +40,6 @@ export default defineConfig({
       testMatch: 'auth.setup.ts'
     },
     {
-      name: 'new employee setup',
-      testMatch: /.*newEmployee\.setup\.ts/,
-      dependencies: ['setup']
-    },
-    {
-      name: 'add new employee',
-      testMatch: 'pimPage.spec.ts',
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json' },
-      dependencies: ['new employee setup']
-    },
-    {
       name: 'chromium',
       use: { 
         ...devices['Desktop Chrome'],
