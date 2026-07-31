@@ -5,7 +5,7 @@ import { UserData } from "../../models/userData";
 
 export function createUserData(employee: Employee, role: UserRole, isEnabled: boolean): UserData {
     return {
-        username: `${employee.firstName} ${employee.lastName}`,
+        username: `${employee.firstName.toLowerCase()}_${employee.lastName.toLowerCase()}${faker.number.int(9999)}`,
         password: faker.internet.password(),
         isEnabled: isEnabled,
         userRoleId: role,

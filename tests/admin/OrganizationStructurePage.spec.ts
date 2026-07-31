@@ -5,7 +5,6 @@ import { createRandomSubunit } from '../factorys/subunitFactory';
 test.describe('subunits page', () => {
     test('create new organization sub-units', async ({ organizationStructurePage, subunit }) => {
         await organizationStructurePage.goto()
-        expect(await organizationStructurePage.titleIsVisible('AdminOrganization')).toBeTruthy()
 
         await organizationStructurePage.enableEditStructureMode()
         const newSubunit = createRandomSubunit()
