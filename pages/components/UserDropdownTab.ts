@@ -9,7 +9,7 @@ export class UserDropdownTab extends BaseComponent {
 
     constructor(page: Page) {
         super(page)
-        this.userDropdownMenu = this.page.locator('header ul li')
+        this.userDropdownMenu = this.page.locator('header .oxd-topbar-header-userarea li')
         this.allSections = this.root.getByRole('menuitem')
     }
 

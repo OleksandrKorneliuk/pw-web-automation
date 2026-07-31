@@ -1,20 +1,24 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/adminUser'
 import { EditUserPage } from '../../pages/admin/editUserPage';
+import { createApiContext } from '../../helpers/apiContext.helper';
+import { UserService } from '../../api/services/userService';
+import { createUserData } from '../factorys/userDataFactory';
+import { UserRole } from '../../enums/userRole';
 
 test.describe('user management page', () => {
 
-    test('add new system user', async ({ page, addSystemUserPage, employee }) => {
+    test('add new system user', async ({ addSystemUserPage, userManagementPage, employee }) => {
         await addSystemUserPage.goto()
         await addSystemUserPage.addUserAsAdmin(`${employee.firstName} ${employee.lastName}`)
 
         expect(await addSystemUserPage.successMessageIsVisible()).toBeTruthy()
-        await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
+        await userManagementPage.header.waitFor({state: 'visible'})
     })
 
     test('search new system user', async ({ page, userManagementPage, adminUser }) => {
         await userManagementPage.goto()
-        await userManagementPage.searchUserByFullName(adminUser.username)
+        await userManagementPage.searchUserByUsername(adminUser.username)
         await expect(page.getByText(adminUser.username).first()).toBeVisible()
     })
 
@@ -22,18 +26,24 @@ test.describe('user management page', () => {
         const editUserPage = new EditUserPage(page, adminUser.id)
         await editUserPage.goto()
         await editUserPage.setStatusDisable()
-        // await expect(page.getByRole('heading', { name: 'System Users' })).toBeVisible();
+        await userManagementPage.header.waitFor({state: 'visible'})
 
-        await userManagementPage.searchUserByFullName(adminUser.username)
-        await expect(page.getByText(adminUser.username).nth(1)).toBeVisible();
-        await expect(page.getByText('Disabled').first()).toBeVisible();
+        await userManagementPage.searchUserByUsername(adminUser.username)
+        await expect(userManagementPage.tableCard.filter({hasText: adminUser.username})).toBeVisible();
+        await expect(userManagementPage.tableCard.filter({hasText: adminUser.username})).toContainText('Disabled')
     })
 
-    test('delete admin role for new user', async ({ page, userManagementPage, adminUser }) => {
+    test('delete admin role for new user', async ({ page, userManagementPage, employee }) => {
+        const apiContext = await createApiContext()
+
+        const userService = new UserService(apiContext)
+        const adminUserData = createUserData(employee, UserRole.ADMIN, true)
+        const adminUser = await userService.addUserAndExpect(adminUserData)
+
         await userManagementPage.goto()
-        await userManagementPage.deleteSystemUserByFulName(adminUser.username)
-        await expect(page.getByText('Successfully Deleted')).toBeVisible()
-        await page.getByRole('button', { name: 'Search' }).click()
+        await userManagementPage.deleteSystemUserByUsername(adminUser.username)
+        await expect(userManagementPage.successfullyDeletedMessage).toBeVisible()
+        await userManagementPage.searchButton.click()
         await expect(page.getByText(adminUser.username)).not.toBeVisible()
     })
 })

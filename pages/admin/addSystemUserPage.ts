@@ -7,7 +7,6 @@ export class AddSystenUserPage extends BasePage {
     readonly selectUserRoleDropdownMenuIcon: Locator
     readonly adminRoleOption: Locator
     readonly employeeNameTextBox: Locator
-    readonly employeeNameSuggestion: Locator
     readonly selectUserStatusDropdownMenuIcon: Locator
     readonly enabledOption: Locator
     readonly usernameTextbox: Locator
@@ -21,7 +20,6 @@ export class AddSystenUserPage extends BasePage {
         this.selectUserRoleDropdownMenuIcon = this.page.locator('form i').first()
         this.adminRoleOption = this.page.getByRole('option', { name: 'Admin' }).locator('span')
         this.employeeNameTextBox = this.page.getByRole('textbox', { name: 'Type for hints...' })
-        this.employeeNameSuggestion = this.page.getByRole('option').first()
         this.selectUserStatusDropdownMenuIcon = this.page.locator('form i').nth(1)
         this.enabledOption = this.page.getByText('Enabled')
         this.usernameTextbox = this.page.getByRole('textbox').nth(2)
@@ -38,7 +36,7 @@ export class AddSystenUserPage extends BasePage {
         await this.selectUserRoleDropdownMenuIcon.click()
         await this.adminRoleOption.click()
         await this.employeeNameTextBox.fill(fullName)
-        await this.employeeNameSuggestion.click()
+        await this.page.getByRole('option', { name: fullName }).click()
         await this.selectUserStatusDropdownMenuIcon.click()
         await this.enabledOption.click()
         await this.usernameTextbox.fill(fullName)
