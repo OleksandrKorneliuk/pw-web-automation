@@ -1,4 +1,4 @@
-export enum NavigationBarItem {
+export enum NavigationBarTab {
     ADMIN = 'Admin',
     PIM = 'PIM',
     LEAVE = 'Leave',

@@ -13,9 +13,4 @@ export class ApplyLeavePage extends BasePage {
     get url(): string {
         return 'leave/applyLeave'
     }
-
-    async titleIsVisible() {
-        await this.title.waitFor({state: 'visible'})
-        return await this.title.isVisible()
-    }
 }

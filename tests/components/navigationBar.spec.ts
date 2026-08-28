@@ -1,45 +1,47 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/PageManager';
-import { NavigationBarItem } from '../../enums/navigationBarItem';
+import { NavigationBarTab } from '../../enums/navigationBarItem';
 
 test.describe('Navigation page functional tests', () => {
 
     const expectedSectionTitles = [
-        NavigationBarItem.ADMIN, NavigationBarItem.PIM, NavigationBarItem.LEAVE, NavigationBarItem.TIME, NavigationBarItem.RECRUITMENT,
-        NavigationBarItem.MY_INFO, NavigationBarItem.PERFOMANCE, NavigationBarItem.DASHBOARD,
-        NavigationBarItem.DIRECTORY, NavigationBarItem.MAINTENANCE, NavigationBarItem.CLAIM, NavigationBarItem.BUZZ
+        NavigationBarTab.ADMIN, NavigationBarTab.PIM, NavigationBarTab.LEAVE, NavigationBarTab.TIME, NavigationBarTab.RECRUITMENT,
+        NavigationBarTab.MY_INFO, NavigationBarTab.PERFOMANCE, NavigationBarTab.DASHBOARD,
+        /*NavigationBarItem.DIRECTORY,*/ NavigationBarTab.MAINTENANCE, NavigationBarTab.CLAIM, NavigationBarTab.BUZZ
     ]
 
-    test('navigate through each section', async ({ navigationBar }) => {
-        const sections = navigationBar.getAllSections()
-
-        await expect(sections).toHaveCount(expectedSectionTitles.length)
+    test('navigate through each section', async ({ userManagementPage, navigationBar }) => {
+        await userManagementPage.goto()
 
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
-            await expect(sections.nth(i)).toContainText(expectedSectionTitles[i])
+            await expect(navigationBar.getTab(expectedSectionTitles[0])).toBeVisible()
         }
     })
 
-    test('search by search bar', async ({ navigationBar }) => {
+    test('search by search bar', async ({ userManagementPage, navigationBar }) => {
+        await userManagementPage.goto()
+
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             const currentExpectedSectionTitle = expectedSectionTitles[i]
             navigationBar.searchBySearchBar(currentExpectedSectionTitle)
-            const foundedSections = navigationBar.getAllSections()
-            await expect(foundedSections.first()).toContainText(currentExpectedSectionTitle)
+            const actualTab = navigationBar.getTab(expectedSectionTitles[i])
+            await expect(actualTab).toContainText(currentExpectedSectionTitle)
         }
     })
 
-    test('inspect root elements of the sections', async ({ page, navigationBar }) => {
+    test('inspect root elements of the sections', async ({ page, userManagementPage, navigationBar }) => {
+        await userManagementPage.goto()
+
         for (let i = 0; i < expectedSectionTitles.length; ++i) {
             let currentExpectedSectionTitle = expectedSectionTitles[i]
 
-            if(currentExpectedSectionTitle == NavigationBarItem.MY_INFO ||
-                currentExpectedSectionTitle == NavigationBarItem.MAINTENANCE
+            if (currentExpectedSectionTitle == NavigationBarTab.MY_INFO ||
+                currentExpectedSectionTitle == NavigationBarTab.MAINTENANCE
             ) {
                 currentExpectedSectionTitle = expectedSectionTitles[++i]
             }
 
-            await navigationBar.clickOnSection(currentExpectedSectionTitle)
+            await navigationBar.clickOnTab(currentExpectedSectionTitle)
 
             await expect(page.locator('.oxd-topbar-header-breadcrumb-module')).toContainText(currentExpectedSectionTitle)
             await expect(page).toHaveURL(

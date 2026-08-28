@@ -13,9 +13,4 @@ export class MyLeavePage extends BasePage {
     get url(): string {
         return 'leave/viewMyLeaveList'
     }
-
-    async titleIsVisible() {
-        await this.title.waitFor({state: 'visible'})
-        return await this.title.isVisible()
-    }
 }

@@ -7,5 +7,5 @@ test('navigate to update password page', async ({ myInfoPage, userDropdownTab, u
     await userDropdownTab.clickOnUserDropdownMenu()
     await userDropdownTab.clickOnSection(UserDropdownMenuItem.CHANGE_PASSWORD)
 
-    expect(await updatePasswordPage.titleIsVisible()).toBeTruthy()
+    await expect(updatePasswordPage.title).toBeVisible()
 })

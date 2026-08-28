@@ -1,14 +1,14 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/employee'
-import { NavigationBarItem } from '../../enums/navigationBarItem'
+import { NavigationBarTab } from '../../enums/navigationBarItem'
 import { createRandomEmployeeData } from '../factorys/employeeDataFactory';
 import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
 import { EmployeeListPage } from '../../pages/pim/employeeListPage';
 
 test.describe('PIM Page Tests', () => {
 
-    test('should navigate to Add Employee tab', async ({ page, navigationBar, pimPage }) => {
-        await navigationBar.clickOnSection(NavigationBarItem.PIM)
+    test('should navigate to Add Employee tab', async ({ page, pimPage }) => {
+        await pimPage.goto();
         await pimPage.navigateToAddEmployeeTab();
         await expect(page).toHaveURL(/\/pim\/addEmployee$/);
     });

@@ -7,6 +7,7 @@ export class MyInfoPage extends BasePage {
 
     readonly firstNameTextbox: Locator
     readonly lastNameTextbox: Locator
+    readonly driverLicenseInput: Locator
     readonly targetNationalityOption: Locator
     readonly genderRadioButton: Locator
     readonly saveButton: Locator
@@ -16,6 +17,7 @@ export class MyInfoPage extends BasePage {
         super(page)
         this.firstNameTextbox = page.getByRole('textbox', { name: 'First Name' })
         this.lastNameTextbox = page.getByRole('textbox', { name: 'Last Name' })
+        this.driverLicenseInput = page.locator(selectors.inputGroup).filter({ has: this.page.locator(selectors.driverLicenseNumberLabel) }).locator(selectors.input)
         this.targetNationalityOption = page.getByRole('option')
         this.genderRadioButton = page.locator('label', { has: page.getByRole('radio') })
         this.saveButton = page.locator('form').filter({ hasText: 'Employee Full NameEmployee' }).getByRole('button')
@@ -30,19 +32,19 @@ export class MyInfoPage extends BasePage {
         return await this.page.locator(selectors.app).getByText(text).isVisible()
     }
 
-    async setEmployeeFirstName(firstName: string): Promise<void> {
+    async setFirstName(firstName: string): Promise<void> {
         await this.firstNameTextbox.click()
         await this.firstNameTextbox.fill(firstName)
     }
 
-    async setEmployeeLastName(lastName: string): Promise<void> {
+    async setLastName(lastName: string): Promise<void> {
         await this.lastNameTextbox.click()
         await this.lastNameTextbox.fill(lastName)
     }
 
-    async setEmployeeDriversLicenseNumber(driversLicenseNumber: string): Promise<void> {
-        await this.page.locator('div:nth-child(2) > div > .oxd-input-group > div:nth-child(2) > .oxd-input').click();
-        await this.page.locator(selectors.driversLicenseNumberTextbox).fill(driversLicenseNumber)
+    async setDriversLicenseNumber(driversLicenseNumber: string): Promise<void> {
+        await this.driverLicenseInput.click()
+        await this.driverLicenseInput.fill(driversLicenseNumber)
     }
 
     async selectNationality(nationality: string): Promise<void> {

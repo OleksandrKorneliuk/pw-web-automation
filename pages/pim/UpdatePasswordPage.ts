@@ -13,9 +13,4 @@ export class UpdatePasswordPage extends BasePage {
     get url(): string{
         return 'pim/updatePassword'
     }
-
-    async titleIsVisible() {
-        await this.title.waitFor({state: 'visible'})
-        return await this.title.isVisible()
-    }
 }

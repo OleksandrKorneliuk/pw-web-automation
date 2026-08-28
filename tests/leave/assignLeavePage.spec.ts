@@ -1,34 +1,33 @@
 import { expect } from '@playwright/test'
-import { test } from '../../fixtures/PageManager'
-import { NavigationBarItem } from '../../enums/navigationBarItem';
+import { test } from '../../fixtures/employee'
 import { LeavePageTab } from '../../enums/pages/leave/leavePageTab';
-import { addNewEmployeeViaUI, deleteEmployeeViaUI } from '../helpers/employee.helpers';
 import { LeaveTypeOptions } from '../../enums/pages/leave/leaveTypeOptions';
 
-test('navigate to assign leave page', async ({ navigationBar, leavePage, assignLeavePage }) => {
-    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
-    await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
+test.describe('assign leave page', () => {
+    test('navigate to assign leave page', async ({ leavePage, assignLeavePage }) => {
+        await leavePage.goto()
+        await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
 
-    expect(await assignLeavePage.titleIsVisible()).toBeTruthy()
-})
+        await expect(assignLeavePage.title).toBeVisible()
+    })
 
-test('assign new leave', async ({ page, navigationBar, leavePage, assignLeavePage }) => {
-    test.setTimeout(45000)
+    test('assign new leave', async ({ employee, assignLeavePage }) => {
+        await assignLeavePage.goto()
 
-    const employee = await addNewEmployeeViaUI(page)
+        const firstDay = new Date()
+        firstDay.setDate(firstDay.getDate() + 3)
 
-    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
-    await leavePage.clickItem(LeavePageTab.ASSIGN_LEAVE)
+        const lastDay = new Date()
+        lastDay.setDate(lastDay.getDate() + 6)
 
-    const employeeFullName = `${employee.firstName} ${employee.lastName}`
-    await assignLeavePage.enterEmployeeName(employeeFullName)
-    await assignLeavePage.choseLeaveOption(LeaveTypeOptions.CAN_BEREAVEMENT)
-    await assignLeavePage.selectFirstDayOfLeave(3)
-    await assignLeavePage.selectLastDayOfLeave(6)
-    await assignLeavePage.clickAssignButton()
+        const employeeFullName = `${employee.firstName} ${employee.lastName}`
+        await assignLeavePage.enterEmployeeName(employeeFullName)
+        await assignLeavePage.choseLeaveOption(LeaveTypeOptions.CAN_BEREAVEMENT)
+        await assignLeavePage.selectFirstDayOfLeave(firstDay)
+        await assignLeavePage.selectLastDayOfLeave(lastDay)
+        await assignLeavePage.clickAssignButton()
 
-    await assignLeavePage.isDialogBoxHeaderContains('Confirm Leave Assignment')
-    await assignLeavePage.confirmLeaveAssignment()
-
-    await deleteEmployeeViaUI(page, employee.id)
-})
+        await expect(assignLeavePage.confirmLeaveDialogBox).toContainText('Confirm Leave Assignment')
+        await assignLeavePage.confirmLeaveAssignment()
+    })
+});

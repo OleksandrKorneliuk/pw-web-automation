@@ -1,5 +1,8 @@
 {
     "app": "#app",
     "driversLicenseNumberTextbox": ".oxd-input.oxd-input--focus",
-    "selectedNationalityDropdownMenuIcon": ".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow"
+    "selectedNationalityDropdownMenuIcon": ".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow",
+    "input": "input",
+    "driverLicenseNumberLabel": "//label[contains(text(), \"Driver's License Number\")]",
+    "inputGroup": "//div[contains(@class, 'oxd-input-group')]"
 }

@@ -28,17 +28,7 @@ export class LoginPage extends BasePage {
         await this.submitButton.click();
     }
 
-    async errorMessageIsVisible() {
-        await this.errorMessage.waitFor({ state: 'visible' })
-        return await this.errorMessage.isVisible()
-    }
-
     async getErrorMessageTextContent() {
         return await this.errorMessage.textContent()
-    }
-
-    async titleIsVisible() {
-        await this.title.waitFor({ state: 'visible' })
-        return await this.title.isVisible()
     }
 }

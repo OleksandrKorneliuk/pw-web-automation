@@ -9,7 +9,7 @@ export abstract class BasePage {
     }
 
     async goto(): Promise<void> {
-        await this.page.goto(this.url);
+        await this.page.goto(this.url, { waitUntil: 'domcontentloaded'});
     }
 
     abstract get url(): string;
