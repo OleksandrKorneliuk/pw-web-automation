@@ -13,9 +13,4 @@ export class SupportPage extends BasePage {
     get url(): string {
         return 'help/support'
     }
-
-    async titleIsVisible() {
-        await this.title.waitFor({state: 'visible'})
-        return await this.title.isVisible()
-    }
 }

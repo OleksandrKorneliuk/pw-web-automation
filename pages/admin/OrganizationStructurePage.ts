@@ -41,10 +41,6 @@ export class OrganizationStructurePage extends BasePage {
         return 'admin/viewCompanyStructure'
     }
 
-    get url(): string {
-        return 'admin/viewCompanyStructure'
-    }
-
     async titleIsVisible(name: string) {
         await this.title.waitFor({ state: 'visible' })
         const titleText = this.title.getByText(name)

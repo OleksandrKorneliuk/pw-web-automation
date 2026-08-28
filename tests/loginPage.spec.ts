@@ -15,21 +15,21 @@ test.describe.parallel('Login Page Tests', () => {
     test('should show error with invalid username', async ({ loginPage }) => {
         await loginPage.login('invalidUser', 'admin123')
 
-        expect(await loginPage.errorMessageIsVisible()).toBeTruthy()
+        await expect(loginPage.errorMessage).toBeVisible()
         expect(await loginPage.getErrorMessageTextContent()).toContain('Invalid credentials')
     })
 
     test('should show error with invalid password', async ({ loginPage }) => {
         await loginPage.login('Admin', 'invalidPassword');
 
-        expect(await loginPage.errorMessageIsVisible()).toBeTruthy()
+        await expect(loginPage.errorMessage).toBeVisible()
         expect(await loginPage.getErrorMessageTextContent()).toContain('Invalid credentials')
     })
 
     test('should show error with invalid username and password', async ({ loginPage }) => {
         await loginPage.login('invalidUser', 'invalidPassword');
 
-        expect(await loginPage.errorMessageIsVisible()).toBeTruthy()
+        await expect(loginPage.errorMessage).toBeVisible()
         expect(await loginPage.getErrorMessageTextContent()).toContain('Invalid credentials')
     })
 })

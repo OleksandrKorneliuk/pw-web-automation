@@ -1,11 +1,10 @@
 import { expect } from '@playwright/test'
 import { test } from '../../fixtures/PageManager'
-import { NavigationBarItem } from '../../enums/navigationBarItem';
 import { LeavePageTab } from '../../enums/pages/leave/leavePageTab';
 
-test('navigate to leave list page', async ({navigationBar, leavePage, leaveListPage}) => {
-    await navigationBar.clickOnSection(NavigationBarItem.LEAVE)
+test('navigate to leave list page', async ({ leavePage, leaveListPage }) => {
+    await leavePage.goto()
     await leavePage.clickItem(LeavePageTab.LEAVE_LIST)
 
-    expect(await leaveListPage.titleIsVisible()).toBeTruthy()
+    await expect(leaveListPage.title).toBeVisible()
 })
