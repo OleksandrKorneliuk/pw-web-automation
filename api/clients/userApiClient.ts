@@ -5,10 +5,9 @@ import { UserData } from "../../models/userData";
 export class UserApiClient extends BaseApiClient {
 
     private static ADMIN_ENDPOINT = '/admin/users';
-    private static BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2'
 
     constructor(apiContext: APIRequestContext) {
-        super(apiContext, UserApiClient.BASE_URL)
+        super(apiContext)
     }
 
     async postUser(userData: UserData) {

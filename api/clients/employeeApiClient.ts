@@ -5,10 +5,9 @@ import { APIRequestContext } from "@playwright/test";
 export class EmployeeApiClient extends BaseApiClient {
 
     private static EMPLOYEES_ENDPOINT = '/pim/employees'
-    private static BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2'
 
     constructor(apiContext: APIRequestContext) {
-        super(apiContext, EmployeeApiClient.BASE_URL)
+        super(apiContext)
     }
 
     async postEmployee(employee: Employee) {
