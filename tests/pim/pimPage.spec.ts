@@ -1,9 +1,9 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/employee'
-import { NavigationBarTab } from '../../enums/navigationBarItem'
-import { createRandomEmployeeData } from '../factorys/employeeDataFactory';
+import { createRandomEmployee } from '../factorys/employeeFactory';
 import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
 import { EmployeeListPage } from '../../pages/pim/employeeListPage';
+import { Employee } from '../../models/employee';
 
 test.describe('PIM Page Tests', () => {
 
@@ -46,12 +46,12 @@ test.describe('PIM Page Tests', () => {
 async function createEmployee(addEmployeePage: AddEmployeePage) {
     await addEmployeePage.goto();
 
-    const employeeData = createRandomEmployeeData();
-    await addEmployeePage.createEmployee(employeeData.firstName, employeeData.lastName, employeeData.id);
-    return employeeData;
+    const employee = createRandomEmployee();
+    await addEmployeePage.createEmployee(employee);
+    return employee;
 }
 
-async function deleteEmployee(employeeData: {firstName: string, lastName: string, id: string}, employeeListPage: EmployeeListPage) {
+async function deleteEmployee(employeeData: Employee, employeeListPage: EmployeeListPage) {
     await employeeListPage.goto();
     const employeeFullName = `${employeeData.firstName} ${employeeData.lastName}`;
     await employeeListPage.deleteEmployeeByName(employeeFullName);

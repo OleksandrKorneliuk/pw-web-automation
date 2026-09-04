@@ -1,5 +1,6 @@
 import { APIRequestContext, APIResponse, expect } from "@playwright/test";
 import { EmployeeApiClient } from "../clients/employeeApiClient";
+import { Employee } from "../../models/employee";
 
 export class EmployeeService {
     private client: EmployeeApiClient
@@ -8,11 +9,11 @@ export class EmployeeService {
         this.client = new EmployeeApiClient(apiContext)
     }
 
-    async createEmployeeAndExpect(employeeData: {firstName: string, lastName: string, id: string}) {
-        const response = await this.client.postEmployee(employeeData)
+    async createEmployeeAndExpect(employee: Employee) {
+        const response = await this.client.postEmployee(employee)
         expect(response.status()).toBe(200)
-        const empNumber = await this.getEmployeeNumber(response)
-        return await this.getCompletedEmployee(employeeData, empNumber)
+        employee.number = await this.getEmployeeNumber(response)
+        return employee;
     }
 
     private async getEmployeeNumber(postNewEmployeeResponse: APIResponse): Promise<number> {
@@ -20,16 +21,11 @@ export class EmployeeService {
         return Promise.resolve(body.data.empNumber)
     }
 
-    private async getCompletedEmployee(employeeData: {firstName: string, lastName: string, id: string}, empNumber: number) {
-        return {
-            firstName: employeeData.firstName,
-            lastName: employeeData.lastName,
-            id: employeeData.id,
-            number: empNumber
+    async deleteEmployeeAndExpect(employeeNumber?: number) {
+        if (!employeeNumber) {
+            throw new Error('Employee number is required to delete an employee')
         }
-    }
 
-    async deleteEmployeeAndExpect(employeeNumber: number) {
         const response = await this.client.deleteEmployee(employeeNumber)
         expect(response.status()).toBe(200)
     }

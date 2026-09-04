@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "../basePage";
+import { Employee } from "../../models/employee";
 
 export class AddEmployeePage extends BasePage {
 
@@ -22,10 +23,10 @@ export class AddEmployeePage extends BasePage {
         return 'pim/addEmployee'
     }
 
-    async createEmployee(firstname: string, lastname: string, id: string) {
-        await this.firstNameTextbox.fill(firstname)
-        await this.lastNameTextbox.fill(lastname)
-        await this.userIdTextbox.fill(id)
+    async createEmployee(employee: Employee) {
+        await this.firstNameTextbox.fill(employee.firstName)
+        await this.lastNameTextbox.fill(employee.lastName)
+        await this.userIdTextbox.fill(employee.id.toString())
         await this.saveButton.click()
         await this.successfullySavedWarning.waitFor({state: 'visible'})
     }

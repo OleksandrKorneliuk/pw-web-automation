@@ -5,5 +5,5 @@ export type UserData = {
     password: string
     isEnabled: boolean
     userRoleId: UserRole
-    empNumber: number
+    empNumber?: number
 }

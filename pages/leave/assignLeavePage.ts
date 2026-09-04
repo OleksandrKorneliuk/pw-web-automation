@@ -24,7 +24,7 @@ export class AssignLeavePage extends BasePage {
         this.employeeNameSuggestion = this.page.getByRole('option')
         this.selectLeaveTypeDropdownMenuIcon = this.page.locator('form i').first()
         this.leaveTypeOption = this.page.getByRole('listbox').getByRole('option')
-        this.dateInput = this.page.getByPlaceholder('yyyy-dd-mm')
+        this.dateInput = this.page.getByPlaceholder('yyyy')
         this.assignButton = this.page.locator('button', { hasText: 'Assign' })
         this.confirmLeaveDialogBox = this.page.locator('html').getByRole('document')
         this.confirmLeaveDialogBoxOkButton = this.confirmLeaveDialogBox.getByRole('button', { name: 'OK' })

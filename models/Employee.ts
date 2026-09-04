@@ -1,6 +1,11 @@
+import { Gender } from "../enums/pages/myInfo/genders"
+
 export type Employee = {
     firstName: string
     lastName: string
     id: string
-    number: number
+    driverLicenseNumber: string
+    number?: number
+    nationality: string
+    gender: Gender
 }

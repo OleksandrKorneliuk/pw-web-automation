@@ -11,9 +11,9 @@ export class EmployeeApiClient extends BaseApiClient {
         super(apiContext, EmployeeApiClient.BASE_URL)
     }
 
-    async postEmployee(employeeData: {firstName: string, lastName: string, id: string}) {
+    async postEmployee(employee: Employee) {
         return await this.post(EmployeeApiClient.EMPLOYEES_ENDPOINT,
-            EmployeeApiClient.buildEmployeePayload(employeeData)
+            EmployeeApiClient.buildEmployeePayload(employee)
         );
     }
 
@@ -23,13 +23,13 @@ export class EmployeeApiClient extends BaseApiClient {
         );
     }
 
-    private static buildEmployeePayload(employeeData: {firstName: string, lastName: string, id: string}) {
+    private static buildEmployeePayload(employee: Employee) {
         return {
-            firstName: employeeData.firstName,
+            firstName: employee.firstName,
             middleName: '',
-            lastName: employeeData.lastName,
+            lastName: employee.lastName,
             empPicture: null,
-            employeeId: employeeData.id,
+            employeeId: employee.id,
         }
     }
 }
