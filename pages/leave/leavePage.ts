@@ -4,11 +4,10 @@ import { BasePage } from '../basePage'
 
 export class LeavePage extends BasePage {
 
-    readonly navigationListItem: Locator
+    readonly navigationListItem: Locator = this.page.locator('header ul li')
 
     constructor(page: Page) {
         super(page)
-        this.navigationListItem = this.page.locator('header ul li')
     }
 
     get url(): string {

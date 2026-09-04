@@ -3,19 +3,14 @@ import { BasePage } from './basePage';
 
 export class LoginPage extends BasePage {
 
-    readonly usernameInput: Locator
-    readonly passwordInput: Locator
-    readonly submitButton: Locator
-    readonly errorMessage: Locator
-    readonly title: Locator
+    readonly usernameInput: Locator = this.page.getByRole('textbox', { name: 'Username' })
+    readonly passwordInput: Locator = this.page.getByRole('textbox', { name: 'Password' })
+    readonly submitButton: Locator = this.page.getByRole('button', { name: 'Login' })
+    readonly errorMessage: Locator = this.page.getByRole('alert')
+    readonly title: Locator = this.page.getByRole('heading')
 
     constructor(page: Page) {
         super(page)
-        this.usernameInput = this.page.getByRole('textbox', { name: 'Username' })
-        this.passwordInput = this.page.getByRole('textbox', { name: 'Password' })
-        this.submitButton = this.page.getByRole('button', { name: 'Login' })
-        this.errorMessage = this.page.getByRole('alert')
-        this.title = this.page.getByRole('heading')
     }
 
     get url(): string {

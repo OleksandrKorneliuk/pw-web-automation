@@ -3,29 +3,19 @@ import { BasePage } from '../basePage';
 
 export class AddSystenUserPage extends BasePage {
 
-    readonly successMessage: Locator
-    readonly selectUserRoleDropdownMenuIcon: Locator
-    readonly adminRoleOption: Locator
-    readonly employeeNameTextBox: Locator
-    readonly selectUserStatusDropdownMenuIcon: Locator
-    readonly enabledOption: Locator
-    readonly usernameTextbox: Locator
-    readonly passwordTextbox: Locator
-    readonly confirmPasswordTextbox: Locator
-    readonly saveButton: Locator
+    readonly successMessage: Locator = this.page.getByText('Successfully Saved');
+    readonly selectUserRoleDropdownMenuIcon: Locator = this.page.locator('form i').first()
+    readonly adminRoleOption: Locator = this.page.getByRole('option', { name: 'Admin' }).locator('span')
+    readonly employeeNameTextBox: Locator = this.page.getByRole('textbox', { name: 'Type for hints...' })
+    readonly selectUserStatusDropdownMenuIcon: Locator = this.page.locator('form i').nth(1)
+    readonly enabledOption: Locator = this.page.getByText('Enabled')
+    readonly usernameTextbox: Locator = this.page.getByRole('textbox').nth(2)
+    readonly passwordTextbox: Locator = this.page.getByRole('textbox').nth(3)
+    readonly confirmPasswordTextbox: Locator = this.page.getByRole('textbox').nth(4)
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
 
     constructor(page: Page) {
         super(page)
-        this.successMessage = this.page.getByText('Successfully Saved')
-        this.selectUserRoleDropdownMenuIcon = this.page.locator('form i').first()
-        this.adminRoleOption = this.page.getByRole('option', { name: 'Admin' }).locator('span')
-        this.employeeNameTextBox = this.page.getByRole('textbox', { name: 'Type for hints...' })
-        this.selectUserStatusDropdownMenuIcon = this.page.locator('form i').nth(1)
-        this.enabledOption = this.page.getByText('Enabled')
-        this.usernameTextbox = this.page.getByRole('textbox').nth(2)
-        this.passwordTextbox = this.page.getByRole('textbox').nth(3)
-        this.confirmPasswordTextbox = this.page.getByRole('textbox').nth(4)
-        this.saveButton = this.page.getByRole('button', { name: 'Save' })
     }
 
     get url(): string {

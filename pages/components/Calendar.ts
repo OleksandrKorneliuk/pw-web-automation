@@ -3,32 +3,18 @@ import { BaseComponent } from "./baseComponent";
 
 export class Calendar extends BaseComponent {
 
-    readonly monthSelector: Locator
-    readonly yearSelector: Locator
-    readonly monthText: Locator
-    readonly yearText: Locator
-    readonly monthDropdownIcon: Locator
-    readonly yearDropdownIcon: Locator
-    readonly monthMenuItems: Locator
-    readonly yearMenuItems: Locator
-    readonly datesGrid: Locator
+    readonly monthSelector: Locator = this.root.locator("li[class*='selector-month']")
+    readonly yearSelector: Locator = this.root.locator("li[class*='selector-year']")
+    readonly monthText: Locator = this.monthSelector.locator('p')
+    readonly yearText: Locator = this.yearSelector.locator('p')
+    readonly monthDropdownIcon: Locator = this.monthSelector.locator('i')
+    readonly yearDropdownIcon: Locator = this.yearSelector.locator('i')
+    readonly monthMenuItems: Locator = this.monthSelector.getByRole('menu').locator('li')
+    readonly yearMenuItems: Locator = this.yearSelector.getByRole('menu').locator('li')
+    readonly datesGrid: Locator = this.root.locator('.oxd-calendar-dates-grid')
 
     constructor(page: Page) {
         super(page)
-
-        this.monthSelector = this.root.locator("li[class*='selector-month']")
-        this.yearSelector = this.root.locator("li[class*='selector-year']")
-
-        this.monthText = this.monthSelector.locator('p')
-        this.yearText = this.yearSelector.locator('p')
-
-        this.monthDropdownIcon = this.monthSelector.locator('i')
-        this.yearDropdownIcon = this.yearSelector.locator('i')
-
-        this.monthMenuItems = this.monthSelector.getByRole('menu').locator('li')
-        this.yearMenuItems = this.yearSelector.getByRole('menu').locator('li')
-
-        this.datesGrid = this.root.locator('.oxd-calendar-dates-grid')
     }
 
     get root(): Locator {

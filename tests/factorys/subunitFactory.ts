@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 export function createRandomSubunit(parentId?: number) {
-    if (!parentId) {
+    if (parentId === undefined) {
         parentId = 1
     }
 

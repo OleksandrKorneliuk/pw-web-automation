@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+export const API_BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2';
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv

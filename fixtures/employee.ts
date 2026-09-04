@@ -1,6 +1,6 @@
 import { test as base } from './PageManager';
 import { Employee } from '../models/employee';
-import { createRandomEmployeeData } from '../tests/factorys/employeeDataFactory';
+import { createRandomEmployee } from '../tests/factorys/employeeFactory';
 import { EmployeeService } from '../api/services/employeeService';
 import { createApiContext } from '../helpers/apiContext.helper';
 
@@ -9,7 +9,7 @@ export const test = base.extend<{ employee: Employee }>({
         const apiContext = await createApiContext()
 
         const employeeService = new EmployeeService(apiContext)
-        const randomEmployeeData = createRandomEmployeeData()
+        const randomEmployeeData = createRandomEmployee()
         const employee = await employeeService.createEmployeeAndExpect(randomEmployeeData)
         
         await use(employee)

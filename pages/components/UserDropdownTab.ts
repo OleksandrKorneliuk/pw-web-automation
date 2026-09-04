@@ -4,13 +4,11 @@ import { BaseComponent } from "./baseComponent";
 
 export class UserDropdownTab extends BaseComponent {
 
-    readonly userDropdownMenu: Locator
-    readonly allSections: Locator
+    readonly userDropdownMenu: Locator = this.page.locator('header .oxd-topbar-header-userarea li')
+    readonly allSections: Locator = this.root.getByRole('menuitem')
 
     constructor(page: Page) {
         super(page)
-        this.userDropdownMenu = this.page.locator('header .oxd-topbar-header-userarea li')
-        this.allSections = this.root.getByRole('menuitem')
     }
 
     get root(): Locator {

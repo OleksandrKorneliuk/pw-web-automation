@@ -5,10 +5,9 @@ import { Subunit } from "../../models/subunit";
 export class SubunitsApiClient extends BaseApiClient {
 
     private static SUBUNITS_ENDPOINT = '/admin/subunits';
-    private static BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2'
 
     constructor(apiContext: APIRequestContext) {
-        super(apiContext, SubunitsApiClient.BASE_URL);
+        super(apiContext);
     }
 
     async postSubunit(subunit: Subunit) {

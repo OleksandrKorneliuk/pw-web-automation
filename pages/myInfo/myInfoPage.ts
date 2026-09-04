@@ -5,23 +5,16 @@ import * as selectors from '../selectors/myInfoPage.selectors.json'
 
 export class MyInfoPage extends BasePage {
 
-    readonly firstNameTextbox: Locator
-    readonly lastNameTextbox: Locator
-    readonly driverLicenseInput: Locator
-    readonly targetNationalityOption: Locator
-    readonly genderRadioButton: Locator
-    readonly saveButton: Locator
-    readonly successfullySavedWarning: Locator
+    readonly firstNameTextbox: Locator = this.page.getByRole('textbox', { name: 'First Name' })
+    readonly lastNameTextbox: Locator = this.page.getByRole('textbox', { name: 'Last Name' })
+    readonly driverLicenseInput: Locator = this.page.locator(selectors.inputGroup).filter({ has: this.page.locator(selectors.driverLicenseNumberLabel) }).locator(selectors.input)
+    readonly targetNationalityOption: Locator = this.page.getByRole('option')
+    readonly genderRadioButton: Locator = this.page.locator('label', { has: this.page.getByRole('radio') })
+    readonly saveButton: Locator = this.page.locator('form').filter({ hasText: 'Employee Full NameEmployee' }).getByRole('button')
+    readonly successfullySavedWarning: Locator = this.page.getByText('Successfully Updated×')
 
     constructor(page: Page) {
         super(page)
-        this.firstNameTextbox = page.getByRole('textbox', { name: 'First Name' })
-        this.lastNameTextbox = page.getByRole('textbox', { name: 'Last Name' })
-        this.driverLicenseInput = page.locator(selectors.inputGroup).filter({ has: this.page.locator(selectors.driverLicenseNumberLabel) }).locator(selectors.input)
-        this.targetNationalityOption = page.getByRole('option')
-        this.genderRadioButton = page.locator('label', { has: page.getByRole('radio') })
-        this.saveButton = page.locator('form').filter({ hasText: 'Employee Full NameEmployee' }).getByRole('button')
-        this.successfullySavedWarning = page.getByText('Successfully Updated×')
     }
 
     get url(): string {
