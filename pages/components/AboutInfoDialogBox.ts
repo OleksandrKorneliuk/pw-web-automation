@@ -3,11 +3,10 @@ import { BaseComponent } from "./baseComponent";
 
 export class AboutInfoDialogBox extends BaseComponent {
 
-    readonly title: Locator
+    readonly title: Locator = this.root.getByRole('heading', {name: 'About'})
 
     constructor(page: Page) {
         super(page)
-        this.title = this.root.getByRole('heading', {name: 'About'})
     }
 
     get root(): Locator {

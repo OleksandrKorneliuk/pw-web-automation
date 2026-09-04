@@ -5,31 +5,20 @@ import { Calendar } from '../components/calendar'
 
 export class AssignLeavePage extends BasePage {
 
-    readonly title: Locator
-    readonly employeeNameInput: Locator
-    readonly employeeNameSuggestion: Locator
-    readonly selectLeaveTypeDropdownMenuIcon: Locator
-    readonly leaveTypeOption: Locator
-    readonly dateInput: Locator
-    readonly assignButton: Locator
-    readonly confirmLeaveDialogBox: Locator
-    readonly confirmLeaveDialogBoxOkButton: Locator
+    readonly title: Locator = this.page.getByRole('heading', { name: 'Assign Leave' })
+    readonly employeeNameInput: Locator = this.page.getByPlaceholder('Type for hints...')
+    readonly employeeNameSuggestion: Locator = this.page.getByRole('option')
+    readonly selectLeaveTypeDropdownMenuIcon: Locator = this.page.locator('form i').first()
+    readonly leaveTypeOption: Locator = this.page.getByRole('listbox').getByRole('option')
+    readonly dateInput: Locator = this.page.getByPlaceholder('yyyy')
+    readonly assignButton: Locator = this.page.locator('button', { hasText: 'Assign' })
+    readonly confirmLeaveDialogBox: Locator = this.page.locator('html').getByRole('document')
+    readonly confirmLeaveDialogBoxOkButton: Locator = this.confirmLeaveDialogBox.getByRole('button', { name: 'OK' })
 
-    private calendar: Calendar
+    private calendar: Calendar = new Calendar(this.page)
 
     constructor(page: Page) {
         super(page)
-        this.title = this.page.getByRole('heading', { name: 'Assign Leave' })
-        this.employeeNameInput = this.page.getByPlaceholder('Type for hints...')
-        this.employeeNameSuggestion = this.page.getByRole('option')
-        this.selectLeaveTypeDropdownMenuIcon = this.page.locator('form i').first()
-        this.leaveTypeOption = this.page.getByRole('listbox').getByRole('option')
-        this.dateInput = this.page.getByPlaceholder('yyyy')
-        this.assignButton = this.page.locator('button', { hasText: 'Assign' })
-        this.confirmLeaveDialogBox = this.page.locator('html').getByRole('document')
-        this.confirmLeaveDialogBoxOkButton = this.confirmLeaveDialogBox.getByRole('button', { name: 'OK' })
-
-        this.calendar = new Calendar(page)
     }
 
     get url(): string {

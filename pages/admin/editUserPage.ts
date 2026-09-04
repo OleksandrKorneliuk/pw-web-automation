@@ -5,16 +5,13 @@ export class EditUserPage extends BasePage {
 
     private userId: string
 
-    readonly selectUserStatusDropdownMenuIcon: Locator
-    readonly disabledOption: Locator
-    readonly saveButton: Locator
+    readonly selectUserStatusDropdownMenuIcon: Locator = this.page.locator('form i').nth(1)
+    readonly disabledOption: Locator = this.page.getByText('Disabled')
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
 
     constructor(page: Page, userId: string) {
         super(page)
         this.userId = userId
-        this.selectUserStatusDropdownMenuIcon = this.page.locator('form i').nth(1)
-        this.disabledOption = this.page.getByText('Disabled')
-        this.saveButton = this.page.getByRole('button', { name: 'Save' })
     }
 
     get url(): string {

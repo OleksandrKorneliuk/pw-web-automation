@@ -3,11 +3,10 @@ import { BasePage } from '../basePage'
 
 export class MyLeavePage extends BasePage {
 
-    readonly title: Locator
+    readonly title: Locator = this.page.getByRole('heading', { name: 'My Leave List' })
 
     constructor(page: Page) {
         super(page)
-        this.title = this.page.getByRole('heading', { name: 'My Leave List' })
     }
 
     get url(): string {

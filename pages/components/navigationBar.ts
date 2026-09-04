@@ -4,13 +4,11 @@ import { BaseComponent } from "./baseComponent";
 
 export class NavigationBar extends BaseComponent {
 
-    readonly link: Locator
-    readonly searchBar: Locator
+    readonly link: Locator = this.root.getByRole('link')
+    readonly searchBar: Locator = this.root.getByRole('textbox')
 
     constructor(page: Page) {
         super(page)
-        this.link = this.root.getByRole('link')
-        this.searchBar = this.root.getByRole('textbox')
     }
 
     get root(): Locator {

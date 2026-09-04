@@ -3,21 +3,15 @@ import { BasePage } from "../basePage";
 
 export class EmployeeListPage extends BasePage {
 
-    readonly employeeNameTextbox: Locator
-    readonly employeeNameSuggestion: Locator
-    readonly searchButton: Locator
-    readonly employeeIdTextbox: Locator
-    readonly trashIcon: Locator
-    readonly confirmDeletionButton: Locator
+    readonly employeeNameTextbox: Locator = this.page.getByRole('textbox', { name: 'Type for hints...' }).first()
+    readonly employeeNameSuggestion: Locator = this.page.getByRole('option')
+    readonly searchButton: Locator = this.page.getByRole('button', { name: 'Search' })
+    readonly employeeIdTextbox: Locator = this.page.getByRole('textbox').nth(2)
+    readonly trashIcon: Locator = this.page.locator('.bi-trash').first()
+    readonly confirmDeletionButton: Locator = this.page.getByRole('button', { name: ' Yes, Delete' })
 
     constructor(page: Page) {
         super(page)
-        this.employeeNameTextbox = this.page.getByRole('textbox', { name: 'Type for hints...' }).first()
-        this.employeeNameSuggestion = this.page.getByRole('option')
-        this.searchButton = this.page.getByRole('button', { name: 'Search' })
-        this.employeeIdTextbox = this.page.getByRole('textbox').nth(2)
-        this.trashIcon = this.page.locator('.bi-trash').first()
-        this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
     }
 
     get url(): string {

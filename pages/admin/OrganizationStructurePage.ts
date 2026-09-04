@@ -4,37 +4,23 @@ import { Subunit } from '../../models/subunit';
 
 export class OrganizationStructurePage extends BasePage {
 
-    readonly title: Locator
-    readonly editStructureToggle: Locator
-    readonly addButton: Locator
-    readonly unitNameTextbox: Locator
-    readonly unitIdTextbox: Locator
-    readonly unitDescriptionTextbox: Locator
-    readonly structureCard: Locator
-    readonly saveButton: Locator
-    readonly addSubUnitButton: Locator
-    readonly expandSubUnitsButton: Locator
-    readonly deleteUnitButton: Locator
-    readonly confirmDeletionButton: Locator
-    readonly successfullyDeletedWarning: Locator
-    readonly parentListItem: Locator
+    readonly title: Locator = this.page.getByRole('banner')
+    readonly editStructureToggle: Locator = this.page.locator('.oxd-switch-input')
+    readonly addButton: Locator = this.page.getByRole('button', { name: ' Add' })
+    readonly unitNameTextbox: Locator = this.page.getByRole('textbox').nth(2)
+    readonly unitIdTextbox: Locator = this.page.getByRole('textbox').nth(1)
+    readonly unitDescriptionTextbox: Locator = this.page.getByRole('textbox').nth(3)
+    readonly structureCard: Locator = this.page.locator('.org-structure-card')
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
+    readonly addSubUnitButton: Locator = this.page.locator('button:has(i.bi-plus)')
+    readonly expandSubUnitsButton: Locator = this.page.locator('[class="oxd-icon-button"]')
+    readonly deleteUnitButton: Locator = this.page.locator('.--parent.--last > .oxd-tree-node-content > .oxd-sheet > .org-action > button').first()
+    readonly confirmDeletionButton: Locator = this.page.getByRole('button', { name: ' Yes, Delete' })
+    readonly successfullyDeletedWarning: Locator = this.page.getByText('SuccessSuccessfully Deleted×')
+    readonly parentListItem: Locator = this.page.locator('xpath=ancestor::li[1]')
 
     constructor(page: Page) {
         super(page)
-        this.title = this.page.getByRole('banner')
-        this.editStructureToggle = this.page.locator('.oxd-switch-input')
-        this.addButton = this.page.getByRole('button', { name: ' Add' })
-        this.unitIdTextbox = this.page.getByRole('textbox').nth(1)
-        this.unitNameTextbox = this.page.getByRole('textbox').nth(2)
-        this.unitDescriptionTextbox = this.page.getByRole('textbox').nth(3)
-        this.structureCard = this.page.locator('.org-structure-card')
-        this.saveButton = this.page.getByRole('button', { name: 'Save' })
-        this.addSubUnitButton = this.page.locator('button:has(i.bi-plus)')
-        this.expandSubUnitsButton = this.page.locator('[class="oxd-icon-button"]')
-        this.deleteUnitButton = this.page.locator('.--parent.--last > .oxd-tree-node-content > .oxd-sheet > .org-action > button').first()
-        this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
-        this.successfullyDeletedWarning = this.page.getByText('SuccessSuccessfully Deleted×')
-        this.parentListItem = this.page.locator('xpath=ancestor::li[1]')
     }
 
     get url(): string {

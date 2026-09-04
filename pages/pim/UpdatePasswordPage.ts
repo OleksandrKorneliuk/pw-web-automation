@@ -3,11 +3,10 @@ import { BasePage } from "../basePage";
 
 export class UpdatePasswordPage extends BasePage {
 
-    readonly title: Locator
+    readonly title: Locator = this.page.locator('h6', {hasText: 'Update Password'})
 
     constructor(page: Page) {
         super(page)
-        this.title = this.page.locator('h6', {hasText: 'Update Password'})
     }
 
     get url(): string{

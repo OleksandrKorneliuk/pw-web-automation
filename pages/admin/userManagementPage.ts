@@ -3,29 +3,19 @@ import { BasePage } from '../basePage';
 
 export class UserManagementPage extends BasePage {
 
-    readonly header: Locator
-    readonly usernameTextbox: Locator
-    readonly employeeNameTextbox: Locator
-    readonly addButton: Locator
-    readonly searchButton: Locator
-    readonly tableCard: Locator
-    readonly editEmployeeButton: Locator
-    readonly deleteEmployeeButton: Locator
-    readonly confirmDeletionButton: Locator
-    readonly successfullyDeletedMessage: Locator
+    readonly header: Locator = this.page.getByRole('heading', { name: 'System Users' })
+    readonly usernameTextbox: Locator = this.page.getByRole('textbox').nth(1)
+    readonly employeeNameTextbox: Locator = this.page.getByRole('textbox', { name: 'Type for hints...'})
+    readonly addButton: Locator = this.page.getByRole('button').filter({ hasText: ' Add ' })
+    readonly searchButton: Locator = this.page.getByRole('button', { name: 'Search' })
+    readonly tableCard: Locator = this.page.locator('.oxd-table-card')
+    readonly editEmployeeButton: Locator = this.tableCard.first().locator('i.bi-pencil-fill')
+    readonly deleteEmployeeButton: Locator = this.tableCard.first().locator('button').first()
+    readonly confirmDeletionButton: Locator = this.page.getByRole('button', { name: ' Yes, Delete' })
+    readonly successfullyDeletedMessage: Locator = this.page.getByText('Successfully Deleted')
 
     constructor(page: Page) {
         super(page)
-        this.header = this.page.getByRole('heading', { name: 'System Users' })
-        this.addButton = this.page.getByRole('button').filter({ hasText: ' Add ' })
-        this.usernameTextbox = this.page.getByRole('textbox').nth(1)
-        this.employeeNameTextbox = this.page.getByRole('textbox', { name: 'Type for hints...'})
-        this.searchButton = this.page.getByRole('button', { name: 'Search' })
-        this.tableCard = this.page.locator('.oxd-table-card')
-        this.editEmployeeButton = this.tableCard.first().locator('i.bi-pencil-fill')
-        this.deleteEmployeeButton = this.tableCard.first().locator('button').first()
-        this.confirmDeletionButton = this.page.getByRole('button', { name: ' Yes, Delete' })
-        this.successfullyDeletedMessage = this.page.getByText('Successfully Deleted')
     }
 
     get url(): string {

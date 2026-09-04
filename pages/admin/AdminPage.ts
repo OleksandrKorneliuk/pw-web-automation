@@ -5,13 +5,11 @@ import { OrganizationPageOption } from '../../enums/pages/admin/organizationTabO
 
 export class AdminPage extends BasePage {
 
-    readonly topbarMenu: Locator
-    readonly tabsNavigationListOption: Locator
+    readonly topbarMenu: Locator = this.page.locator('header ul li')
+    readonly tabsNavigationListOption: Locator = this.topbarMenu.locator('ul li')
 
     constructor(page: Page) {
         super(page)
-        this.topbarMenu = this.page.locator('header ul li')
-        this.tabsNavigationListOption = this.topbarMenu.locator('ul li')
     }
 
     get url(): string {

@@ -4,19 +4,14 @@ import { Employee } from "../../models/employee";
 
 export class AddEmployeePage extends BasePage {
 
-    readonly firstNameTextbox: Locator
-    readonly lastNameTextbox: Locator
-    readonly userIdTextbox: Locator
-    readonly saveButton: Locator
-    readonly successfullySavedWarning: Locator
+    readonly firstNameTextbox: Locator = this.page.getByRole('textbox', { name: 'First Name' })
+    readonly lastNameTextbox: Locator = this.page.getByRole('textbox', { name: 'Last Name' })
+    readonly userIdTextbox: Locator = this.page.getByRole('textbox').nth(4)
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
+    readonly successfullySavedWarning: Locator = this.page.getByText('Successfully Saved')
 
     constructor(page: Page) {
         super(page)
-        this.firstNameTextbox = this.page.getByRole('textbox', { name: 'First Name' })
-        this.lastNameTextbox = this.page.getByRole('textbox', { name: 'Last Name' })
-        this.userIdTextbox = this.page.getByRole('textbox').nth(4)
-        this.saveButton = this.page.getByRole('button', { name: 'Save' })
-        this.successfullySavedWarning = this.page.getByText('Successfully Saved')
     }
 
     get url(): string {
