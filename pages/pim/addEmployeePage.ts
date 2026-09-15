@@ -18,11 +18,27 @@ export class AddEmployeePage extends BasePage {
         return 'pim/addEmployee'
     }
 
-    async createEmployee(employee: Employee) {
-        await this.firstNameTextbox.fill(employee.firstName)
-        await this.lastNameTextbox.fill(employee.lastName)
-        await this.userIdTextbox.fill(employee.id.toString())
+    async fillEmployeeFirstName(firstName: string) {
+        await this.firstNameTextbox.fill(firstName)
+    }
+
+    async fillEmployeeLastName(lastName: string) {
+        await this.lastNameTextbox.fill(lastName)
+    }
+
+    async fillEmployeeId(id: string) {
+        await this.userIdTextbox.fill(id)
+    }
+
+    async clickSaveButton() {
         await this.saveButton.click()
+    }
+
+    async createEmployee(employee: Employee) {
+        await this.fillEmployeeFirstName(employee.firstName)
+        await this.fillEmployeeLastName(employee.lastName)
+        await this.fillEmployeeId(employee.id)
+        await this.clickSaveButton()
         await this.successfullySavedWarning.waitFor({state: 'visible'})
     }
 

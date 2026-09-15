@@ -3,7 +3,7 @@ import { test } from '../../fixtures/adminUser'
 import { EditUserPage } from '../../pages/admin/editUserPage';
 import { createApiContext } from '../../helpers/apiContext.helper';
 import { UserService } from '../../api/services/userService';
-import { createUserData } from '../factorys/userDataFactory';
+import { createRandomUser } from '../factorys/userFactory';
 import { UserRole } from '../../enums/userRole';
 
 test.describe('user management page', () => {
@@ -37,7 +37,7 @@ test.describe('user management page', () => {
         const apiContext = await createApiContext()
 
         const userService = new UserService(apiContext)
-        const adminUserData = createUserData(employee, UserRole.ADMIN, true)
+        const adminUserData = await createRandomUser(employee, UserRole.ADMIN, true)
         const adminUser = await userService.addUserAndExpect(adminUserData)
 
         await userManagementPage.goto()

@@ -8,7 +8,7 @@ import { UserManagementPage } from '../pages/admin/UserManagementPage';
 import { AddSystenUserPage } from '../pages/admin/addSystemUserPage';
 import { EmployeeListPage } from '../pages/pim/employeeListPage';
 import { UserDropdownTab } from '../pages/components/userDropdownTab';
-import { AboutInfoDialogBox } from '../pages/components/aboutInfoDialogBox';
+import { AboutInfoDialogBox } from '../pages/components/AboutInfoDialogBox';
 import { LoginPage } from '../pages/loginPage';
 import { LeavePage } from '../pages/leave/LeavePage';
 import { ApplyLeavePage } from '../pages/leave/applyLeavePage';

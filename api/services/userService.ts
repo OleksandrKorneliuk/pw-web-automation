@@ -1,7 +1,6 @@
 import { APIRequestContext, APIResponse, expect } from "@playwright/test";
 import { UserApiClient } from "../clients/userApiClient";
 import { User } from "../../models/user";
-import { UserData } from "../../models/userData";
 
 export class UserService {
     private client: UserApiClient
@@ -10,31 +9,26 @@ export class UserService {
         this.client = new UserApiClient(apiContext)
     }
 
-    async addUserAndExpect(userData: UserData) {
-        const response = await this.client.postUser(userData)
+    async addUserAndExpect(user: User): Promise<User> {
+        const response = await this.client.postUser(user)
         expect(response.status()).toBe(200)
-        const userNumber = await this.getUserNumber(response)
-        return await this.getCompletedUser(userData, userNumber)
+        const userId = await this.getUserId(response)
+        user.id = userId
+
+        return Promise.resolve(user)
     }
 
-    private async getUserNumber(postNewEmployeeResponse: APIResponse): Promise<string> {
+    private async getUserId(postNewEmployeeResponse: APIResponse): Promise<string> {
         const body = await postNewEmployeeResponse.json()
         return Promise.resolve(body.data.id)
     }
 
-    private async getCompletedUser(userData: UserData, id: string): Promise<User> {
-        return {
-            username: userData.username,
-            password: userData.password,
-            isEnabled: userData.isEnabled,
-            userRoleId: userData.userRoleId,
-            id: id
+    async deleteUserAndExpect(userNumber?: string) {
+        if (!userNumber) {
+            throw new Error('User number is required to delete a user')
         }
-    }
 
-    async deleteUserAndExpect(userNumber: string) {
         const response = await this.client.deleteEmployee(userNumber)
         expect(response.status()).toBe(200)
     }
-
 }
