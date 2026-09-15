@@ -1,9 +1,8 @@
 import { expect } from '@playwright/test';
 import { test } from '../../fixtures/employee'
 import { createRandomEmployee } from '../factorys/employeeFactory';
-import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
-import { EmployeeListPage } from '../../pages/pim/employeeListPage';
-import { Employee } from '../../models/employee';
+import { createApiContext } from '../../helpers/apiContext.helper';
+import { EmployeeService } from '../../api/services/employeeService';
 
 test.describe('PIM Page Tests', () => {
 
@@ -13,15 +12,20 @@ test.describe('PIM Page Tests', () => {
         await expect(page).toHaveURL(/\/pim\/addEmployee$/);
     });
 
-    test('add a new employee', async ({ page, addEmployeePage, employeeListPage }) => {
+    test('add new employee', async ({ page, addEmployeePage }) => {
+        const employee = createRandomEmployee();
         await addEmployeePage.goto()
-        const employee = await createEmployee(addEmployeePage);
-
+        await addEmployeePage.createEmployee(employee);
         await expect(page.getByText('Successfully Saved')).toBeVisible();
         await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
 
-        await deleteEmployee(employee, employeeListPage);
-        await expect(page.getByText('Successfully Deleted')).toBeVisible();
+        const createEmployeeResponse = await page.waitForResponse(response => response.url().includes('api/v2/pim/employees') && response.status() === 200);
+        const responseBody = await createEmployeeResponse.json();
+        employee.number = responseBody.data.empNumber;
+
+        const apiContext = await createApiContext();
+        const employeeService = new EmployeeService(apiContext);
+        await employeeService.deleteEmployeeAndExpect(employee.number);
     });
 
     test('searching for a new employee by name', async ({ page, employeeListPage, employee }) => {
@@ -34,25 +38,20 @@ test.describe('PIM Page Tests', () => {
         await expect(page.getByText(`${employee.id}`)).toBeVisible();
     });
 
-    test('deleting an employee', async ({ page, addEmployeePage, employeeListPage }) => {
-        const employeeData = await createEmployee(addEmployeePage);
-        await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
+    test('deleting an employee', async ({ page, employeeListPage }) => {
+        const apiContext = await createApiContext()
 
-        await deleteEmployee(employeeData, employeeListPage);
+        const employeeService = new EmployeeService(apiContext)
+        const randomEmployeeData = createRandomEmployee()
+        const employee = await employeeService.createEmployeeAndExpect(randomEmployeeData)
+
+        await employeeListPage.goto();
+        const employeeFullName = `${employee.firstName} ${employee.lastName}`;
+        await employeeListPage.deleteEmployeeByName(employeeFullName);
         await expect(page.getByText('Successfully Deleted')).toBeVisible();
     });
+
+    // test('add new employee with login details', async ({ page, addEmployeePage, employeeListPage }) => {
+
+    // });
 });
-
-async function createEmployee(addEmployeePage: AddEmployeePage) {
-    await addEmployeePage.goto();
-
-    const employee = createRandomEmployee();
-    await addEmployeePage.createEmployee(employee);
-    return employee;
-}
-
-async function deleteEmployee(employeeData: Employee, employeeListPage: EmployeeListPage) {
-    await employeeListPage.goto();
-    const employeeFullName = `${employeeData.firstName} ${employeeData.lastName}`;
-    await employeeListPage.deleteEmployeeByName(employeeFullName);
-}
