@@ -7,7 +7,7 @@ test.describe('subunits page', () => {
         await organizationStructurePage.goto()
 
         await organizationStructurePage.enableEditStructureMode()
-        const newSubunit = createRandomSubunit()
+        const newSubunit = await createRandomSubunit()
         const subunitFullName = `${subunit.unitId}: ${subunit.name}`
         await organizationStructurePage.addSubunitFor(subunitFullName, newSubunit)
         await organizationStructurePage.expandSubunitsFor(subunitFullName)

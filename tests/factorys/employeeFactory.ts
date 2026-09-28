@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { Employee } from '../../models/employee'
 import { Gender } from '../../enums/pages/myInfo/genders'
 
-export function createRandomEmployee() {
+export async function createRandomEmployee() {
     const employee: Employee = {
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),

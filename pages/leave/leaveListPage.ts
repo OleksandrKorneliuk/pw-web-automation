@@ -1,15 +1,15 @@
-import {Locator, Page} from '@playwright/test'
-import { BasePage } from '../basePage'
+import { Locator, Page } from '@playwright/test';
+import { BasePage } from '../basePage';
 
 export class LeaveListPage extends BasePage {
 
-    readonly title: Locator = this.page.getByRole('heading', { name: 'Leave List' })
+    readonly title: Locator = this.page.getByRole('heading', { name: 'Leave List' });
 
     constructor(page: Page) {
-        super(page)
+        super(page);
     }
 
     get url(): string {
-        return 'leave/viewLeaveList'
+        return 'leave/viewLeaveList';
     }
 }

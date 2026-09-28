@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { Subunit } from "../../models/subunit";
 
-export function createRandomSubunit(parentId?: number) {
+export async function createRandomSubunit(parentId?: number) {
     if (parentId === undefined) {
         parentId = 1
     }
