@@ -9,7 +9,7 @@ export const test = base.extend<{ employee: Employee }>({
         const apiContext = await createApiContext()
 
         const employeeService = new EmployeeService(apiContext)
-        const randomEmployeeData = createRandomEmployee()
+        const randomEmployeeData = await createRandomEmployee()
         const employee = await employeeService.createEmployeeAndExpect(randomEmployeeData)
         
         await use(employee)

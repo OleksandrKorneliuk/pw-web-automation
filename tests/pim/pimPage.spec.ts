@@ -1,9 +1,10 @@
-import { expect } from '@playwright/test';
-import { test } from '../../fixtures/employee'
+import { expect, Page } from '@playwright/test';
+import { test } from '../../fixtures/employee';
 import { createRandomEmployee } from '../factorys/employeeFactory';
-import { AddEmployeePage } from '../../pages/pim/addEmployeePage';
-import { EmployeeListPage } from '../../pages/pim/employeeListPage';
-import { Employee } from '../../models/employee';
+import { createRandomUser } from '../factorys/userFactory';
+import { createApiContext } from '../../helpers/apiContext.helper';
+import { EmployeeService } from '../../api/services/employeeService';
+import { UserRole } from '../../enums/userRole';
 
 test.describe('PIM Page Tests', () => {
 
@@ -13,46 +14,72 @@ test.describe('PIM Page Tests', () => {
         await expect(page).toHaveURL(/\/pim\/addEmployee$/);
     });
 
-    test('add a new employee', async ({ page, addEmployeePage, employeeListPage }) => {
-        await addEmployeePage.goto()
-        const employee = await createEmployee(addEmployeePage);
+    test('add new employee', async ({ page, addEmployeePage }) => {
+        const employee = await createRandomEmployee();
+        await addEmployeePage.goto();
 
-        await expect(page.getByText('Successfully Saved')).toBeVisible();
-        await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
+        const employeeNumberPromise = interceptEmployeeNumber(page);
+        await addEmployeePage.createEmployee(employee);
+        await expect.soft(addEmployeePage.successfullySavedWarning).toBeVisible();
 
-        await deleteEmployee(employee, employeeListPage);
-        await expect(page.getByText('Successfully Deleted')).toBeVisible();
+        employee.number = await employeeNumberPromise;
+
+        const apiContext = await createApiContext();
+        const employeeService = new EmployeeService(apiContext);
+        await employeeService.deleteEmployeeAndExpect(employee.number);
     });
 
     test('searching for a new employee by name', async ({ page, employeeListPage, employee }) => {
         await employeeListPage.goto();
         await expect(page.getByRole('heading', { name: 'Employee Information' })).toBeVisible();
 
-        const employeeFullName = `${employee.firstName} ${employee.lastName}`
+        const employeeFullName = `${employee.firstName} ${employee.lastName}`;
         await employeeListPage.searchEmployeeByName(employeeFullName);
 
         await expect(page.getByText(`${employee.id}`)).toBeVisible();
     });
 
-    test('deleting an employee', async ({ page, addEmployeePage, employeeListPage }) => {
-        const employeeData = await createEmployee(addEmployeePage);
-        await expect(page.getByRole('heading', { name: 'Personal Details' })).toBeVisible();
+    test('deleting an employee', async ({ page, employeeListPage }) => {
+        const apiContext = await createApiContext();
 
-        await deleteEmployee(employeeData, employeeListPage);
+        const employeeService = new EmployeeService(apiContext);
+        const randomEmployeeData = await createRandomEmployee();
+        const employee = await employeeService.createEmployeeAndExpect(randomEmployeeData);
+
+        await employeeListPage.goto();
+        const employeeFullName = `${employee.firstName} ${employee.lastName}`;
+        await employeeListPage.deleteEmployeeByName(employeeFullName);
         await expect(page.getByText('Successfully Deleted')).toBeVisible();
+    });
+
+    test('add new employee with login details', async ({ page, addEmployeePage }) => {
+        const employee = await createRandomEmployee();
+        const user = await createRandomUser(employee, UserRole.ESS, true);
+        await addEmployeePage.goto();
+
+        const employeeNumberPromise = interceptEmployeeNumber(page);
+        await addEmployeePage.createEmployeeWithLoginDetails(employee, user);
+        await expect.soft(addEmployeePage.successfullySavedWarning).toBeVisible();
+
+        employee.number = await employeeNumberPromise;
+
+        const apiContext = await createApiContext();
+        const employeeService = new EmployeeService(apiContext);
+        await employeeService.deleteEmployeeAndExpect(employee.number);
     });
 });
 
-async function createEmployee(addEmployeePage: AddEmployeePage) {
-    await addEmployeePage.goto();
-
-    const employee = createRandomEmployee();
-    await addEmployeePage.createEmployee(employee);
-    return employee;
-}
-
-async function deleteEmployee(employeeData: Employee, employeeListPage: EmployeeListPage) {
-    await employeeListPage.goto();
-    const employeeFullName = `${employeeData.firstName} ${employeeData.lastName}`;
-    await employeeListPage.deleteEmployeeByName(employeeFullName);
+async function interceptEmployeeNumber(page: Page): Promise<number> {
+    const createEmployeeResponse = await page.waitForResponse(
+        response => response.url().includes('api/v2/pim/employees')
+            && response.status() === 200
+            && response.request().method() === 'POST',
+        { timeout: 10_000 }
+    );
+    const responseBody = await createEmployeeResponse.json();
+    const empNumber = responseBody.data.empNumber;
+    if (empNumber === undefined) {
+        throw new Error('Employee number not found in API response. Response data: ' + JSON.stringify(responseBody.data));
+    }
+    return empNumber;
 }

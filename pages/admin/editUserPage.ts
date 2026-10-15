@@ -9,7 +9,11 @@ export class EditUserPage extends BasePage {
     readonly disabledOption: Locator = this.page.getByText('Disabled')
     readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
 
-    constructor(page: Page, userId: string) {
+    constructor(page: Page, userId?: string) {
+        if (!userId) {
+            throw new Error('userId is required to construct EditUserPage')
+        }
+
         super(page)
         this.userId = userId
     }

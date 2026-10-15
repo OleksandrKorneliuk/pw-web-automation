@@ -3,10 +3,10 @@ import { test } from "../../fixtures/PageManager";
 import { expect } from "@playwright/test";
 
 test('logout', async ({ page, userDropdownTab, loginPage, userManagementPage }) => {
-    await userManagementPage.goto()
-    await userDropdownTab.clickOnUserDropdownMenu()
-    await userDropdownTab.clickOnSection(UserDropdownMenuItem.LOGOUT)
+    await userManagementPage.goto();
+    await userDropdownTab.clickOnUserDropdownMenu();
+    await userDropdownTab.clickOnSection(UserDropdownMenuItem.LOGOUT);
 
     await expect(page).toHaveURL(/\/auth\/login/);
-    await expect(loginPage.title).toBeVisible()
-})
+    await expect(loginPage.title).toBeVisible();
+});

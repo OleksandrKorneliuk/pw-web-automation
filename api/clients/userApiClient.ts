@@ -1,6 +1,6 @@
 import { BaseApiClient } from "./baseApiClient";
 import { APIRequestContext } from "@playwright/test";
-import { UserData } from "../../models/userData";
+import { User } from "../../models/user";
 
 export class UserApiClient extends BaseApiClient {
 
@@ -10,9 +10,9 @@ export class UserApiClient extends BaseApiClient {
         super(apiContext)
     }
 
-    async postUser(userData: UserData) {
+    async postUser(user: User) {
         return await this.post(UserApiClient.ADMIN_ENDPOINT,
-            UserApiClient.buildEmployeePayload(userData)
+            UserApiClient.buildEmployeePayload(user)
         );
     }
 
@@ -21,13 +21,13 @@ export class UserApiClient extends BaseApiClient {
             { ids: [userNumber] });
     }
 
-    private static buildEmployeePayload(userData: UserData) {
+    private static buildEmployeePayload(user: User) {
         return {
-            username: userData.username,
-            password: userData.password,
-            status: userData.isEnabled,
-            userRoleId: userData.userRoleId,
-            empNumber: userData.empNumber,
+            username: user.username,
+            password: user.password,
+            status: user.isEnabled,
+            userRoleId: user.userRoleId,
+            empNumber: user.empNumber,
         }
     }
 }
