@@ -10,7 +10,10 @@ import { createRandomUser } from '../factorys/userFactory';
 import { UserRole } from '../../enums/userRole';
 
 test.describe('Admin User Management', () => {
-  test('Page loads and renders User Management controls', async ({ page, userManagementPage }) => {
+
+  test.describe.configure({ mode: 'parallel' });
+
+  test('Page loads and renders User Management controls', async ({ userManagementPage, addSystemUserPage }) => {
     // 1. Open the OrangeHRM admin user management page at /web/index.php/admin/viewSystemUsers.
     await userManagementPage.goto();
 
@@ -19,30 +22,21 @@ test.describe('Admin User Management', () => {
     await expect(userManagementPage.header).toHaveText('System Users');
 
     // 3. Check that the page contains the Add User button, username search field, employee name filter, role dropdown, status dropdown, and Search button.
-    const addUserButton = page.getByRole('button', { name: /add/i });
-    const usernameField = page.getByText('Username', { exact: true }).locator('xpath=ancestor::div[contains(@class, "oxd-input-group")]//input');
-    const employeeNameField = page.getByRole('textbox', { name: 'Type for hints...' });
-    const userRoleDropdown = page.locator('.oxd-form-row').filter({ has: page.getByText('User Role', { exact: true }) }).locator('.oxd-select-text').first();
-    const statusDropdown = page.locator('.oxd-form-row').filter({ has: page.getByText('Status', { exact: true }) }).locator('.oxd-select-text').first();
-    const searchButton = page.getByRole('button', { name: 'Search' });
-
-    await expect(addUserButton).toBeVisible();
-    await expect(addUserButton).toBeEnabled();
-    await expect(usernameField).toBeVisible();
-    await expect(usernameField).toBeEnabled();
-    await expect(employeeNameField).toBeVisible();
-    await expect(employeeNameField).toBeEnabled();
-    await expect(userRoleDropdown).toBeVisible();
-    await expect(userRoleDropdown).toBeEnabled();
-    await expect(statusDropdown).toBeVisible();
-    await expect(statusDropdown).toBeEnabled();
-    await expect(searchButton).toBeVisible();
-    await expect(searchButton).toBeEnabled();
+    await expect(userManagementPage.addUserButton).toBeVisible();
+    await expect(userManagementPage.addUserButton).toBeEnabled();
+    await expect(addSystemUserPage.usernameField).toBeVisible();
+    await expect(addSystemUserPage.usernameField).toBeEnabled();
+    await expect(addSystemUserPage.employeeNameField).toBeVisible();
+    await expect(addSystemUserPage.employeeNameField).toBeEnabled();
+    await expect(addSystemUserPage.userRoleDropdown).toBeVisible();
+    await expect(addSystemUserPage.userRoleDropdown).toBeEnabled();
+    await expect(addSystemUserPage.statusDropdown).toBeVisible();
+    await expect(addSystemUserPage.statusDropdown).toBeEnabled();
+    await expect(userManagementPage.searchButton).toBeVisible();
+    await expect(userManagementPage.searchButton).toBeEnabled();
 
     // 4. Verify the table/list of users is visible or empty-state text is displayed depending on seeded data.
-    const recordsSummary = page.getByText(/\(\d+\) Records Found|No Records Found|No records found/i);
-
-    await expect(recordsSummary).toBeVisible();
+    await expect(userManagementPage.recordsSummary).toBeVisible();
   });
 
   test('Search by username returns matching user', async ({ page, userManagementPage, adminUser }) => {
@@ -106,18 +100,19 @@ test.describe('Admin User Management', () => {
     await userManagementPage.clickAddButton();
 
     // 3. Fill in required fields: User Role, Employee Name, Username, Status, Password, Confirm Password.
-    await addSystemUserPage.selectUserRoleDropdownMenuIcon.click();
+    // 4. Use a unique username and a valid employee name from the system.
+    // 5. Submit the form.
+    await addSystemUserPage.userRoleDropdown.click();
     await addSystemUserPage.adminRoleOption.click();
-    await addSystemUserPage.employeeNameTextBox.fill(fullName);
+    await addSystemUserPage.employeeNameField.fill(fullName);
     await page.getByRole('option', { name: fullName, exact: true }).click();
-    await addSystemUserPage.selectUserStatusDropdownMenuIcon.click();
+    await addSystemUserPage.statusDropdown.click();
     await addSystemUserPage.enabledOption.click();
-    await addSystemUserPage.usernameTextbox.fill(username);
+    await addSystemUserPage.usernameField.fill(username);
     await addSystemUserPage.passwordTextbox.fill(password);
     await addSystemUserPage.confirmPasswordTextbox.fill(password);
 
-    // 4. Use a unique username and a valid employee name from the system.
-    // 5. Submit the form.
+
     await addSystemUserPage.saveButton.click();
 
     // 6. Wait for the success confirmation message or redirect back to System Users list.
@@ -152,7 +147,7 @@ test.describe('Admin User Management', () => {
 
       // 4. Save the changes.
       await editUserPage.saveButton.click();
-      await expect(page.getByText(/Successfully Updated|Successfully Saved/i)).toBeVisible();
+      await expect(editUserPage.successMessage).toBeVisible();
 
       // 5. Return to the User Management list and search for the updated user.
       await userManagementPage.goto();
@@ -185,7 +180,7 @@ test.describe('Admin User Management', () => {
       await page.getByRole('button', { name: /yes, delete/i }).click();
 
       // 5. Refresh or re-run the search for the same username.
-      await expect(page.getByText('Successfully Deleted')).toBeVisible();
+      await expect(userManagementPage.successfullyDeletedMessage).toBeVisible();
       await userManagementPage.searchUserByUsername(createdUser.username);
       await expect(userManagementPage.tableCard.filter({ hasText: createdUser.username })).toHaveCount(0);
     } finally {
@@ -197,32 +192,29 @@ test.describe('Admin User Management', () => {
     const missingUsername = `missing_user_${Date.now()}`;
     const missingEmployeeName = `Missing Employee ${Date.now()}`;
     const fullName = `${employee.firstName} ${employee.lastName}`;
-    const noRecordsMessage = page.getByText(/No Records Found|No records found/i).first();
 
     // 1. Attempt a search with a username that does not exist.
     await userManagementPage.goto();
-    await userManagementPage.usernameTextbox.fill(missingUsername);
-    await userManagementPage.searchButton.click();
-    await expect(noRecordsMessage).toBeVisible();
+    await userManagementPage.searchUserByUsername(missingUsername);
+    await expect(userManagementPage.noRecordsMessage).toBeVisible();
 
     // 2. Attempt a search with an employee name that does not exist.
-    await userManagementPage.employeeNameTextbox.fill(missingEmployeeName);
-    await userManagementPage.searchButton.click();
-    await expect(noRecordsMessage).toBeVisible();
+    await userManagementPage.searchUserByEmployeeName(missingEmployeeName);
+    await expect(userManagementPage.noRecordsMessage).toBeVisible();
 
     // 3. Leave required Add User fields blank and click Save.
     await addSystemUserPage.goto();
     await addSystemUserPage.saveButton.click();
-    await expect(page.getByText(/Required|required/i).first()).toBeVisible();
+    await expect(addSystemUserPage.requiredFieldErrorMessage).toBeVisible();
 
     // 4. Try to add a user with mismatched passwords or invalid employee details.
-    await addSystemUserPage.selectUserRoleDropdownMenuIcon.click();
+    await addSystemUserPage.userRoleDropdown.click();
     await addSystemUserPage.adminRoleOption.click();
-    await addSystemUserPage.employeeNameTextBox.fill(fullName);
+    await addSystemUserPage.employeeNameField.fill(fullName);
     await page.getByRole('option', { name: fullName, exact: true }).click();
-    await addSystemUserPage.selectUserStatusDropdownMenuIcon.click();
+    await addSystemUserPage.statusDropdown.click();
     await addSystemUserPage.enabledOption.click();
-    await addSystemUserPage.usernameTextbox.fill(`validation_${Date.now()}`);
+    await addSystemUserPage.usernameField.fill(`validation_${Date.now()}`);
     await addSystemUserPage.passwordTextbox.fill('Password123!');
     await addSystemUserPage.confirmPasswordTextbox.fill('Password321!');
     await addSystemUserPage.saveButton.click();
