@@ -10,6 +10,7 @@ export class JobTitlesPage extends BasePage {
     readonly jobTitlesColumnHeader: Locator = this.page.getByRole('columnheader', { name: 'Job Titles' });
     readonly jobDescriptionColumnHeader: Locator = this.page.getByRole('columnheader', { name: 'Job Description' });
     readonly actionsColumnHeader: Locator = this.page.getByRole('columnheader', { name: 'Actions' });
+    readonly rows: Locator = this.page.getByRole('rowgroup').getByRole('row');
 
     constructor(page: Page) {
         super(page);
