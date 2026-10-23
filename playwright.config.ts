@@ -43,16 +43,17 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      use: { 
+      testIgnore: ['**/loginPage.spec.ts'],
+      use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
-       },
+      },
       dependencies: ['setup']
     },
     {
       name: 'chromium-no-auth',
+      testMatch: '**/loginPage.spec.ts',
       use: { ...devices['Desktop Chrome'] },
-      testMatch: 'loginPage.spec.ts'
     },
     {
       name: 'firefox',
