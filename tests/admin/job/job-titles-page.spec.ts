@@ -1,8 +1,10 @@
 // spec: specs/job-titles-plan.md
 // seed: tests/seed.spec.ts
 
-import { expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { test } from '../../../fixtures/PageManager';
+import { createApiContext } from '../../../helpers/apiContext.helper';
+import { JobTitlesService } from '../../../api/services/jobTitlesService';
 
 test.describe('job-title-management', () => {
     test('Load job titles page and verify default content', async ({ jobTitlesPage }) => {
@@ -22,6 +24,9 @@ test.describe('job-title-management', () => {
     });
 
     test('Create a new job title with valid data', async ({ page, jobTitlesPage }) => {
+        const apiContext = await createApiContext();
+        const jobTitleService = new JobTitlesService(apiContext);
+
         const jobTitle = `Automation QA Engineer ${Date.now()}`;
         const jobDescription = `Created via Playwright automation ${Date.now()}`;
 
@@ -35,9 +40,31 @@ test.describe('job-title-management', () => {
 
         await page.getByRole('button', { name: 'Save' }).click();
 
-        await expect(page).toHaveURL(/\/admin\/viewJobTitleList/);
-        await expect(page.getByRole('heading', { name: 'Job Titles' })).toBeVisible();
-        await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobTitle);
-        await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobDescription);
+        const jobTitleId = await interceptJobTitleId(page);
+
+        try {
+            await expect(page).toHaveURL(/\/admin\/viewJobTitleList/);
+            await expect(page.getByRole('heading', { name: 'Job Titles' })).toBeVisible();
+            await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobTitle);
+            await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobDescription);
+        } finally {
+            await jobTitleService.deleteJobTitleAndExpect(jobTitleId);
+        }
+
     });
+
+    async function interceptJobTitleId(page: Page): Promise<number> {
+        const createEmployeeResponse = await page.waitForResponse(
+            response => response.url().includes('api/v2/admin/job-titles')
+                && response.status() === 200
+                && response.request().method() === 'POST',
+            { timeout: 10_000 }
+        );
+        const responseBody = await createEmployeeResponse.json();
+        const jobTitleId = responseBody.data.id;
+        if (jobTitleId === undefined) {
+            throw new Error('Employee number not found in API response. Response data: ' + JSON.stringify(responseBody.data));
+        }
+        return jobTitleId;
+    }
 });
