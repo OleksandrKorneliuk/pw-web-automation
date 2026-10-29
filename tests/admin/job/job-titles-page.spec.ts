@@ -23,48 +23,43 @@ test.describe('job-title-management', () => {
         await expect(jobTitlesPage.addButton).toBeEnabled();
     });
 
-    test('Create a new job title with valid data', async ({ page, jobTitlesPage }) => {
+    test('Create a new job title with valid data', async ({ page, jobTitlesPage, addJobTitlesPage }) => {
         const apiContext = await createApiContext();
         const jobTitleService = new JobTitlesService(apiContext);
 
         const jobTitle = `Automation QA Engineer ${Date.now()}`;
         const jobDescription = `Created via Playwright automation ${Date.now()}`;
 
-        await jobTitlesPage.goto();
+        await addJobTitlesPage.goto();
 
-        await jobTitlesPage.addButton.click();
+        await addJobTitlesPage.jobTitleInput.fill(jobTitle);
+        await addJobTitlesPage.jobDescriptionTextarea.fill(jobDescription);
+        await addJobTitlesPage.saveButton.click();
 
-        const form = page.locator('form');
-        await form.getByRole('textbox').first().fill(jobTitle);
-        await form.getByRole('textbox').nth(1).fill(jobDescription);
-
-        await page.getByRole('button', { name: 'Save' }).click();
-
-        const jobTitleId = await interceptJobTitleId(page);
+        const jobTitleId = await jobTitleService.interceptJobTitleId(page);
 
         try {
-            await expect(page).toHaveURL(/\/admin\/viewJobTitleList/);
-            await expect(page.getByRole('heading', { name: 'Job Titles' })).toBeVisible();
+            await expect(page).toHaveURL(jobTitlesPage.url);
+            await expect(jobTitlesPage.pageHeader).toBeVisible();
             await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobTitle);
             await expect(jobTitlesPage.rows.filter({ hasText: jobTitle })).toContainText(jobDescription);
         } finally {
             await jobTitleService.deleteJobTitleAndExpect(jobTitleId);
         }
-
     });
 
-    async function interceptJobTitleId(page: Page): Promise<number> {
-        const createEmployeeResponse = await page.waitForResponse(
-            response => response.url().includes('api/v2/admin/job-titles')
-                && response.status() === 200
-                && response.request().method() === 'POST',
-            { timeout: 10_000 }
-        );
-        const responseBody = await createEmployeeResponse.json();
-        const jobTitleId = responseBody.data.id;
-        if (jobTitleId === undefined) {
-            throw new Error('Employee number not found in API response. Response data: ' + JSON.stringify(responseBody.data));
-        }
-        return jobTitleId;
-    }
+    test('Attempt to create a new job title with invalid or missing required data', async ({ addJobTitlesPage, page }) => {
+        await addJobTitlesPage.goto();
+
+        await addJobTitlesPage.saveButton.click();
+
+        await expect(addJobTitlesPage.requiredFieldErrorMessage).toBeVisible();
+        await expect(page).toHaveURL(/saveJobTitle/);
+
+        await addJobTitlesPage.jobTitleInput.fill('');
+        await addJobTitlesPage.saveButton.click();
+
+        await expect(addJobTitlesPage.requiredFieldErrorMessage).toBeVisible();
+        await expect(addJobTitlesPage.jobTitleInput).toHaveValue('');
+    });
 });

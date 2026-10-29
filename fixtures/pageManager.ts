@@ -19,6 +19,7 @@ import { UpdatePasswordPage } from '../pages/pim/updatePasswordPage';
 import { SupportPage } from '../pages/supportPage';
 import { MyInfoPage } from '../pages/myInfo/MyInfoPage';
 import { JobTitlesPage } from '../pages/admin/job/job-titles.page';
+import { AddJobTitlePage } from '../pages/admin/job/add-job-title.page';
 
 export type TestOptions = {
     navigationBar: NavigationBar;
@@ -41,6 +42,7 @@ export type TestOptions = {
     supportPage: SupportPage;
     myInfoPage: MyInfoPage;
     jobTitlesPage: JobTitlesPage;
+    addJobTitlesPage: AddJobTitlePage;
 };
 
 export const test = base.extend<TestOptions>({
@@ -123,5 +125,9 @@ export const test = base.extend<TestOptions>({
 
     jobTitlesPage: async ({ page }, use) => {
         await use(new JobTitlesPage(page));
+    },
+
+    addJobTitlesPage: async ({ page }, use) => {
+        await use(new AddJobTitlePage(page));
     }
 });

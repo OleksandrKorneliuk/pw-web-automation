@@ -3,4 +3,5 @@ export type JobTitle = {
     description?: string;
     specification?: string;
     note?: string;
+    id?: number;
 };
