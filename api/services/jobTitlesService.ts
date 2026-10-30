@@ -32,16 +32,16 @@ export class JobTitlesService {
     }
 
     async interceptJobTitleId(page: Page): Promise<number> {
-        const createEmployeeResponse = await page.waitForResponse(
+        const createJobTitleResponse = await page.waitForResponse(
             response => response.url().includes('api/v2/admin/job-titles')
                 && response.status() === 200
                 && response.request().method() === 'POST',
             { timeout: 10_000 }
         );
-        const responseBody = await createEmployeeResponse.json();
+        const responseBody = await createJobTitleResponse.json();
         const jobTitleId = responseBody.data.id;
         if (jobTitleId === undefined) {
-            throw new Error('Employee number not found in API response. Response data: ' + JSON.stringify(responseBody.data));
+            throw new Error('Job Title\'s id not found in API response. Response data: ' + JSON.stringify(responseBody.data));
         }
 
         return jobTitleId;
