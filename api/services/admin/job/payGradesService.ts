@@ -1,6 +1,6 @@
 import { APIRequestContext, APIResponse, expect, Page } from "@playwright/test";
 import { PayGradesApiClient } from "../../../clients/admin/job/payGradesApiClient";
-import { PayGrades } from "../../../../models/admin/job/payGrades";
+import { PayGrade } from "../../../../models/admin/job/payGrade";
 
 export class PayGradesService {
 
@@ -10,7 +10,7 @@ export class PayGradesService {
         this.client = new PayGradesApiClient(apiContext);
     }
 
-    async createPayGradeAndExpect(payGrade: PayGrades) {
+    async createPayGradeAndExpect(payGrade: PayGrade) {
         const response = await this.client.postPayGrade(payGrade);
         expect(response.status()).toBe(200);
         payGrade.id = await this.getPayGradeId(response);

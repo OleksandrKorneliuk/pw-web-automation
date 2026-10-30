@@ -1,6 +1,6 @@
 import { BaseApiClient } from "../../baseApiClient";
 import { APIRequestContext } from "@playwright/test";
-import { PayGrades } from "../../../../models/admin/job/payGrades";
+import { PayGrade } from "../../../../models/admin/job/payGrade";
 
 export class PayGradesApiClient extends BaseApiClient {
 
@@ -10,13 +10,13 @@ export class PayGradesApiClient extends BaseApiClient {
         super(apiContext);
     }
 
-    async postPayGrade(payGrade: PayGrades) {
+    async postPayGrade(payGrade: PayGrade) {
         return await this.post(PayGradesApiClient.PAY_GRADES_ENDPOINT,
             PayGradesApiClient.buildPayGradePayload(payGrade)
         );
     }
 
-    async putPayGrade(id: number, payGrade: PayGrades) {
+    async putPayGrade(id: number, payGrade: PayGrade) {
         return await this.put(`${PayGradesApiClient.PAY_GRADES_ENDPOINT}/${id}`,
             PayGradesApiClient.buildPayGradePayload(payGrade)
         );
@@ -28,7 +28,7 @@ export class PayGradesApiClient extends BaseApiClient {
         );
     }
 
-    private static buildPayGradePayload(payGrade: PayGrades) {
+    private static buildPayGradePayload(payGrade: PayGrade) {
         return {
             name: payGrade.name
         };

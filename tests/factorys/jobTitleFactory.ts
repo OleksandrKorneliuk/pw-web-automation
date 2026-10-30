@@ -1,6 +1,6 @@
 import { JobTitle } from '../../models/jobTitle';
 
-export async function createRandomJobTitle() {
+export async function createRandomJobTitle(): Promise<JobTitle> {
     const jobTitle: JobTitle = {
         title: `Automation QA Engineer ${Date.now()}`,
         description: `Created via Playwright automation ${Date.now()}`
