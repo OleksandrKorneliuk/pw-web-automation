@@ -20,6 +20,7 @@ import { SupportPage } from '../pages/supportPage';
 import { MyInfoPage } from '../pages/myInfo/MyInfoPage';
 import { JobTitlesPage } from '../pages/admin/job/job-titles.page';
 import { AddJobTitlePage } from '../pages/admin/job/add-job-title.page';
+import { PayGradesPage } from '../pages/admin/job/pay-grades.page';
 
 export type TestOptions = {
     navigationBar: NavigationBar;
@@ -43,6 +44,7 @@ export type TestOptions = {
     myInfoPage: MyInfoPage;
     jobTitlesPage: JobTitlesPage;
     addJobTitlesPage: AddJobTitlePage;
+    payGradesPage: PayGradesPage;
 };
 
 export const test = base.extend<TestOptions>({
@@ -129,5 +131,9 @@ export const test = base.extend<TestOptions>({
 
     addJobTitlesPage: async ({ page }, use) => {
         await use(new AddJobTitlePage(page));
+    },
+
+    payGradesPage: async ({ page }, use) => {
+        await use(new PayGradesPage(page));
     }
 });

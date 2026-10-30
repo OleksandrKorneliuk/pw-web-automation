@@ -1,7 +1,7 @@
 // spec: specs/job-titles-plan.md
 // seed: tests/seed.spec.ts
 
-import { expect, Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { test } from '../../../fixtures/jobTitle';
 import { createApiContext } from '../../../helpers/apiContext.helper';
 import { JobTitlesService } from '../../../api/services/jobTitlesService';
