@@ -90,4 +90,13 @@ test.describe('job-title-management', () => {
         await expect(jobTitlesPage.rows.filter({ hasText: updatedJobTitle })).toContainText(updatedJobTitle);
         await expect(jobTitlesPage.rows.filter({ hasText: updatedJobTitle })).toContainText(updatedDescription);
     });
+
+    test('Delete an existing job title', async ({ page, jobTitlesPage, jobTitle }) => {
+        await jobTitlesPage.goto();
+
+        await jobTitlesPage.deleteJobTitleByTitleName(jobTitle.title);
+
+        await expect(jobTitlesPage.successfullyDeletedWarning).toBeVisible();
+        await expect(jobTitlesPage.rows.filter({ hasText: jobTitle.title })).toHaveCount(0);
+    });
 });

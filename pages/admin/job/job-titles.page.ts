@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "../../basePage";
 
 export class JobTitlesPage extends BasePage {
@@ -11,6 +11,8 @@ export class JobTitlesPage extends BasePage {
     readonly jobDescriptionColumnHeader: Locator = this.page.getByRole('columnheader', { name: 'Job Description' });
     readonly actionsColumnHeader: Locator = this.page.getByRole('columnheader', { name: 'Actions' });
     readonly rows: Locator = this.page.getByRole('rowgroup').getByRole('row');
+    readonly confirmDeletionButton: Locator = this.page.getByRole('button', { name: /yes, delete/i });
+    readonly successfullyDeletedWarning: Locator = this.page.getByText(/successfully deleted/i);
 
     constructor(page: Page) {
         super(page);
@@ -20,5 +22,10 @@ export class JobTitlesPage extends BasePage {
         return 'admin/viewJobTitleList';
     }
 
-
+    async deleteJobTitleByTitleName(title: string) {
+        const row = this.rows.filter({ hasText: title }).first();
+        await expect(row).toBeVisible();
+        await row.locator('button').first().click();
+        await this.confirmDeletionButton.click();
+    }
 }
