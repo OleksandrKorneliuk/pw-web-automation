@@ -33,7 +33,7 @@ export class PayGradesService {
 
     async interceptPayGradeId(page: Page): Promise<number> {
         const createPayGradeResponse = await page.waitForResponse(
-            response => response.url().includes('api/v2/admin/job-titles')
+            response => response.url().includes('api/v2/admin/pay-grades')
                 && response.status() === 200
                 && response.request().method() === 'POST',
             { timeout: 10_000 }

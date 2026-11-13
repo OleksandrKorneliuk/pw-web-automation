@@ -1,7 +1,7 @@
-import { Locator, Page, expect } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import { BasePage } from '../../basePage';
 
-export class PayGradesPage extends BasePage {
+export class ViewPayGradesPage extends BasePage {
 
     readonly pageHeader: Locator = this.page.getByRole('heading', { name: 'Pay Grades' });
     readonly addButton: Locator = this.page.getByRole('button', { name: /add/i });

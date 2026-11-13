@@ -3,6 +3,9 @@ import { BasePage } from '../../basePage';
 
 export class AddPayGradePage extends BasePage {
 
+    readonly payGradeNameInput: Locator = this.page.locator('form').getByRole('textbox');
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' });
+
     constructor(page: Page) {
         super(page);
     }
@@ -10,5 +13,4 @@ export class AddPayGradePage extends BasePage {
     get url(): string {
         return 'admin/payGrade';
     }
-
 }

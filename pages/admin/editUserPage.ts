@@ -10,22 +10,22 @@ export class EditUserPage extends BasePage {
     readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' });
     readonly successMessage: Locator = this.page.getByText(/Successfully Updated|Successfully Saved/i);
 
-constructor(page: Page, userId ?: string) {
-    if (!userId) {
-        throw new Error('userId is required to construct EditUserPage');
+    constructor(page: Page, userId?: string) {
+        if (!userId) {
+            throw new Error('userId is required to construct EditUserPage');
+        }
+
+        super(page);
+        this.userId = userId;
     }
 
-    super(page);
-    this.userId = userId;
-}
-
     get url(): string {
-    return `admin/saveSystemUser/${this.userId}`;
-}
+        return `admin/saveSystemUser/${this.userId}`;
+    }
 
     async setStatusDisable() {
-    await this.selectUserStatusDropdownMenuIcon.click();
-    await this.disabledOption.click();
-    await this.saveButton.click();
-}
+        await this.selectUserStatusDropdownMenuIcon.click();
+        await this.disabledOption.click();
+        await this.saveButton.click();
+    }
 }

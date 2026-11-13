@@ -54,7 +54,7 @@ test.describe('job-title-management', () => {
         await addJobTitlesPage.saveButton.click();
 
         await expect(addJobTitlesPage.requiredFieldErrorMessage).toBeVisible();
-        await expect(page).toHaveURL(/saveJobTitle/);
+        await expect(page).toHaveURL(addJobTitlesPage.url);
 
         await addJobTitlesPage.jobTitleInput.fill('');
         await addJobTitlesPage.saveButton.click();
@@ -91,7 +91,7 @@ test.describe('job-title-management', () => {
         await expect(jobTitlesPage.rows.filter({ hasText: updatedJobTitle })).toContainText(updatedDescription);
     });
 
-    test('Delete an existing job title', async ({ page, jobTitlesPage, jobTitle }) => {
+    test('Delete an existing job title', async ({ jobTitlesPage, jobTitle }) => {
         await jobTitlesPage.goto();
 
         await jobTitlesPage.deleteJobTitleByTitleName(jobTitle.title);
