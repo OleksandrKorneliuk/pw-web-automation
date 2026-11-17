@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker'
-import { Employee } from '../../models/employee'
-import { Gender } from '../../enums/pages/myInfo/genders'
+import { faker } from '@faker-js/faker';
+import { Employee } from '../../models/employee';
+import { Gender } from '../../enums/pages/myInfo/genders';
 
 export async function createRandomEmployee() {
     const employee: Employee = {
@@ -11,7 +11,7 @@ export async function createRandomEmployee() {
         number: undefined,
         nationality: faker.location.country(),
         gender: faker.helpers.arrayElement([Gender.MALE, Gender.FEMALE])
-    }
+    };
 
     return employee;
 }
