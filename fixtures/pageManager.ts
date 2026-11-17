@@ -45,7 +45,7 @@ export type TestOptions = {
     myInfoPage: MyInfoPage;
     jobTitlesPage: JobTitlesPage;
     addJobTitlesPage: AddJobTitlePage;
-    payGradesPage: ViewPayGradesPage;
+    viewPayGradesPage: ViewPayGradesPage;
     addPayGradePage: AddPayGradePage;
 };
 
@@ -135,7 +135,7 @@ export const test = base.extend<TestOptions>({
         await use(new AddJobTitlePage(page));
     },
 
-    payGradesPage: async ({ page }, use) => {
+    viewPayGradesPage: async ({ page }, use) => {
         await use(new ViewPayGradesPage(page));
     },
 

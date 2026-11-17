@@ -32,16 +32,21 @@ export class PayGradesService {
     }
 
     async interceptPayGradeId(page: Page): Promise<number> {
-        const createPayGradeResponse = await page.waitForResponse(
-            response => response.url().includes('api/v2/admin/pay-grades')
-                && response.status() === 200
-                && response.request().method() === 'POST',
+        const response = await page.waitForResponse(
+            response =>
+                response.url().includes('api/v2/admin/pay-grades') &&
+                response.request().method() === 'POST' &&
+                response.status() === 200,
             { timeout: 10_000 }
         );
-        const responseBody = await createPayGradeResponse.json();
+
+        const responseBody = await response.json();
         const payGradeId = responseBody.data.id;
+
         if (payGradeId === undefined) {
-            throw new Error('Pay Grade\'s id not found in API response. Response data: ' + JSON.stringify(responseBody.data));
+            throw new Error(
+                `Pay Grade ID not found. Response: ${JSON.stringify(responseBody)}`
+            );
         }
 
         return payGradeId;
