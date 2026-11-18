@@ -3,23 +3,24 @@ import { BasePage } from "../basePage";
 
 export class EditUserPage extends BasePage {
 
-    private userId: string
+    private userId: string;
 
-    readonly selectUserStatusDropdownMenuIcon: Locator = this.page.locator('form i').nth(1)
-    readonly disabledOption: Locator = this.page.getByText('Disabled')
-    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' })
+    readonly selectUserStatusDropdownMenuIcon: Locator = this.page.locator('form i').nth(1);
+    readonly disabledOption: Locator = this.page.getByText('Disabled');
+    readonly saveButton: Locator = this.page.getByRole('button', { name: 'Save' });
+    readonly successMessage: Locator = this.page.getByText(/Successfully Updated|Successfully Saved/i);
 
     constructor(page: Page, userId?: string) {
         if (!userId) {
-            throw new Error('userId is required to construct EditUserPage')
+            throw new Error('userId is required to construct EditUserPage');
         }
 
-        super(page)
-        this.userId = userId
+        super(page);
+        this.userId = userId;
     }
 
     get url(): string {
-        return `admin/saveSystemUser/${this.userId}`
+        return `admin/saveSystemUser/${this.userId}`;
     }
 
     async setStatusDisable() {

@@ -6,7 +6,7 @@ import { User } from "../../models/user";
 export async function createRandomUser(employee: Employee, role: UserRole, isEnabled: boolean): Promise<User> {
     return {
         username: `${employee.firstName.toLowerCase()}_${employee.lastName.toLowerCase()}${Date.now()}`,
-        password: generatePassword(),
+        password: await generatePassword(),
         isEnabled: isEnabled,
         userRoleId: role,
         id: undefined,
@@ -14,7 +14,7 @@ export async function createRandomUser(employee: Employee, role: UserRole, isEna
     };
 }
 
-function generatePassword(): string {
+async function generatePassword(): Promise<string> {
     let password = "";
 
     while (!/\d/.test(password)) {

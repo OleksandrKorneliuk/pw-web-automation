@@ -12,7 +12,7 @@ test.describe('user management page', () => {
         await addSystemUserPage.goto();
         await addSystemUserPage.addUserAsAdmin(`${employee.firstName} ${employee.lastName}`);
 
-        expect(await addSystemUserPage.successMessageIsVisible()).toBeTruthy();
+        await expect(addSystemUserPage.successMessage).toBeVisible();
         await userManagementPage.header.waitFor({ state: 'visible' });
     });
 

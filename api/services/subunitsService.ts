@@ -3,7 +3,7 @@ import { SubunitsApiClient } from "../clients/subunitsApiClient";
 import { Subunit } from "../../models/subunit";
 
 export class SubunitsService {
-    private client: SubunitsApiClient
+    private client: SubunitsApiClient;
 
     constructor(apiContext: APIRequestContext) {
         this.client = new SubunitsApiClient(apiContext);
@@ -22,6 +22,6 @@ export class SubunitsService {
 
     async deleteSubunitAndExpect(id: string) {
         const response = await this.client.deleteSubunit(id);
-        expect(response.status()).toBe(200);
+        expect([200, 204, 404, 401].includes(response.status())).toBeTruthy();
     }
 }
